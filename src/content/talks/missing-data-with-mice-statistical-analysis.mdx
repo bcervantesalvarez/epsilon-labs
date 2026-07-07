@@ -1,0 +1,18 @@
+---
+title: 'Missing Data and the MICE Approach'
+description: 'Why missingness matters, the three flavors (MCAR, MAR, MNAR), and a practical Multiple Imputation walkthrough.'
+date: 2024-12-03
+tag: 'Statistics'
+image: '/images/missing.png'
+status: 'active'
+venue: 'Graduate seminar'
+---
+
+import Overview from "@components/Overview.astro";
+import body from "./missing-data-with-mice-statistical-analysis.body.html?raw";
+
+<Overview>
+  Real datasets have holes. How you fill those holes silently determines what conclusion you reach. This talk explains the three flavors of missingness and walks through a real imputation in R.
+</Overview>
+
+<article class="article-body" set:html={body}></article>

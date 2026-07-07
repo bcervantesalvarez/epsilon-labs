@@ -1,0 +1,222 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Section from '@components/Section.astro';
+import Button from '@components/Button.astro';
+import { SITE_HOST, AUTHOR, absoluteUrl } from '@lib/site';
+
+// Where the Apps Script backend redirects after a successful submit.
+// Derived from the canonical domain so a domain change can't strand
+// the form on a dead URL.
+const thankYouUrl = absoluteUrl('/forms/thank-you/');
+---
+<BaseLayout title="Privacy" description="What this site collects, how it's used, and how to reach me.">
+  <div class="ed">
+
+    <section class="pt-24 pb-10 lg:pt-28 lg:pb-12">
+      <div class="max-w-wrap mx-auto px-6">
+        <p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted m-0 mb-5">Privacy</p>
+        <h1 class="font-serif font-semibold text-ink text-5xl md:text-6xl tracking-tight leading-[1.06] m-0 mb-4">
+          A short, honest privacy note.
+        </h1>
+        <p class="text-lede text-body max-w-[60ch] m-0">
+          The short version: this site does not run analytics, does not
+          set tracking cookies, and only collects what you choose to
+          send me through the form below.
+        </p>
+      </div>
+    </section>
+
+    <Section first>
+      <article class="max-w-prose text-body">
+        <h2 class="font-sans text-2xl text-ink mt-0 mb-4">What I collect</h2>
+        <ul class="pl-6 mb-6 list-disc">
+          <li class="mb-2"><strong>Nothing automatic.</strong> No Google Analytics, no advertising tags, no third-party trackers, no cookies set by this site.</li>
+          <li><strong>Voluntary information.</strong> Anything you send via the form below — name, email, profession, and message — is delivered to me by email.</li>
+        </ul>
+
+        <h2 class="font-sans text-2xl text-ink mt-10 mb-4">How I use it</h2>
+        <p class="mb-6">Voluntary information is used only to reply to you. It is not sold, shared with third parties, or used for marketing. If you ask me to delete it, I will.</p>
+
+        <h2 class="font-sans text-2xl text-ink mt-10 mb-4">Hosting</h2>
+        <p class="mb-6">The site is served as static HTML through Cloudflare. Cloudflare may keep brief, aggregated request logs (IP, country, path) for abuse prevention and uptime; that data is governed by <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noreferrer">Cloudflare's privacy policy</a>, not mine.</p>
+
+        <h2 class="font-sans text-2xl text-ink mt-10 mb-4">Form submission</h2>
+        <p class="mb-6">When you submit the contact form, the payload posts to a private Google Apps Script endpoint that forwards the message to my inbox. The form runs three lightweight spam defenses (two honeypot fields, a minimum dwell-time check, and an optional Cloudflare Turnstile challenge) — none of which set tracking cookies in your browser.</p>
+
+        <h2 class="font-sans text-2xl text-ink mt-10 mb-4">Your choices</h2>
+        <p class="mb-2">You can:</p>
+        <ul class="pl-6 mb-6 list-disc">
+          <li class="mb-2">Use the site without submitting anything — there's nothing to opt out of.</li>
+          <li class="mb-2">Email me directly at <a href={`mailto:${AUTHOR.email}`}>{AUTHOR.email}</a> instead of using the form.</li>
+          <li>Ask me to delete any message you've sent — I'll confirm in writing.</li>
+        </ul>
+
+        <h2 class="font-sans text-2xl text-ink mt-10 mb-4">Scope</h2>
+        <p class="mb-6">This policy covers <code>{SITE_HOST}</code> only. External links (Shiny app hosts, LinkedIn, GitHub, etc.) are governed by their own policies.</p>
+      </article>
+    </Section>
+
+    <Section eyebrow="Contact" title="Reach out.">
+      <p class="text-lede text-body max-w-[60ch]">
+        Use the form for privacy questions, suggestions on the policy,
+        or anything else worth a longer message.
+      </p>
+
+      <iframe id="policyFormTarget" name="policyFormTarget" title="Form submission target" style="display:none;border:0;"></iframe>
+
+      <form
+        id="policyForm"
+        class="flex flex-col gap-5 max-w-[540px] mt-6"
+        target="policyFormTarget"
+        action="https://script.google.com/macros/s/AKfycbwgvahSl92clLNtOoVs2yGhfninvTex3DbRFvOTDy9TSWVFuIgJ1L3BduhLu4EemVQ/exec"
+        method="POST"
+        autocomplete="on"
+        novalidate
+      >
+        <input type="hidden" name="_next" value={thankYouUrl} />
+        <input type="hidden" name="referrer" value="" />
+        <input type="hidden" name="userAgent" value="" />
+        <input type="hidden" name="formLoadedAt" value="" />
+
+        <div class="hp-trap" aria-hidden="true">
+          <label for="hp_website">Website</label>
+          <input type="text" id="hp_website" name="website" tabindex="-1" autocomplete="off" />
+          <label for="hp_phone">Phone</label>
+          <input type="text" id="hp_phone" name="phone" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <label class="flex flex-col gap-1">
+          <span class="text-sm font-semibold text-ink">First name</span>
+          <input type="text" name="firstName" required maxlength="60" autocomplete="given-name"
+                 placeholder="First name"
+                 class="w-full px-4 py-3 bg-surface border border-rule rounded-lg text-ink focus:outline-none focus:border-ink focus:ring-4 focus:ring-ink/10" />
+        </label>
+
+        <label class="flex flex-col gap-1">
+          <span class="text-sm font-semibold text-ink">Last name</span>
+          <input type="text" name="lastName" required maxlength="60" autocomplete="family-name"
+                 placeholder="Last name"
+                 class="w-full px-4 py-3 bg-surface border border-rule rounded-lg text-ink focus:outline-none focus:border-ink focus:ring-4 focus:ring-ink/10" />
+        </label>
+
+        <label class="flex flex-col gap-1">
+          <span class="text-sm font-semibold text-ink">Profession</span>
+          <select name="profession" required
+                  class="w-full px-4 py-3 bg-surface border border-rule rounded-lg text-ink focus:outline-none focus:border-ink focus:ring-4 focus:ring-ink/10">
+            <option value="">Select…</option>
+            <option value="Engineering">Engineering</option>
+            <option value="Data / Analytics">Data / Analytics</option>
+            <option value="Research">Research</option>
+            <option value="Public sector">Public sector</option>
+            <option value="Education">Education</option>
+            <option value="Other">Other</option>
+          </select>
+        </label>
+
+        <label class="flex flex-col gap-1">
+          <span class="text-sm font-semibold text-ink">Email</span>
+          <input type="email" name="_replyto" required maxlength="120" inputmode="email" autocomplete="email"
+                 placeholder="you@example.com"
+                 class="w-full px-4 py-3 bg-surface border border-rule rounded-lg text-ink focus:outline-none focus:border-ink focus:ring-4 focus:ring-ink/10" />
+        </label>
+
+        <label class="flex flex-col gap-1">
+          <span class="text-sm font-semibold text-ink">Message</span>
+          <textarea name="message" required maxlength="3000" rows={6}
+                    placeholder="What's the question?"
+                    class="w-full px-4 py-3 bg-surface border border-rule rounded-lg text-ink min-h-[140px] resize-y focus:outline-none focus:border-ink focus:ring-4 focus:ring-ink/10"></textarea>
+        </label>
+
+        <div class="cf-turnstile" data-sitekey="REPLACE_WITH_TURNSTILE_SITEKEY" data-theme="light"></div>
+
+        <p id="policyFormStatus" role="status" aria-live="polite"
+           class="hidden px-4 py-3 rounded-lg border border-rule bg-surface-soft text-body text-sm"></p>
+
+        <Button as="button" type="submit" class="self-start">Send message</Button>
+
+        <p class="text-xs text-muted m-0">
+          I'll reply directly to the email you provide. Your data is used only to respond.
+        </p>
+      </form>
+
+      <script>
+        const MIN_DWELL_MS = 2500;
+        const SUBMIT_TIMEOUT_MS = 15000;
+
+        document.addEventListener('DOMContentLoaded', () => {
+          const form = document.getElementById('policyForm') as HTMLFormElement | null;
+          if (!form) return;
+          const status = document.getElementById('policyFormStatus');
+          const submit = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+          const frame = document.getElementById('policyFormTarget');
+          if (!status || !submit || !frame) return;
+
+          const field = (name: string) =>
+            form.querySelector<HTMLInputElement>(`input[name="${name}"]`);
+
+          const referrer = field('referrer');
+          if (referrer) referrer.value = document.referrer || '';
+          const userAgent = field('userAgent');
+          if (userAgent) userAgent.value = navigator.userAgent || '';
+          const loadedAt = field('formLoadedAt');
+          if (loadedAt) loadedAt.value = String(Date.now());
+
+          const widget = form.querySelector<HTMLElement>('.cf-turnstile');
+          const key = widget?.getAttribute('data-sitekey') ?? '';
+          if (!key || key.startsWith('REPLACE_WITH_')) {
+            if (widget) widget.style.display = 'none';
+          } else if (!document.querySelector('script[data-cf-turnstile]')) {
+            const s = document.createElement('script');
+            s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
+            s.async = true; s.defer = true;
+            s.setAttribute('data-cf-turnstile', '1');
+            document.head.appendChild(s);
+          }
+
+          let pending = false;
+          let failsafe: ReturnType<typeof setTimeout> | undefined;
+          frame.addEventListener('load', () => {
+            if (!pending) return;
+            pending = false;
+            clearTimeout(failsafe);
+            location.href = field('_next')?.value || '/';
+          });
+
+          form.addEventListener('submit', (e) => {
+            status.style.display = 'none';
+
+            const hpHit = ['website', 'phone'].some(n => {
+              const el = field(n);
+              return !!el && el.value.trim().length > 0;
+            });
+            if (hpHit) {
+              e.preventDefault(); status.style.display = 'block';
+              status.textContent = 'Message could not be sent. Please try again.';
+              return;
+            }
+
+            const loaded = Number(field('formLoadedAt')?.value || 0);
+            if (!loaded || Date.now() - loaded < MIN_DWELL_MS) {
+              e.preventDefault(); status.style.display = 'block';
+              status.textContent = 'Please take a moment before sending.';
+              return;
+            }
+
+            if (!form.checkValidity()) return;
+
+            pending = true;
+            submit.disabled = true; submit.textContent = 'Sending…';
+            status.style.display = 'block'; status.textContent = 'Sending your message…';
+
+            failsafe = setTimeout(() => {
+              pending = false;
+              submit.disabled = false; submit.textContent = 'Send message';
+              status.textContent = 'Submission stalled. Check your connection and try again.';
+            }, SUBMIT_TIMEOUT_MS);
+          });
+        });
+      </script>
+    </Section>
+
+  </div>
+</BaseLayout>

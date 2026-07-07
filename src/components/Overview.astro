@@ -1,0 +1,20 @@
+---
+// src/components/Overview.astro
+// Plain-language summary box. Show this at the top of any project,
+// blog post, or talk so a non-specialist can get the gist before the
+// technical body.
+interface Props {
+  /** Optional override for the eyebrow label */
+  eyebrow?: string;
+}
+
+const { eyebrow = 'Overview' } = Astro.props;
+---
+<aside class="not-prose my-8 rounded-xl border border-rule bg-surface-soft px-6 py-6 md:px-8 md:py-7">
+  <p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted m-0 mb-3">
+    {eyebrow}
+  </p>
+  <div class="text-body text-base leading-relaxed [&>p]:m-0 [&>p+p]:mt-3">
+    <slot />
+  </div>
+</aside>

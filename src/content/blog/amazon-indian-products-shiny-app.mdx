@@ -1,0 +1,17 @@
+---
+title: 'A Quick Dashboard for Amazon Products'
+description: 'Building a Shiny dashboard over a Kaggle dataset of Amazon India products — categories ranked by ratings and reviews.'
+date: 2023-04-21
+tag: 'Dashboard'
+image: '/images/amazonlogo.jpeg'
+status: 'active'
+---
+
+import Overview from "@components/Overview.astro";
+import body from "./amazon-indian-products-shiny-app.body.html?raw";
+
+<Overview>
+  A retrospective on building a small dashboard over a Kaggle dataset of Amazon India products. The app surfaces which categories and subcategories carry the highest average ratings and the most reviews.
+</Overview>
+
+<article class="article-body" set:html={body}></article>

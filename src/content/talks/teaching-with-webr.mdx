@@ -1,0 +1,18 @@
+---
+title: 'Interactive Teaching with webR'
+description: 'Why webR belongs in the modern R classroom, demonstrated live.'
+date: 2024-08-06
+tag: 'Statistics Lab'
+image: '/images/uni.jpeg'
+status: 'active'
+venue: 'Teaching workshop'
+---
+
+import Overview from "@components/Overview.astro";
+import body from "./teaching-with-webr.body.html?raw";
+
+<Overview>
+  Students should not spend their first class fighting an R install. This talk demonstrates an alternative — webR running R directly in the browser — and shows how to integrate it into existing course materials.
+</Overview>
+
+<article class="article-body" set:html={body}></article>

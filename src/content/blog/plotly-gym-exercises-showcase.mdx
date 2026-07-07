@@ -1,0 +1,17 @@
+---
+title: 'Do You Like Stretching? I Would Reconsider'
+description: 'Plotly exploration of a large gym dataset — what users actually rate highest, and what they do not.'
+date: 2023-02-24
+tag: 'Data viz'
+image: '/images/gymrat.jpeg'
+status: 'archived'
+---
+
+import Overview from "@components/Overview.astro";
+import body from "./plotly-gym-exercises-showcase.body.html?raw";
+
+<Overview>
+  A Plotly-driven exploration of a large workout dataset, ranking exercise types by user ratings. Stretching scores lowest for muscle building, which lines up with the broader exercise-science literature.
+</Overview>
+
+<article class="article-body" set:html={body}></article>

@@ -1,0 +1,28 @@
+# Node / Astro
+node_modules/
+dist/
+.astro/
+
+# Build / cache
+*.log
+*.tsbuildinfo
+
+# Env
+.env
+.env.*
+!.env.example
+
+# Editor
+.vscode/settings.json
+.idea/
+.DS_Store
+Thumbs.db
+
+# Data files (local only — not part of the static site)
+data/
+
+# OS / temp
+*.tmp
+*.bak
+*.backup
+.tmp/

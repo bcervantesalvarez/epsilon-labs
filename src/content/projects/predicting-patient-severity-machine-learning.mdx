@@ -1,0 +1,17 @@
+---
+title: 'Symptom Severity Classification'
+description: 'Python Random Forest mapping symptom flags to mild / moderate / severe ratings, with extracted rules for clinician review.'
+date: 2023-06-26
+tag: 'ML'
+image: '/images/severity.jpeg'
+status: 'archived'
+---
+
+import Overview from "@components/Overview.astro";
+import body from "./predicting-patient-severity-machine-learning.body.html?raw";
+
+<Overview>
+  A classifier for rare-disease severity from symptom flags. The non-obvious requirement: the output had to be a handful of human-readable rules clinicians could sanity-check, not a black-box probability score.
+</Overview>
+
+<article class="article-body" set:html={body}></article>

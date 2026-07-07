@@ -1,0 +1,18 @@
+---
+title: 'Loan Approval: A Logistic Regression Walkthrough'
+description: 'Logistic regression and ANOVA on 32,581 loan applications — what predicts approval, and where the surprises sit.'
+date: 2024-12-04
+tag: 'Statistics'
+image: '/images/loan.png'
+status: 'active'
+venue: 'Graduate seminar'
+---
+
+import Overview from "@components/Overview.astro";
+import body from "./loan-application-statistical-analysis.body.html?raw";
+
+<Overview>
+  Banks use models to decide who gets a loan. This talk takes a public dataset of 32,581 applications and works through a logistic regression to predict approval — then uses the result to teach what to do when a coefficient comes back with the wrong sign.
+</Overview>
+
+<article class="article-body" set:html={body}></article>

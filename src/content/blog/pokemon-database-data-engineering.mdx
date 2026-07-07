@@ -1,0 +1,17 @@
+---
+title: 'Pokedex Database'
+description: 'A two-week data-engineering sprint to build a normalized PostgreSQL Pokedex from Kanto, Johto, and Hoenn data.'
+date: 2022-12-05
+tag: 'Data engineering'
+image: '/images/pokemon.jpeg'
+status: 'archived'
+---
+
+import Overview from "@components/Overview.astro";
+import body from "./pokemon-database-data-engineering.body.html?raw";
+
+<Overview>
+  A two-week data-engineering sprint to build a normalized PostgreSQL database from the Kanto, Johto, and Hoenn Pokemon datasets. Full ETL workflow, schema design with primary and foreign keys.
+</Overview>
+
+<article class="article-body" set:html={body}></article>

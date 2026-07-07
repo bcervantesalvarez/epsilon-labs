@@ -1,0 +1,57 @@
+---
+// src/components/StatusBanner.astro
+// Prominent "currently engaged" card with:
+//   - 64×64 employer mark
+//   - Eyebrow + serif org name + role/dates
+//   - Rotating conic-gradient border highlight (Switch-style)
+// Whole element is a click-through link to the employer's site.
+interface Props {
+  href: string;
+  eyebrow?: string;
+  org: string;
+  role: string;
+  logoSrc?: string;
+  logoAlt?: string;
+}
+
+const {
+  href,
+  eyebrow = 'Currently engaged',
+  org,
+  role,
+  // Hot-linked from oregon.gov. Drop the file at /images/ode-logo.png
+  // and update this prop to self-host.
+  logoSrc = 'https://www.oregon.gov/ode/Style%20Library/Images/1170823_ODE_Logo_2016-FINAL-CMYK-280%20for%20website.png',
+  logoAlt = 'Oregon Department of Education',
+} = Astro.props;
+---
+<a
+  href={href}
+  target="_blank"
+  rel="noreferrer"
+  role="status"
+  aria-label={`Currently engaged at ${org}`}
+  class="status-glow relative inline-flex items-center gap-5 px-6 py-5 mb-8 bg-surface border border-rule rounded-2xl no-underline text-body transition-colors hover:border-rule-strong animate-el-rise max-w-full"
+>
+  <span class="shrink-0 w-16 h-16 md:w-20 md:h-20 rounded-xl bg-white overflow-hidden inline-flex items-center justify-center p-2 border border-rule">
+    <img
+      src={logoSrc}
+      alt={logoAlt}
+      loading="eager"
+      decoding="async"
+      class="max-w-full max-h-full object-contain"
+    />
+  </span>
+
+  <span class="flex flex-col gap-1 leading-tight">
+    <span class="text-xs font-bold uppercase tracking-[0.16em] text-status">
+      {eyebrow}
+    </span>
+    <strong class="font-serif font-semibold text-ink text-lg md:text-xl">
+      {org}
+    </strong>
+    <span class="text-sm md:text-base text-body">
+      {role}
+    </span>
+  </span>
+</a>

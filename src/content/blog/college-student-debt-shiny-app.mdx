@@ -1,0 +1,17 @@
+---
+title: 'College Debt Dashboard'
+description: 'A four-tool Shiny app for prospective students: salary estimator, tuition estimator, debt estimator, and debt calculator.'
+date: 2022-12-02
+tag: 'Dashboard'
+image: '/images/uni.jpeg'
+status: 'archived'
+---
+
+import Overview from "@components/Overview.astro";
+import body from "./college-student-debt-shiny-app.body.html?raw";
+
+<Overview>
+  A dashboard built with Corey Cassell to help prospective college students reason about the financial side of their major choice. Four tools — salary, tuition, debt, and a debt calculator — each tied to underlying datasets on majors, tuition, and earnings.
+</Overview>
+
+<article class="article-body" set:html={body}></article>

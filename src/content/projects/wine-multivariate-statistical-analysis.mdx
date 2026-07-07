@@ -1,0 +1,17 @@
+---
+title: 'Applied Multivariate Analysis: Wine Chemistry'
+description: 'MANOVA, classification, and clustering on red and white wine chemistry — what actually separates them, and how confidently.'
+date: 2023-12-14
+tag: 'Statistics'
+image: '/images/redwhite.jpeg'
+status: 'active'
+---
+
+import Overview from "@components/Overview.astro";
+import body from "./wine-multivariate-statistical-analysis.body.html?raw";
+
+<Overview>
+  Red wine and white wine taste different, but here is the better question: are they different in measurable ways, and which measurements matter most? This project answers that with statistics. The short version: yes, the difference is real, and a small handful of chemistry features carry most of the signal.
+</Overview>
+
+<article class="article-body" set:html={body}></article>

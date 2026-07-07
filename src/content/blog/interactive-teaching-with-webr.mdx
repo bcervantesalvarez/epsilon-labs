@@ -1,0 +1,17 @@
+---
+title: 'Interactive Teaching with webR'
+description: 'Run live R in the browser, no install required — and rebuild your data-wrangling lab around immediate feedback.'
+date: 2024-08-12
+tag: 'Statistics Lab'
+image: '/images/webr.png'
+status: 'active'
+---
+
+import Overview from "@components/Overview.astro";
+import body from "./interactive-teaching-with-webr.body.html?raw";
+
+<Overview>
+  Teaching R used to start with a 30-minute fight to install it. webR puts R inside the browser, so students hit a webpage and they are already running code. This post walks through how I rebuilt a data-wrangling lab around that idea — fewer headaches, faster feedback, more time on the actual statistics.
+</Overview>
+
+<article class="article-body" set:html={body}></article>

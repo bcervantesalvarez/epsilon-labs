@@ -1,0 +1,17 @@
+---
+title: 'Apple''s Journey in the Stock Market'
+description: 'Interactive Plotly walkthrough of Apple stock from 1981 to present, with custom theming.'
+date: 2023-03-29
+tag: 'Data viz'
+image: '/images/apple.jpeg'
+status: 'archived'
+---
+
+import Overview from "@components/Overview.astro";
+import body from "./plotly-apple-stocks.body.html?raw";
+
+<Overview>
+  An interactive Plotly walkthrough of Apple's stock-price history from 1981 to the present. The chart highlights the post-2010 acceleration that traces the iPhone era.
+</Overview>
+
+<article class="article-body" set:html={body}></article>

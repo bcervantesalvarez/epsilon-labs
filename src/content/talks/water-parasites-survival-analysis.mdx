@@ -1,0 +1,18 @@
+---
+title: 'Temperature and Pesticide Toxicity: A Survival Analysis'
+description: 'Cox proportional-hazards modeling of how water temperature changes pesticide toxicity in aquatic organisms.'
+date: 2023-02-27
+tag: 'Survival analysis'
+image: '/images/parasite.jpeg'
+status: 'active'
+venue: 'OSU statistics seminar'
+---
+
+import Overview from "@components/Overview.astro";
+import body from "./water-parasites-survival-analysis.body.html?raw";
+
+<Overview>
+  Pesticide doses that were once harmless in cool water become measurably lethal as freshwater systems warm. This talk uses survival analysis — the same statistical tool used in medical trials — to quantify how much that shift matters for aquatic organisms.
+</Overview>
+
+<article class="article-body" set:html={body}></article>

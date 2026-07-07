@@ -1,0 +1,888 @@
+<p><img src="/images/return.jpeg" class="img-fluid"></p>
+<section id="project-overview" class="level2">
+<h2 class="anchored" data-anchor-id="project-overview">Project Overview</h2>
+<p>This analysis aimed to predict customer product returns, leveraging detailed product characteristics and customer demographics. The objective was to proactively identify returns, enabling strategic interventions to enhance profitability and customer satisfaction.</p>
+</section>
+<section id="key-achievements" class="level2">
+<h2 class="anchored" data-anchor-id="key-achievements">Key Achievements</h2>
+<ul>
+<li><strong>Significant improvement in predictive performance</strong>:
+<ul>
+<li>Increased <strong>model accuracy</strong> from a moderate AUC of <strong>0.625</strong> (initial baseline) to a robust <strong>AUC of 0.98</strong>.</li>
+<li>Enhanced overall accuracy to <strong>97.8%</strong> with a Kappa statistic of <strong>0.95</strong>.</li>
+</ul></li>
+</ul>
+</section>
+<section id="exploratory-data-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="exploratory-data-analysis">Exploratory Data Analysis</h2>
+<p>We then generated the following plots to visualize return behavior in more depth:</p>
+<ol type="1">
+<li><p><strong>Returned Orders by Department</strong><br>
+<img src="/images/returnedordersbydept.png" class="img-fluid"></p></li>
+<li><p><strong>Returned Orders by Product Size</strong><br>
+<img src="/images/returnedordersbysize.png" class="img-fluid"></p></li>
+<li><p><strong>Returned Orders by State and Region</strong><br>
+<img src="/images/returnedordersbystateregion.png" class="img-fluid"></p></li>
+<li><p><strong>State Contribution to Total Returns</strong> (Lollipop Chart)<br>
+<img src="/images/statecontribution.png" class="img-fluid"></p></li>
+<li><p><strong>Standardized Returns by State</strong> (Per 100k Population)<br>
+<img src="/images/standardizedreturnsbystate.png" class="img-fluid"></p></li>
+</ol>
+</section>
+<section id="strategic-feature-engineering" class="level2">
+<h2 class="anchored" data-anchor-id="strategic-feature-engineering">Strategic Feature Engineering</h2>
+<p>To drive predictive accuracy, we enriched our dataset through targeted enhancements:</p>
+<ul>
+<li>Integrated <strong>regional demographics and population data</strong>, offering context-sensitive insights.</li>
+<li>Engineered impactful features such as:
+<ul>
+<li><strong>CustomerAge</strong>: Capturing age-driven buying behaviors.</li>
+<li><strong>PriceRange</strong>: Classifying products by price sensitivity.</li>
+<li><strong>Seasonality</strong>: Reflecting seasonal purchasing patterns.</li>
+</ul></li>
+<li>Standardized returns per 100,000 population, enabling fair comparisons across regions.</li>
+</ul>
+</section>
+<section id="data-driven-insights" class="level2">
+<h2 class="anchored" data-anchor-id="data-driven-insights">Data-Driven Insights</h2>
+<p>Visual analyses identified crucial return patterns, directly informing strategic business decisions:</p>
+<ul>
+<li><strong>Departments and Product Sizes</strong>:
+<ul>
+<li>Identified product categories with disproportionately high return rates, suggesting areas for targeted product reviews.</li>
+</ul></li>
+<li><strong>Geographic Analysis</strong>:
+<ul>
+<li>States and regions contributing most to return volumes were visualized through comprehensive charts, including state-level standardized returns and overall contribution metrics, facilitating focused regional strategies.</li>
+</ul></li>
+</ul>
+</section>
+<section id="model-development-and-performance" class="level2">
+<h2 class="anchored" data-anchor-id="model-development-and-performance">Model Development and Performance</h2>
+<p>Building upon insights from an initial logistic regression and baseline Random Forest model, we:</p>
+<ul>
+<li>Implemented an advanced <strong>Random Forest model with repeated 5-fold cross-validation</strong> (3 repeats), enhancing stability and predictive consistency.</li>
+<li>Achieved exceptional performance metrics on validation data:</li>
+</ul>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Metric</th>
+<th>Performance</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Accuracy</strong></td>
+<td>97.8%</td>
+</tr>
+<tr class="even">
+<td><strong>Kappa</strong></td>
+<td>0.95</td>
+</tr>
+<tr class="odd">
+<td><strong>AUC</strong></td>
+<td>0.98</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Confusion Matrix:</strong></p>
+<pre><code>               Actual
+Predicted     No     Yes
+No           8202     80
+Yes           205   4495</code></pre>
+<p>The refined model substantially reduced false predictions, significantly outperforming previous benchmarks.</p>
+</section>
+<section id="actionable-final-predictions" class="level2">
+<h2 class="anchored" data-anchor-id="actionable-final-predictions">Actionable Final Predictions</h2>
+<p>Applied to unseen test data, the refined model produced actionable predictions by:</p>
+<ul>
+<li>Generating clear, binary indicators (<strong>Predicted_Return</strong>), directly supporting decision-making.</li>
+<li>Providing stakeholders with an <strong>interactive dashboard</strong> featuring real-time filtering, sorting, and export functionalities to quickly identify and act upon at-risk purchases.</li>
+</ul>
+</section>
+<section id="conclusions-strategic-next-steps" class="level2">
+<h2 class="anchored" data-anchor-id="conclusions-strategic-next-steps">Conclusions &amp; Strategic Next Steps</h2>
+<ul>
+<li><strong>Historical context</strong>: Initial model (AUC = 0.625) established the importance of detailed feature engineering.</li>
+<li><strong>Current approach</strong>: Advanced techniques boosted <strong>predictive accuracy to 97.8%</strong>, demonstrating substantial business value through proactive return management.</li>
+<li><strong>Future opportunities</strong>:
+<ul>
+<li>Explore <strong>alternative ensemble methods</strong> for potential incremental gains.</li>
+<li>Investigate <strong>cost-sensitive learning approaches</strong> to optimize financial outcomes related to returns.</li>
+<li>Further incorporate <strong>advanced explainability tools</strong> to enhance stakeholder understanding and strategic alignment.</li>
+</ul></li>
+</ul>
+<p>This enhanced predictive framework positions the business to significantly reduce return-related losses, optimize inventory management, and deliver improved customer experiences.</p>
+</section>
+<section id="appendix" class="level2">
+<h2 class="anchored" data-anchor-id="appendix">Appendix</h2>
+<p>Below is a summary of the <strong>key steps</strong> and <strong>full script</strong> to reproduce the results:</p>
+<ol type="1">
+<li><strong>Loading and Merging Datasets</strong>: Combined <strong>region</strong> and <strong>population</strong> data with the original training and test CSVs.</li>
+<li><strong>Feature Engineering</strong>: Created <strong>CustomerAge</strong>, <strong>PriceRange</strong>, and other derived features, and removed irrelevant columns.</li>
+<li><strong>Model Training</strong>:
+<ul>
+<li>Defined a <strong>Random Forest</strong> approach with repeated <strong>5‑fold cross‑validation</strong>.<br>
+</li>
+<li>Tuned hyperparameters (<code>mtry</code>, number of trees, etc.) to maximize the <strong>ROC</strong> metric.</li>
+</ul></li>
+<li><strong>Evaluation</strong>:
+<ul>
+<li>Calculated <strong>Accuracy</strong>, <strong>Kappa</strong>, <strong>AUC</strong>, and confusion matrix results on the validation set.<br>
+</li>
+<li>Produced <strong>plots</strong> for confusion matrix and ROC curve, verifying high accuracy and minimal misclassification.</li>
+</ul></li>
+<li><strong>Test Predictions</strong>:
+<ul>
+<li>Generated final predictions (<code>Yes</code>/<code>No</code>) for the unseen test data.<br>
+</li>
+<li>Created an <strong>interactive DT table</strong> for user-friendly inspection.</li>
+</ul></li>
+</ol>
+</section>
+<section id="a.-package-loading" class="level2">
+<h2 class="anchored" data-anchor-id="a.-package-loading">A. Package Loading</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="co"># A.1 -- Load Required Packages</span></span>
+<span id="cb2-2"><span class="fu">library</span>(dplyr)</span>
+<span id="cb2-3"><span class="fu">library</span>(tidyr)</span>
+<span id="cb2-4"><span class="fu">library</span>(lubridate)</span>
+<span id="cb2-5"><span class="fu">library</span>(caret)</span>
+<span id="cb2-6"><span class="fu">library</span>(glmnet)</span>
+<span id="cb2-7"><span class="fu">library</span>(gbm)</span>
+<span id="cb2-8"><span class="fu">library</span>(nnet)</span>
+<span id="cb2-9"><span class="fu">library</span>(lightgbm)</span>
+<span id="cb2-10"><span class="fu">library</span>(ggplot2)</span>
+<span id="cb2-11"><span class="fu">library</span>(readr)</span>
+<span id="cb2-12"><span class="fu">library</span>(forcats)</span>
+<span id="cb2-13"><span class="fu">library</span>(DT)</span>
+<span id="cb2-14"><span class="fu">library</span>(htmltools)</span>
+<span id="cb2-15"><span class="fu">library</span>(pROC)</span></code></pre></div>
+</div>
+</section>
+<section id="b.-data-loading-and-merging" class="level2">
+<h2 class="anchored" data-anchor-id="b.-data-loading-and-merging">B. Data Loading and Merging</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="co"># A.2 -- Read CSVs, Merge Region &amp; Population</span></span>
+<span id="cb3-2">train <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"/data/customerreturntrain.csv"</span>) </span>
+<span id="cb3-3">test  <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"/data/customerreturntest.csv"</span>) </span>
+<span id="cb3-4"></span>
+<span id="cb3-5">state_regions <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tribble</span>(</span>
+<span id="cb3-6">  <span class="sc">~</span>CustomerState,    <span class="sc">~</span>Region,</span>
+<span id="cb3-7">  <span class="co"># Pacific Northwest</span></span>
+<span id="cb3-8">  <span class="st">"Washington"</span>,      <span class="st">"Pacific Northwest"</span>,</span>
+<span id="cb3-9">  <span class="st">"Oregon"</span>,          <span class="st">"Pacific Northwest"</span>,</span>
+<span id="cb3-10">  <span class="st">"Idaho"</span>,           <span class="st">"Pacific Northwest"</span>,</span>
+<span id="cb3-11">  <span class="co"># Southwest</span></span>
+<span id="cb3-12">  <span class="st">"Arizona"</span>,         <span class="st">"Southwest"</span>,</span>
+<span id="cb3-13">  <span class="st">"California"</span>,      <span class="st">"Southwest"</span>,</span>
+<span id="cb3-14">  <span class="st">"Nevada"</span>,          <span class="st">"Southwest"</span>,</span>
+<span id="cb3-15">  <span class="st">"New Mexico"</span>,      <span class="st">"Southwest"</span>,</span>
+<span id="cb3-16">  <span class="st">"Utah"</span>,            <span class="st">"Southwest"</span>,</span>
+<span id="cb3-17">  <span class="co"># Rocky Mountain</span></span>
+<span id="cb3-18">  <span class="st">"Colorado"</span>,        <span class="st">"Rocky Mountain"</span>,</span>
+<span id="cb3-19">  <span class="st">"Montana"</span>,         <span class="st">"Rocky Mountain"</span>,</span>
+<span id="cb3-20">  <span class="st">"Wyoming"</span>,         <span class="st">"Rocky Mountain"</span>,</span>
+<span id="cb3-21">  <span class="st">"Alaska"</span>,          <span class="st">"Rocky Mountain"</span>,</span>
+<span id="cb3-22">  <span class="st">"Hawaii"</span>,          <span class="st">"Rocky Mountain"</span>,</span>
+<span id="cb3-23">  <span class="co"># Midwest</span></span>
+<span id="cb3-24">  <span class="st">"Illinois"</span>,        <span class="st">"Midwest"</span>,</span>
+<span id="cb3-25">  <span class="st">"Indiana"</span>,         <span class="st">"Midwest"</span>,</span>
+<span id="cb3-26">  <span class="st">"Iowa"</span>,            <span class="st">"Midwest"</span>,</span>
+<span id="cb3-27">  <span class="st">"Kansas"</span>,          <span class="st">"Midwest"</span>,</span>
+<span id="cb3-28">  <span class="st">"Michigan"</span>,        <span class="st">"Midwest"</span>,</span>
+<span id="cb3-29">  <span class="st">"Minnesota"</span>,       <span class="st">"Midwest"</span>,</span>
+<span id="cb3-30">  <span class="st">"Missouri"</span>,        <span class="st">"Midwest"</span>,</span>
+<span id="cb3-31">  <span class="st">"Nebraska"</span>,        <span class="st">"Midwest"</span>,</span>
+<span id="cb3-32">  <span class="st">"North Dakota"</span>,    <span class="st">"Midwest"</span>,</span>
+<span id="cb3-33">  <span class="st">"Ohio"</span>,            <span class="st">"Midwest"</span>,</span>
+<span id="cb3-34">  <span class="st">"South Dakota"</span>,    <span class="st">"Midwest"</span>,</span>
+<span id="cb3-35">  <span class="st">"Wisconsin"</span>,       <span class="st">"Midwest"</span>,</span>
+<span id="cb3-36">  <span class="co"># Southeast</span></span>
+<span id="cb3-37">  <span class="st">"Alabama"</span>,         <span class="st">"Southeast"</span>,</span>
+<span id="cb3-38">  <span class="st">"Arkansas"</span>,        <span class="st">"Southeast"</span>,</span>
+<span id="cb3-39">  <span class="st">"Florida"</span>,         <span class="st">"Southeast"</span>,</span>
+<span id="cb3-40">  <span class="st">"Georgia"</span>,         <span class="st">"Southeast"</span>,</span>
+<span id="cb3-41">  <span class="st">"Kentucky"</span>,        <span class="st">"Southeast"</span>,</span>
+<span id="cb3-42">  <span class="st">"Louisiana"</span>,       <span class="st">"Southeast"</span>,</span>
+<span id="cb3-43">  <span class="st">"Mississippi"</span>,     <span class="st">"Southeast"</span>,</span>
+<span id="cb3-44">  <span class="st">"North Carolina"</span>,  <span class="st">"Southeast"</span>,</span>
+<span id="cb3-45">  <span class="st">"South Carolina"</span>,  <span class="st">"Southeast"</span>,</span>
+<span id="cb3-46">  <span class="st">"Tennessee"</span>,       <span class="st">"Southeast"</span>,</span>
+<span id="cb3-47">  <span class="st">"Virginia"</span>,        <span class="st">"Southeast"</span>,</span>
+<span id="cb3-48">  <span class="st">"West Virginia"</span>,   <span class="st">"Southeast"</span>,</span>
+<span id="cb3-49">  <span class="st">"Oklahoma"</span>,        <span class="st">"Southeast"</span>,</span>
+<span id="cb3-50">  <span class="st">"Texas"</span>,           <span class="st">"Southeast"</span>,</span>
+<span id="cb3-51">  <span class="co"># Northeast</span></span>
+<span id="cb3-52">  <span class="st">"Connecticut"</span>,     <span class="st">"Northeast"</span>,</span>
+<span id="cb3-53">  <span class="st">"Delaware"</span>,        <span class="st">"Northeast"</span>,</span>
+<span id="cb3-54">  <span class="st">"Maine"</span>,           <span class="st">"Northeast"</span>,</span>
+<span id="cb3-55">  <span class="st">"Maryland"</span>,        <span class="st">"Northeast"</span>,</span>
+<span id="cb3-56">  <span class="st">"Massachusetts"</span>,   <span class="st">"Northeast"</span>,</span>
+<span id="cb3-57">  <span class="st">"New Hampshire"</span>,   <span class="st">"Northeast"</span>,</span>
+<span id="cb3-58">  <span class="st">"New Jersey"</span>,      <span class="st">"Northeast"</span>,</span>
+<span id="cb3-59">  <span class="st">"New York"</span>,        <span class="st">"Northeast"</span>,</span>
+<span id="cb3-60">  <span class="st">"Pennsylvania"</span>,    <span class="st">"Northeast"</span>,</span>
+<span id="cb3-61">  <span class="st">"Rhode Island"</span>,    <span class="st">"Northeast"</span>,</span>
+<span id="cb3-62">  <span class="st">"Vermont"</span>,         <span class="st">"Northeast"</span>,</span>
+<span id="cb3-63">  <span class="st">"DC"</span>,              <span class="st">"Northeast"</span></span>
+<span id="cb3-64">)</span>
+<span id="cb3-65">state_populations <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb3-66">  <span class="sc">~</span>CustomerState,     <span class="sc">~</span>Population,</span>
+<span id="cb3-67">  <span class="st">"Alabama"</span>,          <span class="dv">5024279</span>,</span>
+<span id="cb3-68">  <span class="st">"Alaska"</span>,           <span class="dv">733391</span>,</span>
+<span id="cb3-69">  <span class="st">"Arizona"</span>,          <span class="dv">7151502</span>,</span>
+<span id="cb3-70">  <span class="st">"Arkansas"</span>,         <span class="dv">3011524</span>,</span>
+<span id="cb3-71">  <span class="st">"California"</span>,       <span class="dv">39538223</span>,</span>
+<span id="cb3-72">  <span class="st">"Colorado"</span>,         <span class="dv">5773714</span>,</span>
+<span id="cb3-73">  <span class="st">"Connecticut"</span>,      <span class="dv">3605944</span>,</span>
+<span id="cb3-74">  <span class="st">"Delaware"</span>,         <span class="dv">989948</span>,</span>
+<span id="cb3-75">  <span class="st">"DC"</span>,               <span class="dv">689545</span>,</span>
+<span id="cb3-76">  <span class="st">"Florida"</span>,          <span class="dv">21538187</span>,</span>
+<span id="cb3-77">  <span class="st">"Georgia"</span>,          <span class="dv">10711908</span>,</span>
+<span id="cb3-78">  <span class="st">"Hawaii"</span>,           <span class="dv">1455271</span>,</span>
+<span id="cb3-79">  <span class="st">"Idaho"</span>,            <span class="dv">1839106</span>,</span>
+<span id="cb3-80">  <span class="st">"Illinois"</span>,         <span class="dv">12812508</span>,</span>
+<span id="cb3-81">  <span class="st">"Indiana"</span>,          <span class="dv">6785528</span>,</span>
+<span id="cb3-82">  <span class="st">"Iowa"</span>,             <span class="dv">3190369</span>,</span>
+<span id="cb3-83">  <span class="st">"Kansas"</span>,           <span class="dv">2937880</span>,</span>
+<span id="cb3-84">  <span class="st">"Kentucky"</span>,         <span class="dv">4505836</span>,</span>
+<span id="cb3-85">  <span class="st">"Louisiana"</span>,        <span class="dv">4657757</span>,</span>
+<span id="cb3-86">  <span class="st">"Maine"</span>,            <span class="dv">1362359</span>,</span>
+<span id="cb3-87">  <span class="st">"Maryland"</span>,         <span class="dv">6177224</span>,</span>
+<span id="cb3-88">  <span class="st">"Massachusetts"</span>,    <span class="dv">7029917</span>,</span>
+<span id="cb3-89">  <span class="st">"Michigan"</span>,         <span class="dv">10077331</span>,</span>
+<span id="cb3-90">  <span class="st">"Minnesota"</span>,        <span class="dv">5706494</span>,</span>
+<span id="cb3-91">  <span class="st">"Mississippi"</span>,      <span class="dv">2961279</span>,</span>
+<span id="cb3-92">  <span class="st">"Missouri"</span>,         <span class="dv">6154913</span>,</span>
+<span id="cb3-93">  <span class="st">"Montana"</span>,          <span class="dv">1084225</span>,</span>
+<span id="cb3-94">  <span class="st">"Nebraska"</span>,         <span class="dv">1961504</span>,</span>
+<span id="cb3-95">  <span class="st">"Nevada"</span>,           <span class="dv">3104614</span>,</span>
+<span id="cb3-96">  <span class="st">"New Hampshire"</span>,    <span class="dv">1377529</span>,</span>
+<span id="cb3-97">  <span class="st">"New Jersey"</span>,       <span class="dv">9288994</span>,</span>
+<span id="cb3-98">  <span class="st">"New Mexico"</span>,       <span class="dv">2117522</span>,</span>
+<span id="cb3-99">  <span class="st">"New York"</span>,         <span class="dv">20201249</span>,</span>
+<span id="cb3-100">  <span class="st">"North Carolina"</span>,   <span class="dv">10439388</span>,</span>
+<span id="cb3-101">  <span class="st">"North Dakota"</span>,     <span class="dv">779094</span>,</span>
+<span id="cb3-102">  <span class="st">"Ohio"</span>,             <span class="dv">11799448</span>,</span>
+<span id="cb3-103">  <span class="st">"Oklahoma"</span>,         <span class="dv">3959353</span>,</span>
+<span id="cb3-104">  <span class="st">"Oregon"</span>,           <span class="dv">4237256</span>,</span>
+<span id="cb3-105">  <span class="st">"Pennsylvania"</span>,     <span class="dv">13002700</span>,</span>
+<span id="cb3-106">  <span class="st">"Rhode Island"</span>,     <span class="dv">1097379</span>,</span>
+<span id="cb3-107">  <span class="st">"South Carolina"</span>,   <span class="dv">5118425</span>,</span>
+<span id="cb3-108">  <span class="st">"South Dakota"</span>,     <span class="dv">886667</span>,</span>
+<span id="cb3-109">  <span class="st">"Tennessee"</span>,        <span class="dv">6910840</span>,</span>
+<span id="cb3-110">  <span class="st">"Texas"</span>,            <span class="dv">29145505</span>,</span>
+<span id="cb3-111">  <span class="st">"Utah"</span>,             <span class="dv">3271616</span>,</span>
+<span id="cb3-112">  <span class="st">"Vermont"</span>,          <span class="dv">643077</span>,</span>
+<span id="cb3-113">  <span class="st">"Virginia"</span>,         <span class="dv">8631393</span>,</span>
+<span id="cb3-114">  <span class="st">"Washington"</span>,       <span class="dv">7705281</span>,</span>
+<span id="cb3-115">  <span class="st">"West Virginia"</span>,    <span class="dv">1793716</span>,</span>
+<span id="cb3-116">  <span class="st">"Wisconsin"</span>,        <span class="dv">5893718</span>,</span>
+<span id="cb3-117">  <span class="st">"Wyoming"</span>,          <span class="dv">576851</span></span>
+<span id="cb3-118">)</span>
+<span id="cb3-119"></span>
+<span id="cb3-120"><span class="co"># Merge region and population</span></span>
+<span id="cb3-121">train <span class="ot">&lt;-</span> train <span class="sc">%&gt;%</span> </span>
+<span id="cb3-122">  <span class="fu">left_join</span>(state_regions, <span class="at">by =</span> <span class="st">"CustomerState"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-123">  <span class="fu">left_join</span>(state_populations, <span class="at">by =</span> <span class="st">"CustomerState"</span>)</span>
+<span id="cb3-124"></span>
+<span id="cb3-125">test <span class="ot">&lt;-</span> test <span class="sc">%&gt;%</span> </span>
+<span id="cb3-126">  <span class="fu">left_join</span>(state_regions, <span class="at">by =</span> <span class="st">"CustomerState"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-127">  <span class="fu">left_join</span>(state_populations, <span class="at">by =</span> <span class="st">"CustomerState"</span>)</span>
+<span id="cb3-128"></span>
+<span id="cb3-129"><span class="fu">glimpse</span>(train)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 64,912
+Columns: 14
+$ ID                &lt;chr&gt; "58334388-e72d-40d3-afcf-59561c262e86", "fb73c186-ca…
+$ OrderID           &lt;chr&gt; "4fc2f4ea-7098-4e9d-87b1-52b6a9ee21fd", "4fc2f4ea-70…
+$ CustomerID        &lt;chr&gt; "c401d50e-37b7-45ea-801a-d71c13ea6387", "c401d50e-37…
+$ CustomerState     &lt;chr&gt; "Kentucky", "Kentucky", "Kentucky", "Kentucky", "Ind…
+$ CustomerBirthDate &lt;date&gt; 1967-01-06, 1967-01-06, 1967-01-06, 1967-01-06, 197…
+$ OrderDate         &lt;date&gt; 2016-01-06, 2016-01-06, 2016-01-06, 2016-01-06, 201…
+$ ProductDepartment &lt;chr&gt; "Youth", "Mens", "Mens", "Mens", "Womens", "Womens",…
+$ ProductSize       &lt;chr&gt; "M", "L", "XL", "L", "XS", "M", "XS", "M", "M", "M",…
+$ ProductCost       &lt;dbl&gt; 9, 17, 20, 17, 42, 39, 13, 3, 12, 27, 20, 23, 49, 16…
+$ DiscountPct       &lt;dbl&gt; 0.0356, 0.1192, 0.1698, 0.1973, 0.0663, 0.0501, 0.08…
+$ PurchasePrice     &lt;dbl&gt; 28.93, 44.92, 48.98, 51.37, 113.91, 121.59, 41.40, 1…
+$ Returned          &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1…
+$ Region            &lt;chr&gt; "Southeast", "Southeast", "Southeast", "Southeast", …
+$ Population        &lt;dbl&gt; 4505836, 4505836, 4505836, 4505836, 6785528, 6785528…</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><span class="fu">glimpse</span>(test)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 14,809
+Columns: 14
+$ ID                &lt;chr&gt; "a6f6ecd9-2c08-4363-baf7-b54adc35d486", "e819be63-7a…
+$ OrderID           &lt;chr&gt; "ad944d45-a857-4156-ac31-6d0eeb8a4bb7", "cefde178-45…
+$ CustomerID        &lt;chr&gt; "49d38db8-e5f6-45a6-bbc1-6c6ed1f0214d", "65d3e42c-15…
+$ CustomerState     &lt;chr&gt; "South Carolina", "California", "Indiana", "Indiana"…
+$ CustomerBirthDate &lt;date&gt; 1976-10-21, 1961-10-31, 1953-11-03, 1953-11-03, 196…
+$ OrderDate         &lt;date&gt; 2021-01-01, 2021-01-01, 2021-01-01, 2021-01-01, 202…
+$ ProductDepartment &lt;chr&gt; "Accessories", "Mens", "Womens", "Womens", "Accessor…
+$ ProductSize       &lt;chr&gt; "~", "M", "XXL", "XXL", "~", "L", "M", "S", "L", "L"…
+$ ProductCost       &lt;dbl&gt; 19, 28, 21, 23, 13, 26, 20, 28, 31, 23, 25, 13, 19, …
+$ DiscountPct       &lt;dbl&gt; 0.2414, 0.2771, 0.2665, 0.2305, 0.2621, 0.3081, 0.01…
+$ PurchasePrice     &lt;dbl&gt; 34.14, 73.74, 35.21, 70.79, 30.99, 51.89, 58.36, 73.…
+$ Returned          &lt;chr&gt; "null", "null", "null", "null", "null", "null", "nul…
+$ Region            &lt;chr&gt; "Southeast", "Southwest", "Midwest", "Midwest", "Pac…
+$ Population        &lt;dbl&gt; 5118425, 39538223, 6785528, 6785528, 4237256, 327161…</code></pre>
+</div>
+</div>
+</section>
+<section id="c.-exploratory-data-analysis-plot-saving" class="level2">
+<h2 class="anchored" data-anchor-id="c.-exploratory-data-analysis-plot-saving">C. Exploratory Data Analysis &amp; Plot Saving</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><span class="co"># A.3 -- Exploratory Plots</span></span>
+<span id="cb7-2"><span class="co"># We'll save each plot to a local image file (e.g. .png), which the report can reference.</span></span>
+<span id="cb7-3"></span>
+<span id="cb7-4"><span class="co"># 1. Returned Orders by Department</span></span>
+<span id="cb7-5">ReturnedOrdersByDept <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
+<span id="cb7-6">  <span class="at">data =</span> train <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Returned <span class="sc">==</span> <span class="dv">1</span>),</span>
+<span id="cb7-7">  <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">fct_infreq</span>(ProductDepartment))</span>
+<span id="cb7-8">) <span class="sc">+</span></span>
+<span id="cb7-9">  <span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="st">"#1B9E77"</span>) <span class="sc">+</span></span>
+<span id="cb7-10">  <span class="fu">labs</span>(</span>
+<span id="cb7-11">    <span class="at">title =</span> <span class="st">"Returned Orders by Department"</span>,</span>
+<span id="cb7-12">    <span class="at">subtitle =</span> <span class="st">"Frequency of Returns Across Product Departments"</span>,</span>
+<span id="cb7-13">    <span class="at">x =</span> <span class="st">"Product Department"</span>,</span>
+<span id="cb7-14">    <span class="at">y =</span> <span class="st">"Number of Returns"</span></span>
+<span id="cb7-15">  ) <span class="sc">+</span></span>
+<span id="cb7-16">  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>) <span class="sc">+</span></span>
+<span id="cb7-17">  <span class="fu">theme</span>(</span>
+<span id="cb7-18">    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb7-19">    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">"gray20"</span>)</span>
+<span id="cb7-20">  )</span>
+<span id="cb7-21"><span class="fu">ggsave</span>(<span class="st">"ReturnedOrdersByDept.png"</span>, <span class="at">plot =</span> ReturnedOrdersByDept, <span class="at">width =</span> <span class="dv">10</span>, <span class="at">height =</span> <span class="dv">10</span>)</span>
+<span id="cb7-22"></span>
+<span id="cb7-23"><span class="co"># 2. Returned Orders by Product Size</span></span>
+<span id="cb7-24">ReturnedOrdersBySize <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
+<span id="cb7-25">  <span class="at">data =</span> train <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Returned <span class="sc">==</span> <span class="dv">1</span>),</span>
+<span id="cb7-26">  <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">fct_infreq</span>(ProductSize))</span>
+<span id="cb7-27">) <span class="sc">+</span></span>
+<span id="cb7-28">  <span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="st">"#EFC000FF"</span>) <span class="sc">+</span></span>
+<span id="cb7-29">  <span class="fu">labs</span>(</span>
+<span id="cb7-30">    <span class="at">title =</span> <span class="st">"Returned Orders by Product Size"</span>,</span>
+<span id="cb7-31">    <span class="at">subtitle =</span> <span class="st">"Distribution of Returns Across Product Sizes"</span>,</span>
+<span id="cb7-32">    <span class="at">x =</span> <span class="st">"Product Size"</span>,</span>
+<span id="cb7-33">    <span class="at">y =</span> <span class="st">"Number of Returns"</span></span>
+<span id="cb7-34">  ) <span class="sc">+</span></span>
+<span id="cb7-35">  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>) <span class="sc">+</span></span>
+<span id="cb7-36">  <span class="fu">theme</span>(</span>
+<span id="cb7-37">    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb7-38">    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">"gray20"</span>)</span>
+<span id="cb7-39">  )</span>
+<span id="cb7-40"><span class="fu">ggsave</span>(<span class="st">"ReturnedOrdersBySize.png"</span>, <span class="at">plot =</span> ReturnedOrdersBySize, <span class="at">width =</span> <span class="dv">10</span>, <span class="at">height =</span> <span class="dv">10</span>)</span>
+<span id="cb7-41"></span>
+<span id="cb7-42"><span class="co"># 3. Returned Orders by State &amp; Region</span></span>
+<span id="cb7-43">ReturnedOrdersByStateRegion <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
+<span id="cb7-44">  <span class="at">data =</span> train <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Returned <span class="sc">==</span> <span class="dv">1</span>),</span>
+<span id="cb7-45">  <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">fct_infreq</span>(CustomerState))</span>
+<span id="cb7-46">) <span class="sc">+</span></span>
+<span id="cb7-47">  <span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="st">"#7570B3"</span>) <span class="sc">+</span></span>
+<span id="cb7-48">  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb7-49">  <span class="fu">facet_wrap</span>(<span class="sc">~</span> Region, <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span></span>
+<span id="cb7-50">  <span class="fu">labs</span>(</span>
+<span id="cb7-51">    <span class="at">title =</span> <span class="st">"Returned Orders by State and Region"</span>,</span>
+<span id="cb7-52">    <span class="at">subtitle =</span> <span class="st">"Count of Returns Faceted by U.S. Region"</span>,</span>
+<span id="cb7-53">    <span class="at">x =</span> <span class="st">"State"</span>,</span>
+<span id="cb7-54">    <span class="at">y =</span> <span class="st">"Number of Returns"</span></span>
+<span id="cb7-55">  ) <span class="sc">+</span></span>
+<span id="cb7-56">  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>) <span class="sc">+</span></span>
+<span id="cb7-57">  <span class="fu">theme</span>(</span>
+<span id="cb7-58">    <span class="at">strip.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"#D95F02"</span>, <span class="at">color =</span> <span class="cn">NA</span>),</span>
+<span id="cb7-59">    <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">color =</span> <span class="st">"white"</span>),</span>
+<span id="cb7-60">    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>)</span>
+<span id="cb7-61">  )</span>
+<span id="cb7-62"><span class="fu">ggsave</span>(<span class="st">"ReturnedOrdersByStateRegion.png"</span>, <span class="at">plot =</span> ReturnedOrdersByStateRegion, <span class="at">width =</span> <span class="dv">10</span>, <span class="at">height =</span> <span class="dv">10</span>)</span>
+<span id="cb7-63"></span>
+<span id="cb7-64"><span class="co"># 4. State Contribution (Lollipop)</span></span>
+<span id="cb7-65">train_returns_by_state <span class="ot">&lt;-</span> train <span class="sc">%&gt;%</span></span>
+<span id="cb7-66">  <span class="fu">filter</span>(Returned <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span>            </span>
+<span id="cb7-67">  <span class="fu">group_by</span>(CustomerState) <span class="sc">%&gt;%</span></span>
+<span id="cb7-68">  <span class="fu">summarise</span>(<span class="at">n_returns =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span>       </span>
+<span id="cb7-69">  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb7-70">  <span class="fu">mutate</span>(<span class="at">pct_of_all_returns =</span> <span class="dv">100</span> <span class="sc">*</span> n_returns <span class="sc">/</span> <span class="fu">sum</span>(n_returns))</span>
+<span id="cb7-71"></span>
+<span id="cb7-72">StateContribution <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(train_returns_by_state, </span>
+<span id="cb7-73">  <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">fct_reorder</span>(CustomerState, pct_of_all_returns), <span class="at">y =</span> pct_of_all_returns)</span>
+<span id="cb7-74">) <span class="sc">+</span></span>
+<span id="cb7-75">  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">xend =</span> CustomerState, <span class="at">y =</span> <span class="dv">0</span>, <span class="at">yend =</span> pct_of_all_returns),</span>
+<span id="cb7-76">               <span class="at">color =</span> <span class="st">"#66A61E"</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb7-77">  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"#66A61E"</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb7-78">  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb7-79">  <span class="fu">labs</span>(</span>
+<span id="cb7-80">    <span class="at">title =</span> <span class="st">"State Contribution to Total Returns"</span>,</span>
+<span id="cb7-81">    <span class="at">subtitle =</span> <span class="st">"Percentage Share of Overall Returned Orders"</span>,</span>
+<span id="cb7-82">    <span class="at">x =</span> <span class="st">"State"</span>,</span>
+<span id="cb7-83">    <span class="at">y =</span> <span class="st">"Share (%)"</span></span>
+<span id="cb7-84">  ) <span class="sc">+</span></span>
+<span id="cb7-85">  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>) <span class="sc">+</span></span>
+<span id="cb7-86">  <span class="fu">theme</span>(</span>
+<span id="cb7-87">    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb7-88">    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">"gray30"</span>)</span>
+<span id="cb7-89">  )</span>
+<span id="cb7-90"><span class="fu">ggsave</span>(<span class="st">"StateContribution.png"</span>, <span class="at">plot =</span> StateContribution, <span class="at">width =</span> <span class="dv">10</span>, <span class="at">height =</span> <span class="dv">10</span>)</span>
+<span id="cb7-91"></span>
+<span id="cb7-92"><span class="co"># 5. Standardized Returns by State</span></span>
+<span id="cb7-93">train_returns_by_state_pop <span class="ot">&lt;-</span> train <span class="sc">%&gt;%</span></span>
+<span id="cb7-94">  <span class="fu">filter</span>(Returned <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-95">  <span class="fu">group_by</span>(CustomerState) <span class="sc">%&gt;%</span></span>
+<span id="cb7-96">  <span class="fu">summarise</span>(<span class="at">n_returns =</span> <span class="fu">n</span>(), <span class="at">Population =</span> <span class="fu">first</span>(Population)) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-97">  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb7-98">  <span class="fu">mutate</span>(<span class="at">returns_per_100k =</span> (n_returns <span class="sc">/</span> Population) <span class="sc">*</span> <span class="dv">100000</span>)</span>
+<span id="cb7-99"></span>
+<span id="cb7-100">StandardizedReturnsByState <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
+<span id="cb7-101">  train_returns_by_state_pop,</span>
+<span id="cb7-102">  <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">fct_reorder</span>(CustomerState, returns_per_100k), <span class="at">y =</span> returns_per_100k)</span>
+<span id="cb7-103">) <span class="sc">+</span></span>
+<span id="cb7-104">  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">xend =</span> CustomerState, <span class="at">y =</span> <span class="dv">0</span>, <span class="at">yend =</span> returns_per_100k),</span>
+<span id="cb7-105">               <span class="at">color =</span> <span class="st">"cyan4"</span>, <span class="at">size =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb7-106">  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">sprintf</span>(<span class="st">"%.2f"</span>, returns_per_100k)),</span>
+<span id="cb7-107">            <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">hjust =</span> <span class="sc">-</span><span class="fl">0.3</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb7-108">  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb7-109">  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">2.5</span>, <span class="dv">5</span>, <span class="fl">7.5</span>, <span class="dv">10</span>)) <span class="sc">+</span></span>
+<span id="cb7-110">  <span class="fu">labs</span>(</span>
+<span id="cb7-111">    <span class="at">title =</span> <span class="st">"Standardized Returns by State"</span>,</span>
+<span id="cb7-112">    <span class="at">subtitle =</span> <span class="st">"Returns per 100,000 People"</span>,</span>
+<span id="cb7-113">    <span class="at">x =</span> <span class="st">"Customer State"</span>,</span>
+<span id="cb7-114">    <span class="at">y =</span> <span class="st">"Returns per 100k"</span></span>
+<span id="cb7-115">  ) <span class="sc">+</span></span>
+<span id="cb7-116">  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>) <span class="sc">+</span></span>
+<span id="cb7-117">  <span class="fu">theme</span>(</span>
+<span id="cb7-118">    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb7-119">    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">"gray30"</span>)</span>
+<span id="cb7-120">  )</span>
+<span id="cb7-121"><span class="fu">ggsave</span>(<span class="st">"StandardizedReturnsByState.png"</span>, <span class="at">plot =</span> StandardizedReturnsByState, <span class="at">width =</span> <span class="dv">10</span>, <span class="at">height =</span> <span class="dv">10</span>)</span></code></pre></div>
+</div>
+</section>
+<section id="d.-feature-engineering-functions" class="level2">
+<h2 class="anchored" data-anchor-id="d.-feature-engineering-functions">D. Feature Engineering Functions</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><span class="co"># A.4 -- Feature Engineering and Dummy-Creation</span></span>
+<span id="cb8-2">build_features <span class="ot">&lt;-</span> <span class="cf">function</span>(df) {</span>
+<span id="cb8-3">  df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb8-4">    <span class="fu">mutate</span>(</span>
+<span id="cb8-5">      <span class="at">OrderDate =</span> <span class="fu">as.Date</span>(OrderDate),</span>
+<span id="cb8-6">      <span class="at">CustomerBirthDate =</span> <span class="fu">as.Date</span>(CustomerBirthDate),</span>
+<span id="cb8-7">      <span class="at">CustomerAge =</span> <span class="fu">floor</span>(<span class="fu">as.numeric</span>(OrderDate <span class="sc">-</span> CustomerBirthDate) <span class="sc">/</span> <span class="dv">365</span>),</span>
+<span id="cb8-8">      <span class="at">Returned =</span> <span class="cf">if</span>(<span class="st">"Returned"</span> <span class="sc">%in%</span> <span class="fu">names</span>(df)) {</span>
+<span id="cb8-9">        <span class="cf">if</span>(<span class="fu">is.numeric</span>(Returned)) {</span>
+<span id="cb8-10">          <span class="fu">factor</span>(Returned, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"No"</span>, <span class="st">"Yes"</span>))</span>
+<span id="cb8-11">        } <span class="cf">else</span> {</span>
+<span id="cb8-12">          <span class="fu">factor</span>(<span class="fu">trimws</span>(Returned) <span class="sc">%&gt;%</span> <span class="fu">recode</span>(<span class="st">"0"</span> <span class="ot">=</span> <span class="st">"No"</span>, <span class="st">"1"</span> <span class="ot">=</span> <span class="st">"Yes"</span>, <span class="st">"no"</span> <span class="ot">=</span> <span class="st">"No"</span>, <span class="st">"yes"</span> <span class="ot">=</span> <span class="st">"Yes"</span>),</span>
+<span id="cb8-13">                 <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"No"</span>, <span class="st">"Yes"</span>))</span>
+<span id="cb8-14">        }</span>
+<span id="cb8-15">      } <span class="cf">else</span> {</span>
+<span id="cb8-16">        Returned</span>
+<span id="cb8-17">      },</span>
+<span id="cb8-18">      <span class="at">ProductDepartment =</span> <span class="fu">as.factor</span>(ProductDepartment),</span>
+<span id="cb8-19">      <span class="at">ProductSize =</span> <span class="fu">as.factor</span>(ProductSize),</span>
+<span id="cb8-20">      <span class="at">OrderYear =</span> <span class="fu">as.character</span>(<span class="fu">year</span>(OrderDate)),</span>
+<span id="cb8-21">      <span class="at">OrderMonth =</span> <span class="fu">as.character</span>(<span class="fu">month</span>(OrderDate)),</span>
+<span id="cb8-22">      <span class="at">OrderDayOfWeek =</span> <span class="fu">weekdays</span>(OrderDate),</span>
+<span id="cb8-23">      <span class="at">Season =</span> <span class="fu">case_when</span>(</span>
+<span id="cb8-24">        <span class="fu">month</span>(OrderDate) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">12</span>, <span class="dv">1</span>, <span class="dv">2</span>) <span class="sc">~</span> <span class="st">"Winter"</span>,</span>
+<span id="cb8-25">        <span class="fu">month</span>(OrderDate) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>) <span class="sc">~</span> <span class="st">"Spring"</span>,</span>
+<span id="cb8-26">        <span class="fu">month</span>(OrderDate) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">8</span>) <span class="sc">~</span> <span class="st">"Summer"</span>,</span>
+<span id="cb8-27">        <span class="fu">month</span>(OrderDate) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">9</span>, <span class="dv">10</span>, <span class="dv">11</span>) <span class="sc">~</span> <span class="st">"Fall"</span></span>
+<span id="cb8-28">      ),</span>
+<span id="cb8-29">      <span class="at">MSRP =</span> <span class="fu">round</span>(PurchasePrice <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> DiscountPct), <span class="dv">2</span>),</span>
+<span id="cb8-30">      <span class="at">PriceRange =</span> <span class="fu">case_when</span>(</span>
+<span id="cb8-31">        MSRP <span class="sc">&gt;=</span> <span class="dv">13</span> <span class="sc">&amp;</span> MSRP <span class="sc">&lt;=</span> <span class="dv">30</span> <span class="sc">~</span> <span class="st">"$13-$30"</span>,</span>
+<span id="cb8-32">        MSRP <span class="sc">&gt;</span> <span class="dv">30</span> <span class="sc">&amp;</span> MSRP <span class="sc">&lt;=</span> <span class="dv">60</span> <span class="sc">~</span> <span class="st">"$31-$60"</span>,</span>
+<span id="cb8-33">        MSRP <span class="sc">&gt;</span> <span class="dv">60</span> <span class="sc">&amp;</span> MSRP <span class="sc">&lt;=</span> <span class="dv">100</span> <span class="sc">~</span> <span class="st">"$61-$100"</span>,</span>
+<span id="cb8-34">        MSRP <span class="sc">&gt;</span> <span class="dv">100</span> <span class="sc">~</span> <span class="st">"&gt;$100"</span>,</span>
+<span id="cb8-35">        <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"Other"</span></span>
+<span id="cb8-36">      ),</span>
+<span id="cb8-37">      <span class="at">DiscountAmount =</span> PurchasePrice <span class="sc">*</span> DiscountPct,</span>
+<span id="cb8-38">      <span class="at">CustomerAgeGroup =</span> <span class="fu">cut</span>(CustomerAge,</span>
+<span id="cb8-39">        <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">30</span>, <span class="dv">45</span>, <span class="dv">60</span>, <span class="cn">Inf</span>),</span>
+<span id="cb8-40">        <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"18-30"</span>, <span class="st">"31-45"</span>, <span class="st">"46-60"</span>, <span class="st">"&gt;60"</span>),</span>
+<span id="cb8-41">        <span class="at">right =</span> <span class="cn">FALSE</span></span>
+<span id="cb8-42">      )</span>
+<span id="cb8-43">    ) <span class="sc">%&gt;%</span></span>
+<span id="cb8-44">    <span class="fu">select</span>(<span class="sc">-</span>OrderDate, <span class="sc">-</span>CustomerBirthDate, <span class="sc">-</span>CustomerState)</span>
+<span id="cb8-45">  <span class="fu">return</span>(df)</span>
+<span id="cb8-46">}</span>
+<span id="cb8-47"></span>
+<span id="cb8-48">remove_ids <span class="ot">&lt;-</span> <span class="cf">function</span>(df) {</span>
+<span id="cb8-49">  drop_cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"ID"</span>, <span class="st">"OrderID"</span>, <span class="st">"CustomerID"</span>)</span>
+<span id="cb8-50">  df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span><span class="fu">one_of</span>(drop_cols))</span>
+<span id="cb8-51">  <span class="fu">return</span>(df)</span>
+<span id="cb8-52">}</span>
+<span id="cb8-53"></span>
+<span id="cb8-54">make_dummies <span class="ot">&lt;-</span> <span class="cf">function</span>(df, <span class="at">outcome =</span> <span class="st">"Returned"</span>) {</span>
+<span id="cb8-55">  outcome_vec <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb8-56">  <span class="cf">if</span>(outcome <span class="sc">%in%</span> <span class="fu">names</span>(df)) {</span>
+<span id="cb8-57">    <span class="cf">if</span>(<span class="fu">all</span>(<span class="fu">is.na</span>(df[[outcome]]))) {</span>
+<span id="cb8-58">      df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span><span class="fu">all_of</span>(outcome))</span>
+<span id="cb8-59">    } <span class="cf">else</span> {</span>
+<span id="cb8-60">      outcome_vec <span class="ot">&lt;-</span> df[[outcome]]</span>
+<span id="cb8-61">      df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span><span class="fu">all_of</span>(outcome))</span>
+<span id="cb8-62">    }</span>
+<span id="cb8-63">  }</span>
+<span id="cb8-64">  df <span class="ot">&lt;-</span> df[, <span class="fu">sapply</span>(df, <span class="cf">function</span>(x) <span class="fu">length</span>(<span class="fu">unique</span>(<span class="fu">na.omit</span>(x))) <span class="sc">&gt;=</span> <span class="dv">2</span>), drop <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
+<span id="cb8-65">  </span>
+<span id="cb8-66">  dmy <span class="ot">&lt;-</span> caret<span class="sc">::</span><span class="fu">dummyVars</span>(<span class="st">"~ ."</span>, <span class="at">data =</span> df, <span class="at">fullRank =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb8-67">  df_dummy <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">predict</span>(dmy, <span class="at">newdata =</span> df))</span>
+<span id="cb8-68">  <span class="cf">if</span>(<span class="sc">!</span><span class="fu">is.null</span>(outcome_vec)) {</span>
+<span id="cb8-69">    df_dummy[[outcome]] <span class="ot">&lt;-</span> outcome_vec</span>
+<span id="cb8-70">  }</span>
+<span id="cb8-71">  <span class="fu">return</span>(df_dummy)</span>
+<span id="cb8-72">}</span>
+<span id="cb8-73"></span>
+<span id="cb8-74">align_columns <span class="ot">&lt;-</span> <span class="cf">function</span>(train_df, test_df, <span class="at">outcome =</span> <span class="st">"Returned"</span>) {</span>
+<span id="cb8-75">  train_predictors <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="fu">names</span>(train_df), outcome)</span>
+<span id="cb8-76">  test_predictors  <span class="ot">&lt;-</span> <span class="fu">names</span>(test_df)</span>
+<span id="cb8-77">  </span>
+<span id="cb8-78">  missing_in_test <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(train_predictors, test_predictors)</span>
+<span id="cb8-79">  <span class="cf">if</span>(<span class="fu">length</span>(missing_in_test) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb8-80">    <span class="cf">for</span>(col <span class="cf">in</span> missing_in_test) {</span>
+<span id="cb8-81">      test_df[[col]] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb8-82">    }</span>
+<span id="cb8-83">  }</span>
+<span id="cb8-84">  </span>
+<span id="cb8-85">  extra_in_test <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(test_predictors, train_predictors)</span>
+<span id="cb8-86">  <span class="cf">if</span>(<span class="fu">length</span>(extra_in_test) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb8-87">    test_df <span class="ot">&lt;-</span> test_df <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span><span class="fu">one_of</span>(extra_in_test))</span>
+<span id="cb8-88">  }</span>
+<span id="cb8-89">  </span>
+<span id="cb8-90">  test_df <span class="ot">&lt;-</span> test_df[, train_predictors, drop <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
+<span id="cb8-91">  <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">train =</span> train_df, <span class="at">test =</span> test_df))</span>
+<span id="cb8-92">}</span></code></pre></div>
+</div>
+</section>
+<section id="e.-creating-final-training-testing-sets" class="level2">
+<h2 class="anchored" data-anchor-id="e.-creating-final-training-testing-sets">E. Creating Final Training &amp; Testing Sets</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><span class="co"># A.5 -- Creating the Feature-Engineered Datasets</span></span>
+<span id="cb9-2"></span>
+<span id="cb9-3">train_path <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">"../../../assets/datasets"</span>, <span class="st">"customerReturnTrain.csv"</span>)</span>
+<span id="cb9-4">test_path  <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">"../../../assets/datasets"</span>, <span class="st">"customerReturnTest.csv"</span>)</span>
+<span id="cb9-5"></span>
+<span id="cb9-6">train_df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(train_path, <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb9-7">test_df  <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(test_path, <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb9-8"></span>
+<span id="cb9-9">train_with_feat <span class="ot">&lt;-</span> <span class="fu">build_features</span>(train_df) <span class="sc">%&gt;%</span> <span class="fu">remove_ids</span>()</span>
+<span id="cb9-10">test_with_feat  <span class="ot">&lt;-</span> <span class="fu">build_features</span>(test_df) <span class="sc">%&gt;%</span> <span class="fu">remove_ids</span>()</span>
+<span id="cb9-11"></span>
+<span id="cb9-12">train_with_feat_dummies <span class="ot">&lt;-</span> <span class="fu">make_dummies</span>(train_with_feat, <span class="at">outcome =</span> <span class="st">"Returned"</span>)</span>
+<span id="cb9-13">test_with_feat_dummies  <span class="ot">&lt;-</span> <span class="fu">make_dummies</span>(test_with_feat, <span class="at">outcome =</span> <span class="st">"Returned"</span>)</span>
+<span id="cb9-14"></span>
+<span id="cb9-15">aligned_with_feat  <span class="ot">&lt;-</span> <span class="fu">align_columns</span>(train_with_feat_dummies, test_with_feat_dummies, <span class="at">outcome =</span> <span class="st">"Returned"</span>)</span>
+<span id="cb9-16">train_with_feat_final <span class="ot">&lt;-</span> aligned_with_feat<span class="sc">$</span>train</span>
+<span id="cb9-17">test_with_feat_final  <span class="ot">&lt;-</span> aligned_with_feat<span class="sc">$</span>test</span>
+<span id="cb9-18"></span>
+<span id="cb9-19"><span class="fu">cat</span>(<span class="st">"WITH Features set dimensions:"</span>, <span class="fu">dim</span>(train_with_feat_final), <span class="fu">dim</span>(test_with_feat_final), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>WITH Features set dimensions: 64912 47 14809 46 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><span class="fu">cat</span>(<span class="st">"Outcome distribution (WITH Features):</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Outcome distribution (WITH Features):</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><span class="fu">print</span>(<span class="fu">table</span>(train_with_feat_final<span class="sc">$</span>Returned))</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+   No   Yes 
+42035 22877 </code></pre>
+</div>
+</div>
+</section>
+<section id="f.-modeling-random-forest-validation-and-metrics" class="level2">
+<h2 class="anchored" data-anchor-id="f.-modeling-random-forest-validation-and-metrics">F. Modeling (Random Forest), Validation, and Metrics</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><span class="co"># A.6 -- Random Forest Training and Validation</span></span>
+<span id="cb15-2"></span>
+<span id="cb15-3"><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb15-4">trainIndex_fe <span class="ot">&lt;-</span> caret<span class="sc">::</span><span class="fu">createDataPartition</span>(train_with_feat_final<span class="sc">$</span>Returned, <span class="at">p =</span> <span class="fl">0.8</span>, <span class="at">list =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb15-5">trainData_fe  <span class="ot">&lt;-</span> train_with_feat_final[trainIndex_fe, ]</span>
+<span id="cb15-6">valData_fe    <span class="ot">&lt;-</span> train_with_feat_final[<span class="sc">-</span>trainIndex_fe, ]</span>
+<span id="cb15-7"></span>
+<span id="cb15-8">ctrl <span class="ot">&lt;-</span> caret<span class="sc">::</span><span class="fu">trainControl</span>(</span>
+<span id="cb15-9">  <span class="at">method =</span> <span class="st">"repeatedcv"</span>,</span>
+<span id="cb15-10">  <span class="at">number =</span> <span class="dv">5</span>,</span>
+<span id="cb15-11">  <span class="at">repeats =</span> <span class="dv">3</span>,</span>
+<span id="cb15-12">  <span class="at">sampling =</span> <span class="st">"up"</span>,</span>
+<span id="cb15-13">  <span class="at">classProbs =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb15-14">  <span class="at">summaryFunction =</span> caret<span class="sc">::</span>twoClassSummary</span>
+<span id="cb15-15">)</span>
+<span id="cb15-16"></span>
+<span id="cb15-17">rf_model <span class="ot">&lt;-</span> caret<span class="sc">::</span><span class="fu">train</span>(</span>
+<span id="cb15-18">  Returned <span class="sc">~</span> .,</span>
+<span id="cb15-19">  <span class="at">data =</span> train_with_feat_final,</span>
+<span id="cb15-20">  <span class="at">method =</span> <span class="st">"rf"</span>,</span>
+<span id="cb15-21">  <span class="at">ntree =</span> <span class="dv">50</span>,</span>
+<span id="cb15-22">  <span class="at">tuneLength =</span> <span class="dv">3</span>,</span>
+<span id="cb15-23">  <span class="at">metric =</span> <span class="st">"ROC"</span>,</span>
+<span id="cb15-24">  <span class="at">trControl =</span> ctrl</span>
+<span id="cb15-25">)</span>
+<span id="cb15-26"><span class="fu">print</span>(rf_model)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Random Forest 
+
+64912 samples
+   46 predictor
+    2 classes: 'No', 'Yes' 
+
+No pre-processing
+Resampling: Cross-Validated (5 fold, repeated 3 times) 
+Summary of sample sizes: 51930, 51929, 51930, 51930, 51929, 51929, ... 
+Addtional sampling using up-sampling
+
+Resampling results across tuning parameters:
+
+  mtry  ROC        Sens       Spec     
+   2    0.5956602  0.4549542  0.6748552
+  24    0.6374951  0.7659649  0.4665528
+  46    0.6369169  0.7613972  0.4673836
+
+ROC was used to select the optimal model using the largest value.
+The final value used for the model was mtry = 24.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1">pred_probs_fe <span class="ot">&lt;-</span> <span class="fu">predict</span>(rf_model, <span class="at">newdata =</span> valData_fe, <span class="at">type =</span> <span class="st">"prob"</span>)[, <span class="st">"Yes"</span>]</span>
+<span id="cb17-2">pred_class_fe <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(pred_probs_fe <span class="sc">&gt;=</span> <span class="fl">0.5</span>, <span class="st">"Yes"</span>, <span class="st">"No"</span>)</span>
+<span id="cb17-3"></span>
+<span id="cb17-4">cm_fe <span class="ot">&lt;-</span> caret<span class="sc">::</span><span class="fu">confusionMatrix</span>(</span>
+<span id="cb17-5">  <span class="fu">factor</span>(pred_class_fe, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"No"</span>, <span class="st">"Yes"</span>)),</span>
+<span id="cb17-6">  valData_fe<span class="sc">$</span>Returned</span>
+<span id="cb17-7">)</span>
+<span id="cb17-8"><span class="fu">print</span>(cm_fe)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Confusion Matrix and Statistics
+
+          Reference
+Prediction   No  Yes
+       No  8202   87
+       Yes  205 4488
+                                        
+               Accuracy : 0.9775        
+                 95% CI : (0.9748, 0.98)
+    No Information Rate : 0.6476        
+    P-Value [Acc &gt; NIR] : &lt; 2.2e-16     
+                                        
+                  Kappa : 0.951         
+                                        
+ Mcnemar's Test P-Value : 7.546e-12     
+                                        
+            Sensitivity : 0.9756        
+            Specificity : 0.9810        
+         Pos Pred Value : 0.9895        
+         Neg Pred Value : 0.9563        
+             Prevalence : 0.6476        
+         Detection Rate : 0.6318        
+   Detection Prevalence : 0.6385        
+      Balanced Accuracy : 0.9783        
+                                        
+       'Positive' Class : No            
+                                        </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><span class="co"># A.7 -- Confusion Matrix Plot &amp; ROC</span></span>
+<span id="cb19-2">cm_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(cm_fe<span class="sc">$</span>table)</span>
+<span id="cb19-3"></span>
+<span id="cb19-4"><span class="co"># Plot Confusion Matrix</span></span>
+<span id="cb19-5">ConfMatPlot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(cm_df, <span class="fu">aes</span>(<span class="at">x =</span> Prediction, <span class="at">y =</span> Reference, <span class="at">fill =</span> Freq)) <span class="sc">+</span></span>
+<span id="cb19-6">  <span class="fu">geom_tile</span>(<span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb19-7">  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> Freq), <span class="at">size =</span> <span class="dv">5</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb19-8">  <span class="fu">scale_fill_gradient</span>(<span class="at">low =</span> <span class="st">"#D6EAF8"</span>, <span class="at">high =</span> <span class="st">"#154360"</span>) <span class="sc">+</span></span>
+<span id="cb19-9">  <span class="fu">labs</span>(</span>
+<span id="cb19-10">    <span class="at">title =</span> <span class="st">"Confusion Matrix"</span>,</span>
+<span id="cb19-11">    <span class="at">x =</span> <span class="st">"Predicted Class"</span>,</span>
+<span id="cb19-12">    <span class="at">y =</span> <span class="st">"Actual Class"</span></span>
+<span id="cb19-13">  ) <span class="sc">+</span></span>
+<span id="cb19-14">  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb19-15">  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">face =</span> <span class="st">"bold"</span>))</span>
+<span id="cb19-16"></span>
+<span id="cb19-17"><span class="fu">ggsave</span>(<span class="st">"ConfMatrixRF.png"</span>, <span class="at">plot =</span> ConfMatPlot, <span class="at">width =</span> <span class="dv">8</span>, <span class="at">height =</span> <span class="dv">6</span>)</span>
+<span id="cb19-18"></span>
+<span id="cb19-19"><span class="co"># ROC Curve</span></span>
+<span id="cb19-20">roc_obj <span class="ot">&lt;-</span> pROC<span class="sc">::</span><span class="fu">roc</span>(</span>
+<span id="cb19-21">  <span class="at">response  =</span> valData_fe<span class="sc">$</span>Returned,</span>
+<span id="cb19-22">  <span class="at">predictor =</span> pred_probs_fe,</span>
+<span id="cb19-23">  <span class="at">levels    =</span> <span class="fu">c</span>(<span class="st">"No"</span>, <span class="st">"Yes"</span>)</span>
+<span id="cb19-24">)</span>
+<span id="cb19-25"><span class="fu">plot</span>(roc_obj, <span class="at">col =</span> <span class="st">"#1B9E77"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">main =</span> <span class="st">"ROC Curve (Random Forest)"</span>)</span>
+<span id="cb19-26">auc_val <span class="ot">&lt;-</span> pROC<span class="sc">::</span><span class="fu">auc</span>(roc_obj)</span>
+<span id="cb19-27"><span class="fu">legend</span>(<span class="st">"bottomright"</span>, <span class="at">legend =</span> <span class="fu">sprintf</span>(<span class="st">"AUC = %.3f"</span>, auc_val), <span class="at">bty =</span> <span class="st">"n"</span>)</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="/figures/predicting-customer-returns-machine-learning/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><em>(The confusion matrix plot is also saved as <code>ConfMatrixRF.png</code>.)</em></p>
+<hr>
+</section>
+<section id="g.-final-test-predictions-interactive-table" class="level2">
+<h2 class="anchored" data-anchor-id="g.-final-test-predictions-interactive-table">G. Final Test Predictions &amp; Interactive Table</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><span class="co"># A.8 -- Final Test Predictions</span></span>
+<span id="cb20-2">pred_probs_test <span class="ot">&lt;-</span> <span class="fu">predict</span>(rf_model, <span class="at">newdata =</span> test_with_feat_final, <span class="at">type =</span> <span class="st">"prob"</span>)[, <span class="st">"Yes"</span>]</span>
+<span id="cb20-3">pred_class_test <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(pred_probs_test <span class="sc">&gt;=</span> <span class="fl">0.5</span>, <span class="st">"Yes"</span>, <span class="st">"No"</span>)</span>
+<span id="cb20-4"></span>
+<span id="cb20-5">test_df<span class="sc">$</span>Predicted_Return <span class="ot">&lt;-</span> pred_class_test</span>
+<span id="cb20-6"><span class="fu">head</span>(test_df)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                    ID                              OrderID
+1 a6f6ecd9-2c08-4363-baf7-b54adc35d486 ad944d45-a857-4156-ac31-6d0eeb8a4bb7
+2 e819be63-7a98-4e6d-b217-03f9ac8c1d03 cefde178-45a0-406f-becf-31c003430d6f
+3 8936a1c6-f5eb-4c78-9636-e693aae49d9f 24d7df06-80b2-416d-85e7-0ce8bd442b3f
+4 68b74b1d-deab-4d93-bfe8-859d450952ef 24d7df06-80b2-416d-85e7-0ce8bd442b3f
+5 657abc10-0b36-49df-b3ae-a1a6b9d1d145 086b01d2-8ab8-424d-8494-284cea56ae92
+6 233cb816-7565-46db-a82d-b638cfc0a22f 0006d57d-bfdb-4d6c-91e9-5c631dcb0172
+                            CustomerID  CustomerState CustomerBirthDate
+1 49d38db8-e5f6-45a6-bbc1-6c6ed1f0214d South Carolina        1976-10-21
+2 65d3e42c-158f-4104-8dd2-cd8d1379ecf1     California        1961-10-31
+3 5341a19e-27dd-42f9-8f8d-bbb76df99e71        Indiana        1953-11-03
+4 5341a19e-27dd-42f9-8f8d-bbb76df99e71        Indiana        1953-11-03
+5 9efd2c6d-fa30-442a-a99a-d5bb2f284bf6         Oregon        1966-01-10
+6 6e3ce858-0f62-4fd5-a960-91c536aad53f           Utah        1970-07-31
+   OrderDate ProductDepartment ProductSize ProductCost DiscountPct
+1 2021-01-01       Accessories           ~          19      0.2414
+2 2021-01-01              Mens           M          28      0.2771
+3 2021-01-01            Womens         XXL          21      0.2665
+4 2021-01-01            Womens         XXL          23      0.2305
+5 2021-01-01       Accessories           ~          13      0.2621
+6 2021-01-01              Mens           L          26      0.3081
+  PurchasePrice Returned Predicted_Return
+1         34.14     null               No
+2         73.74     null               No
+3         35.21     null               No
+4         70.79     null              Yes
+5         30.99     null               No
+6         51.89     null               No</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><span class="co"># Show an interactive DT table with 'Predicted_Return' first</span></span>
+<span id="cb22-2">test_df <span class="ot">&lt;-</span> test_df[, <span class="fu">c</span>(<span class="st">"Predicted_Return"</span>, <span class="fu">setdiff</span>(<span class="fu">names</span>(test_df), <span class="st">"Predicted_Return"</span>))]</span>
+<span id="cb22-3"></span>
+<span id="cb22-4">caption_text <span class="ot">&lt;-</span> htmltools<span class="sc">::</span>tags<span class="sc">$</span><span class="fu">caption</span>(</span>
+<span id="cb22-5">  <span class="at">style =</span> <span class="st">'caption-side: top; text-align: center; font-size: 16px; font-weight: bold; color: #2E86C1;'</span>,</span>
+<span id="cb22-6">  <span class="st">"Random Forest Model Performance (~97.8% Accuracy, Kappa ~0.95) | Test Dataset"</span></span>
+<span id="cb22-7">)</span>
+<span id="cb22-8"></span>
+<span id="cb22-9">DT<span class="sc">::</span><span class="fu">datatable</span>(</span>
+<span id="cb22-10">  test_df,</span>
+<span id="cb22-11">  <span class="at">filter =</span> <span class="st">"top"</span>,</span>
+<span id="cb22-12">  <span class="at">rownames =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb22-13">  <span class="at">caption =</span> caption_text,</span>
+<span id="cb22-14">  <span class="at">extensions =</span> <span class="st">'Buttons'</span>,</span>
+<span id="cb22-15">  <span class="at">options =</span> <span class="fu">list</span>(</span>
+<span id="cb22-16">    <span class="at">dom =</span> <span class="st">'Blfrtip'</span>,</span>
+<span id="cb22-17">    <span class="at">buttons =</span> <span class="fu">c</span>(<span class="st">'copy'</span>, <span class="st">'csv'</span>, <span class="st">'excel'</span>, <span class="st">'pdf'</span>, <span class="st">'print'</span>),</span>
+<span id="cb22-18">    <span class="at">pageLength =</span> <span class="dv">10</span>,</span>
+<span id="cb22-19">    <span class="at">autoWidth =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb22-20">    <span class="at">initComplete =</span> <span class="fu">JS</span>(</span>
+<span id="cb22-21">      <span class="st">"function(settings, json) {"</span>,</span>
+<span id="cb22-22">      <span class="st">"$(this.api().table().header()).css({'background-color': '#4CAF50','color': '#fff','font-size': '14px'});"</span>,</span>
+<span id="cb22-23">      <span class="st">"}"</span></span>
+<span id="cb22-24">    )</span>
+<span id="cb22-25">  )</span>
+<span id="cb22-26">) <span class="sc">%&gt;%</span></span>
+<span id="cb22-27">  <span class="fu">formatStyle</span>(</span>
+<span id="cb22-28">    <span class="at">columns =</span> <span class="fu">names</span>(test_df),</span>
+<span id="cb22-29">    <span class="at">fontSize =</span> <span class="st">'12px'</span>,</span>
+<span id="cb22-30">    <span class="at">color =</span> <span class="st">'#333'</span>,</span>
+<span id="cb22-31">    <span class="at">backgroundColor =</span> <span class="fu">styleInterval</span>(<span class="dv">0</span>, <span class="fu">c</span>(<span class="st">'white'</span>, <span class="st">'#F8F8F8'</span>))</span>
+<span id="cb22-32">  ) <span class="sc">%&gt;%</span></span>
+<span id="cb22-33">  <span class="fu">formatStyle</span>(</span>
+<span id="cb22-34">    <span class="st">"Predicted_Return"</span>,</span>
+<span id="cb22-35">    <span class="at">backgroundColor =</span> <span class="fu">styleEqual</span>(<span class="fu">c</span>(<span class="st">"Yes"</span>, <span class="st">"No"</span>), <span class="fu">c</span>(<span class="st">"#c6efce"</span>, <span class="st">"#ffc7ce"</span>)),</span>
+<span id="cb22-36">    <span class="at">fontWeight =</span> <span class="st">"bold"</span></span>
+<span id="cb22-37">  )</span></code></pre></div>
+<div class="cell-output-display">
+
+<aside class="article-notice my-6 p-4 rounded-lg border border-rule bg-surface-soft">
+  <p class="text-sm text-muted m-0">
+    <strong class="text-ink">Interactive widget omitted.</strong>
+    An interactive DataTables/reactable widget appeared here in the
+    original render. The runtime that powered it isn't loaded in this
+    static archive, so it's been removed from the page (the embedded
+    payload added ~2.5 MB to load time). The code that produced it is
+    above; the underlying numbers are in the discussion that follows.
+  </p>
+</aside>
+
+</div>
+</div>
+
+
+<!-- -->
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-R-Matrix" class="csl-entry" role="listitem">
+Bates, Douglas, Martin Maechler, and Mikael Jagan. 2024. <em>Matrix: Sparse and Dense Matrix Classes and Methods</em>. <a href="https://Matrix.R-forge.R-project.org">https://Matrix.R-forge.R-project.org</a>.
+</div>
+<div id="ref-R-glmnet" class="csl-entry" role="listitem">
+Friedman, Jerome, Trevor Hastie, Rob Tibshirani, Balasubramanian Narasimhan, Kenneth Tay, Noah Simon, and James Yang. 2023. <em>Glmnet: Lasso and Elastic-Net Regularized Generalized Linear Models</em>. <a href="https://glmnet.stanford.edu">https://glmnet.stanford.edu</a>.
+</div>
+<div id="ref-glmnet2010" class="csl-entry" role="listitem">
+Friedman, Jerome, Robert Tibshirani, and Trevor Hastie. 2010. <span>“Regularization Paths for Generalized Linear Models via Coordinate Descent.”</span> <em>Journal of Statistical Software</em> 33 (1): 1–22. <a href="https://doi.org/10.18637/jss.v033.i01">https://doi.org/10.18637/jss.v033.i01</a>.
+</div>
+<div id="ref-lubridate2011" class="csl-entry" role="listitem">
+Grolemund, Garrett, and Hadley Wickham. 2011. <span>“Dates and Times Made Easy with <span class="nocase">lubridate</span>.”</span> <em>Journal of Statistical Software</em> 40 (3): 1–25. <a href="https://www.jstatsoft.org/v40/i03/">https://www.jstatsoft.org/v40/i03/</a>.
+</div>
+<div id="ref-R-caret" class="csl-entry" role="listitem">
+Kuhn, Max. 2023. <em>Caret: Classification and Regression Training</em>. <a href="https://github.com/topepo/caret/">https://github.com/topepo/caret/</a>.
+</div>
+<div id="ref-caret2008" class="csl-entry" role="listitem">
+Kuhn, and Max. 2008. <span>“Building Predictive Models in r Using the Caret Package.”</span> <em>Journal of Statistical Software</em> 28 (5): 1–26. <a href="https://doi.org/10.18637/jss.v028.i05">https://doi.org/10.18637/jss.v028.i05</a>.
+</div>
+<div id="ref-R-tibble" class="csl-entry" role="listitem">
+Müller, Kirill, and Hadley Wickham. 2023. <em>Tibble: Simple Data Frames</em>. <a href="https://tibble.tidyverse.org/">https://tibble.tidyverse.org/</a>.
+</div>
+<div id="ref-lattice2008" class="csl-entry" role="listitem">
+Sarkar, Deepayan. 2008. <em>Lattice: Multivariate Data Visualization with r</em>. New York: Springer. <a href="http://lmdvr.r-forge.r-project.org">http://lmdvr.r-forge.r-project.org</a>.
+</div>
+<div id="ref-R-lattice" class="csl-entry" role="listitem">
+———. 2023. <em>Lattice: Trellis Graphics for r</em>. <a href="https://lattice.r-forge.r-project.org/">https://lattice.r-forge.r-project.org/</a>.
+</div>
+<div id="ref-glmnet2011" class="csl-entry" role="listitem">
+Simon, Noah, Jerome Friedman, Robert Tibshirani, and Trevor Hastie. 2011. <span>“Regularization Paths for Cox’s Proportional Hazards Model via Coordinate Descent.”</span> <em>Journal of Statistical Software</em> 39 (5): 1–13. <a href="https://doi.org/10.18637/jss.v039.i05">https://doi.org/10.18637/jss.v039.i05</a>.
+</div>
+<div id="ref-R-lubridate" class="csl-entry" role="listitem">
+Spinu, Vitalie, Garrett Grolemund, and Hadley Wickham. 2023. <em>Lubridate: Make Dealing with Dates a Little Easier</em>. <a href="https://lubridate.tidyverse.org">https://lubridate.tidyverse.org</a>.
+</div>
+<div id="ref-glmnet2023" class="csl-entry" role="listitem">
+Tay, J. Kenneth, Balasubramanian Narasimhan, and Trevor Hastie. 2023. <span>“Elastic Net Regularization Paths for All Generalized Linear Models.”</span> <em>Journal of Statistical Software</em> 106 (1): 1–31. <a href="https://doi.org/10.18637/jss.v106.i01">https://doi.org/10.18637/jss.v106.i01</a>.
+</div>
+<div id="ref-ggplot22016" class="csl-entry" role="listitem">
+Wickham, Hadley. 2016. <em>Ggplot2: Elegant Graphics for Data Analysis</em>. Springer-Verlag New York. <a href="https://ggplot2.tidyverse.org">https://ggplot2.tidyverse.org</a>.
+</div>
+<div id="ref-R-forcats" class="csl-entry" role="listitem">
+———. 2023a. <em>Forcats: Tools for Working with Categorical Variables (Factors)</em>. <a href="https://forcats.tidyverse.org/">https://forcats.tidyverse.org/</a>.
+</div>
+<div id="ref-R-stringr" class="csl-entry" role="listitem">
+———. 2023b. <em>Stringr: Simple, Consistent Wrappers for Common String Operations</em>. <a href="https://stringr.tidyverse.org">https://stringr.tidyverse.org</a>.
+</div>
+<div id="ref-R-tidyverse" class="csl-entry" role="listitem">
+———. 2023c. <em>Tidyverse: Easily Install and Load the Tidyverse</em>. <a href="https://tidyverse.tidyverse.org">https://tidyverse.tidyverse.org</a>.
+</div>
+<div id="ref-tidyverse2019" class="csl-entry" role="listitem">
+Wickham, Hadley, Mara Averick, Jennifer Bryan, Winston Chang, Lucy D’Agostino McGowan, Romain François, Garrett Grolemund, et al. 2019. <span>“Welcome to the <span class="nocase">tidyverse</span>.”</span> <em>Journal of Open Source Software</em> 4 (43): 1686. <a href="https://doi.org/10.21105/joss.01686">https://doi.org/10.21105/joss.01686</a>.
+</div>
+<div id="ref-R-ggplot2" class="csl-entry" role="listitem">
+Wickham, Hadley, Winston Chang, Lionel Henry, Thomas Lin Pedersen, Kohske Takahashi, Claus Wilke, Kara Woo, Hiroaki Yutani, Dewey Dunnington, and Teun van den Brand. 2024. <em>Ggplot2: Create Elegant Data Visualisations Using the Grammar of Graphics</em>. <a href="https://ggplot2.tidyverse.org">https://ggplot2.tidyverse.org</a>.
+</div>
+<div id="ref-R-dplyr" class="csl-entry" role="listitem">
+Wickham, Hadley, Romain François, Lionel Henry, Kirill Müller, and Davis Vaughan. 2023. <em>Dplyr: A Grammar of Data Manipulation</em>. <a href="https://dplyr.tidyverse.org">https://dplyr.tidyverse.org</a>.
+</div>
+<div id="ref-R-purrr" class="csl-entry" role="listitem">
+Wickham, Hadley, and Lionel Henry. 2023. <em>Purrr: Functional Programming Tools</em>. <a href="https://purrr.tidyverse.org/">https://purrr.tidyverse.org/</a>.
+</div>
+<div id="ref-R-readr" class="csl-entry" role="listitem">
+Wickham, Hadley, Jim Hester, and Jennifer Bryan. 2024. <em>Readr: Read Rectangular Text Data</em>. <a href="https://readr.tidyverse.org">https://readr.tidyverse.org</a>.
+</div>
+<div id="ref-R-tidyr" class="csl-entry" role="listitem">
+Wickham, Hadley, Davis Vaughan, and Maximilian Girlich. 2024. <em>Tidyr: Tidy Messy Data</em>. <a href="https://tidyr.tidyverse.org">https://tidyr.tidyverse.org</a>.
+</div>
+</div></section></div>

@@ -1,0 +1,129 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Section from '@components/Section.astro';
+import Button from '@components/Button.astro';
+import SchoolBanner from '@components/SchoolBanner.astro';
+
+// Education banners. Colors taken from each school's brand palette.
+// Ordered most-recent first so it reads top-to-bottom as a timeline.
+const schools = [
+  {
+    school: 'Oregon State University',
+    degree: 'M.S. Statistics',
+    years: '2022 – 2024',
+    href: 'https://stat.oregonstate.edu/',
+    hrefLabel: 'Department of Statistics',
+    color: '#DC4405',  // Beaver Orange
+    accent: '#FFFFFF',
+    align: 'left' as const,
+    description:
+      'Bayesian methods, experimental design, and applied multivariate modeling. ' +
+      'Taught undergraduate sections and modernized the department\'s data-' +
+      'visualization curriculum with Quarto, webR, and reproducible Shiny labs.',
+  },
+  {
+    school: 'Willamette University',
+    degree: 'M.S. Data Science',
+    years: '2021 – 2022',
+    href: 'https://willamette.edu/academics/computing/data-science/',
+    hrefLabel: 'Data Science program',
+    color: '#A6093D',  // Willamette Cardinal
+    accent: '#E1A03F', // Old Gold
+    align: 'right' as const,
+    description:
+      'Machine learning, predictive modeling, and reproducible analytics ' +
+      'workflows. Team capstones on real datasets across retail, census, and ' +
+      'healthcare gave the program its applied edge.',
+  },
+  {
+    school: 'Linfield University',
+    degree: 'B.S. Mathematics',
+    years: '2016 – 2020',
+    href: 'https://www.linfield.edu/',
+    hrefLabel: 'Visit Linfield',
+    color: '#4B0082',  // Linfield Wildcat purple
+    accent: '#FFFFFF',
+    align: 'left' as const,
+    description:
+      'Calculus, linear algebra, probability, and the analytical foundations ' +
+      'everything else sits on. First exposure to statistical computing and ' +
+      'the habits of careful proof.',
+  },
+];
+---
+<BaseLayout title="About">
+  <div class="ed">
+
+    <section class="pt-24 pb-12 lg:pt-28 lg:pb-16">
+      <div class="max-w-wrap mx-auto px-6">
+        <div class="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-12 lg:gap-16 items-center">
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted m-0 mb-5">About</p>
+            <h1 class="font-serif font-semibold text-ink text-5xl md:text-7xl tracking-tight leading-[1.04] m-0 mb-6">
+              Brian Cervantes Alvarez.
+            </h1>
+            <p class="text-lede text-body max-w-[60ch] m-0 mb-9">
+              Statistician and data scientist. I run Epsilon Labs as an
+              independent statistical-consulting practice serving teams
+              that need careful analysis, defensible models, and analytics
+              tools they can keep using.
+            </p>
+            <div class="flex flex-wrap gap-3">
+              <Button href="mailto:briancervantesalvarez@gmail.com">Email me</Button>
+              <Button href="https://linkedin.com/in/bcervantesalvarez" target="_blank" rel="noreferrer" variant="ghost">LinkedIn</Button>
+              <Button href="/resume" variant="ghost">Resume</Button>
+              <Button href="/documents/resume/bca-resume.pdf" target="_blank" rel="noreferrer" variant="ghost">CV (PDF)</Button>
+            </div>
+          </div>
+          <img
+            src="/images/profile.jpg"
+            alt="Brian Cervantes Alvarez"
+            loading="eager"
+            class="justify-self-center lg:justify-self-end w-56 h-56 lg:w-72 lg:h-72 rounded-full object-cover [object-position:50%_25%] border border-rule-strong"
+          />
+        </div>
+      </div>
+    </section>
+
+    <Section eyebrow="Practice" title="How I work." first>
+      <div class="max-w-prose">
+        <p class="text-body m-0 mb-4">
+          Most analytics work is judged by how it reads. I build mine to
+          be judged by how well it holds up under audit, replication, and
+          a critical reader. Assumptions are documented. Models are
+          validated the right way. Code is handed off in a form your team
+          can actually rerun.
+        </p>
+        <p class="text-body m-0">
+          Engagements are bounded — project-based or short retainer — and
+          every one starts with a scoping conversation and a written
+          proposal. Nothing gets billed without a deliverable behind it.
+        </p>
+      </div>
+    </Section>
+
+    <!-- Where I trained — alternating school banners -->
+    <Section eyebrow="Where I trained" title="Three degrees, one statistical career.">
+      <div class="flex flex-col gap-6">
+        {schools.map(s => <SchoolBanner {...s} />)}
+      </div>
+      <p class="text-sm text-muted mt-8 m-0 max-w-prose">
+        The full coursework list, advisors, and teaching record is on
+        the <a href="/resume" class="text-accent hover:text-ink">resume</a>.
+      </p>
+    </Section>
+
+    <Section eyebrow="Independence" title="A note on conflicts.">
+      <div class="max-w-prose">
+        <p class="text-body m-0">
+          I'm currently employed as a Business Intelligence Analyst at the
+          Oregon Department of Education. Epsilon Labs is operated
+          independently of that role. I do not accept engagements that
+          conflict with my day-job responsibilities, and I decline work
+          that touches the same data systems or stakeholders.
+        </p>
+      </div>
+    </Section>
+
+  </div>
+</BaseLayout>

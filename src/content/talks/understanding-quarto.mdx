@@ -1,0 +1,18 @@
+---
+title: 'Quarto 101'
+description: 'An introduction to Quarto as the modern reproducible publishing system — and why it belongs in your toolkit.'
+date: 2023-11-14
+tag: 'Quarto'
+image: '/images/quartologo.jpeg'
+status: 'active'
+venue: 'Department seminar'
+---
+
+import Overview from "@components/Overview.astro";
+import body from "./understanding-quarto.body.html?raw";
+
+<Overview>
+  Quarto is the modern successor to RMarkdown. This talk introduces what it is, why it earned the upgrade, and how it fits into a data professional's publishing workflow.
+</Overview>
+
+<article class="article-body" set:html={body}></article>
