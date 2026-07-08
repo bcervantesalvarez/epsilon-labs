@@ -8,7 +8,7 @@
 // to SSR, and fails on the native resvg binary.
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "epsilon-labs",
+  "name": "epsilon-labs-website",
   "compatibility_date": "2026-07-07",
   "assets": {
     "directory": "./dist",
