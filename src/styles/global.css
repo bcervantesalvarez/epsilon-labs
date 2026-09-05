@@ -19,17 +19,17 @@
      `color-mix(in srgb, var(--color-x) N%, transparent)` for alpha.
      Never wrap a token in rgb(...) — rgb(rgb(...)) is invalid CSS and
      the browser silently drops the whole declaration. */
-  --color-bg:            rgb(251 250 247);
+  --color-bg:            rgb(248 245 237);
   --color-surface:       rgb(255 255 255);
-  --color-surface-soft:  rgb(243 240 234);
+  --color-surface-soft:  rgb(237 232 221);
   --color-ink:           rgb(15  17  21);
   --color-body:          rgb(58  61  68);
   /* ≥4.5:1 on both --color-bg and --color-surface-soft (WCAG 2.2 AA) */
   --color-muted:         rgb(95  97 103);
   --color-rule:          rgb(230 227 221);
   --color-rule-strong:   rgb(200 197 190);
-  --color-accent:        rgb(27  58 107);
-  --color-accent-ink:    rgb(12  30  58);
+  --color-accent:        rgb(155 55 29);
+  --color-accent-ink:    rgb(123 39 19);
   --color-status:        rgb(13 110  68);
   --color-danger:        rgb(162  58  46);
 
@@ -43,7 +43,7 @@
   --text-lede: 1.25rem;
   --text-lede--line-height: 1.55;
   /* Fluid display scale for the landing hero + section titles */
-  --text-display: clamp(2.9rem, 5.2vw + 1rem, 5.5rem);
+  --text-display: clamp(3.5rem, 6.2vw + 1rem, 7rem);
   --text-display--line-height: 1.02;
   --text-display--letter-spacing: -0.03em;
   --text-title: clamp(2.1rem, 2.6vw + 1rem, 3.4rem);
@@ -157,8 +157,8 @@
   --color-muted:         rgb(140 142 149);
   --color-rule:          rgb(42  46  54);
   --color-rule-strong:   rgb(58  63  72);
-  --color-accent:        rgb(122 165 214);
-  --color-accent-ink:    rgb(185 209 235);
+  --color-accent:        rgb(244 169 126);
+  --color-accent-ink:    rgb(255 197 156);
   --color-status:        rgb(63  184 122);
   --color-danger:        rgb(217 122 111);
 }
@@ -186,9 +186,8 @@
 
    .tone-dark re-declares the palette tokens locally, so every
    existing utility (bg-surface, text-ink, border-rule, …) simply
-   works inside a dark band. Values sit a step DEEPER than the dark
-   theme so the band still reads as a distinct surface when the
-   whole site is in dark mode.
+   works inside a dark band. The light-theme contrast band is deep ink. The dark-theme
+   override below switches the complete band palette to warm paper.
    ────────────────────────────────────────────────────────────────── */
 .tone-dark {
   --color-bg:            rgb(9  11  15);
@@ -199,8 +198,8 @@
   --color-muted:         rgb(145 148 156);
   --color-rule:          rgb(38  42  50);
   --color-rule-strong:   rgb(58  63  72);
-  --color-accent:        rgb(139 176 220);
-  --color-accent-ink:    rgb(185 209 235);
+  --color-accent:        rgb(244 169 126);
+  --color-accent-ink:    rgb(255 197 156);
   --color-status:        rgb(74  196 133);
   --color-danger:        rgb(224 130 118);
   color-scheme: dark;
@@ -391,7 +390,7 @@
     -webkit-mask-composite: xor;
             mask-composite: exclude;
     pointer-events: none;
-    animation: el-glow-rotate 5s linear infinite;
+    animation: el-glow-rotate 4s linear 1;
     z-index: -1;
   }
   /* A soft outer halo that pulses gently in sync */
@@ -409,7 +408,7 @@
     );
     filter: blur(10px);
     pointer-events: none;
-    animation: el-glow-rotate 5s linear infinite;
+    animation: el-glow-rotate 4s linear 1;
     z-index: -2;
     opacity: 0.65;
   }
@@ -645,4 +644,70 @@ html.iframe-presenting body {
   margin: 1.25rem 0;
   overflow-x: auto;
   overflow-y: hidden;
+}
+
+/* Editorial design: shared geometry, contrast, and finite motion. */
+:root { --el-ease: cubic-bezier(.22, 1, .36, 1); }
+html { scroll-padding-top: 6rem; }
+h1, h2, h3 { text-wrap: balance; }
+.hero-editorial { border-bottom: 1px solid var(--color-rule-strong); }
+.hero-editorial h1 { letter-spacing: -.055em; line-height: .98; }
+.hero-editorial h1 em { font-weight: 400; }
+.hero-portrait { aspect-ratio: 6 / 7; max-height: 410px; object-position: center 30%; filter: saturate(.7); }
+.hero-profile .status-glow { margin: 1.2rem 0 0; padding: 0; border: 0; border-radius: 0; background: transparent; gap: .8rem; }
+.hero-profile .status-glow::before, .hero-profile .status-glow::after { display: none; }
+.hero-profile .status-glow > span:first-child { width: 3rem; height: 3rem; border-radius: 2px; }
+.hero-profile .status-glow strong { font-family: var(--font-sans); font-size: .9rem; }
+.hero-profile .status-glow span span { font-size: .7rem; }
+.hero-availability { max-width: 100%; }
+.chapter-label > span { color: var(--color-accent); }
+.chapter-label { padding-top: .5rem; }
+.landing-chapter { border-bottom: 1px solid var(--color-rule); }
+.landing-chapter .rounded-2xl { border-radius: 3px; }
+.chapter-title h2 { font-weight: 400; letter-spacing: -.035em; }
+.project-card { border-radius: 3px; transition: transform .45s var(--el-ease), border-color .25s, box-shadow .45s; }
+.project-card:hover, .project-card:focus-visible { transform: translateY(-5px); box-shadow: 0 18px 40px -28px var(--color-ink); }
+.el-button { min-height: 46px; transition: transform .3s var(--el-ease), background-color .25s, color .25s; }
+.el-button:hover { transform: translateY(-2px); }
+#site-header button { min-width: 44px; min-height: 44px; }
+#site-header nav > a { margin-right: auto; }
+@media (min-width: 1024px) {
+  .chapter-heading { display: grid; grid-template-columns: 1fr 3fr; column-gap: 3rem; }
+  .chapter-label { grid-column: 1; grid-row: 1 / 3; align-items: flex-start; }
+  .chapter-title, .chapter-intro { grid-column: 2; }
+}
+@media (max-width: 767px) {
+  #site-header > nav { gap: .25rem; padding: .75rem 1.25rem; }
+  .hero-profile { max-width: 28rem; }
+  .hero-portrait { max-height: 320px; }
+}
+/* Contrast bands deliberately invert with the selected theme. Every
+   local token changes together, including borders and interactive states. */
+[data-theme="dark"] .tone-dark {
+  --color-bg: rgb(237 232 221);
+  --color-surface: rgb(248 245 237);
+  --color-surface-soft: rgb(225 219 205);
+  --color-ink: rgb(20 23 27);
+  --color-body: rgb(55 58 61);
+  --color-muted: rgb(86 88 91);
+  --color-rule: rgb(201 195 181);
+  --color-rule-strong: rgb(160 154 140);
+  --color-accent: rgb(155 55 29);
+  --color-accent-ink: rgb(123 39 19);
+  --color-status: rgb(13 110 68);
+  --color-danger: rgb(162 58 46);
+  color-scheme: light;
+}
+/* Embedded HTML inherits the host palette. Remote applications retain
+   their own styles; never invert charts, photos, or institutional marks. */
+.article-body table, .article-body pre, .article-body blockquote {
+  color: var(--color-body); background-color: var(--color-surface);
+  border-color: var(--color-rule-strong);
+}
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  .project-card:hover, .project-card:focus-visible, .el-button:hover { transform: none; }
 }

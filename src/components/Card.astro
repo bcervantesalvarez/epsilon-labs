@@ -20,7 +20,7 @@ const rel = external ? 'noreferrer' : undefined;
   href={href}
   target={target}
   rel={rel}
-  class="group flex flex-col h-full bg-surface border border-rule rounded-xl overflow-hidden no-underline transition-colors hover:border-ink"
+  class="project-card group flex flex-col h-full bg-surface border border-rule overflow-hidden no-underline hover:border-ink"
 >
   {image && (
     <div class="aspect-[16/10] bg-surface-soft border-b border-rule overflow-hidden">
@@ -38,7 +38,7 @@ const rel = external ? 'noreferrer' : undefined;
         {tag}
       </p>
     )}
-    <h3 class="font-sans font-bold text-ink text-lg leading-snug mt-0 mb-2">
+    <h3 class="font-serif font-semibold text-ink text-2xl leading-snug mt-0 mb-2">
       {title}
     </h3>
     {description && (

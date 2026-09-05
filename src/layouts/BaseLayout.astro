@@ -127,40 +127,50 @@ const resolvedOg = ogImage ?? `/og/${ogPath ?? 'default'}.png`;
     ],
   })} />
 
-  <!-- Set theme before paint to avoid flash. Re-applied after every
-       ClientRouter swap: the router replaces <html> attributes with
-       the incoming page's, which would otherwise reset the theme. -->
+  <!-- One controller owns theme state, including storage-unavailable sessions. -->
   <script is:inline>
     (function () {
+      const preference = window.matchMedia('(prefers-color-scheme: dark)');
+      let selected = null;
+      try {
+        const saved = localStorage.getItem('theme');
+        if (saved === 'light' || saved === 'dark') selected = saved;
+      } catch (_) {}
       function applyTheme() {
-        try {
-          const stored = localStorage.getItem('theme');
-          const prefers = window.matchMedia('(prefers-color-scheme: dark)').matches
-            ? 'dark' : 'light';
-          const theme = stored || prefers;
-          // Only write when different — the MutationObserver below
-          // watches this attribute, and an unconditional write would
-          // retrigger it forever.
-          if (document.documentElement.getAttribute('data-theme') !== theme) {
-            document.documentElement.setAttribute('data-theme', theme);
-          }
-          const meta = document.querySelector('meta[name="theme-color"]');
-          if (meta) {
-            // The header takes .tone-dark while overlapping a dark band
-            // (see Navbar.astro) — mobile chrome should match that, not
-            // the base theme, whenever it's active.
-            const overDark = document.getElementById('site-header')?.classList.contains('tone-dark');
-            meta.setAttribute('content', overDark || theme === 'dark' ? '#090b0f' : '#fbfaf7');
-          }
-        } catch (e) { /* no-op */ }
+        const theme = selected || (preference.matches ? 'dark' : 'light');
+        document.documentElement.dataset.theme = theme;
+        const toggle = document.getElementById('theme-toggle');
+        if (toggle) toggle.setAttribute('aria-pressed', String(theme === 'dark'));
+        document.querySelectorAll('iframe').forEach(function (frame) {
+          try {
+            const doc = frame.contentDocument;
+            if (doc) {
+              doc.documentElement.dataset.theme = theme;
+              doc.documentElement.style.colorScheme = theme;
+            }
+          } catch (_) { /* Remote applications own their theme. */ }
+        });
+        document.dispatchEvent(new Event('theme:applied'));
       }
-      applyTheme();
-      document.addEventListener('astro:after-swap', applyTheme);
-      // The navbar toggle only flips the attribute — mirror changes
-      // into the theme-color meta as well.
-      new MutationObserver(applyTheme).observe(document.documentElement, {
-        attributes: true, attributeFilter: ['data-theme'],
+      document.addEventListener('theme:select', function (event) {
+        if (event.detail !== 'light' && event.detail !== 'dark') return;
+        selected = event.detail;
+        try { localStorage.setItem('theme', selected); } catch (_) {}
+        applyTheme();
       });
+      window.addEventListener('storage', function (event) {
+        if (event.key !== 'theme' && event.key !== null) return;
+        selected = event.newValue === 'light' || event.newValue === 'dark' ? event.newValue : null;
+        applyTheme();
+      });
+      preference.addEventListener('change', applyTheme);
+      document.addEventListener('astro:after-swap', applyTheme);
+      document.addEventListener('astro:page-load', applyTheme);
+      document.addEventListener('DOMContentLoaded', applyTheme);
+      document.addEventListener('load', function (event) {
+        if (event.target instanceof HTMLIFrameElement) applyTheme();
+      }, true);
+      applyTheme();
     })();
   </script>
 

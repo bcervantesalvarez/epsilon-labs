@@ -113,3 +113,30 @@ should follow when editing this repo.
 *Transparency note: this Astro rewrite was built by **Claude** —
 Anthropic's Claude Code agent, running its latest-generation frontier
 model with extended thinking mode enabled.*
+
+
+## September 2026 visual redesign
+
+The home page uses oversized editorial typography, a portrait-led split layout,
+warmer accents, and fewer boxed panels. Shared buttons and project cards use
+consistent geometry and restrained motion. Contrast bands invert as a complete
+palette with the selected theme; institutional logos and photographs retain
+their original colors.
+
+A single theme controller preserves explicit selections across navigation,
+works without browser storage, follows system changes until a selection is made,
+and synchronizes other tabs. The keyboard-operable Dark theme button exposes
+its pressed state. Reduced motion disables animations and smooth scrolling.
+Imported project HTML inherits the site palette. Cross-origin Shiny applications
+and published slide decks own their internal appearance; their host frames adapt,
+but changing those applications requires changes in their source projects.
+
+Validation: `npm run check`, `npm run build`, and
+`node --test tests/theme.test.mjs`. Preview with `npm run preview` after building.
+Production deployment remains a separate, explicitly approved step.
+
+AI contribution: Codex generated the redesign, theme fixes, and regression tests
+using Brian's existing site content and assets. Model/version: unknown (metadata
+unavailable). Reasoning effort: unknown (metadata unavailable). No human signoff
+is recorded for this revision. The earlier Astro rewrite attribution above is
+retained from the existing repository and was not independently verified.

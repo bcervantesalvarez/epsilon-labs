@@ -203,15 +203,9 @@ const shelves = [
   <section
     id="top"
     aria-labelledby="hero-title"
-    class="tone-dark grain hero-mesh pt-24 pb-20 lg:pt-32 lg:pb-28"
+    class="tone-dark hero-editorial py-16 lg:py-24"
   >
     <div class="max-w-wrap mx-auto px-6">
-      <StatusBanner
-        href="https://www.oregon.gov/ode/"
-        org="Oregon Department of Education"
-        role="Business Intelligence Analyst · Since Dec 8, 2025"
-      />
-
       <div class="flex items-baseline gap-4 m-0 mb-6 animate-el-rise [animation-delay:160ms]">
         <span class="font-mono text-xs font-semibold text-muted tracking-[0.18em]" aria-hidden="true">01</span>
         <p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted m-0">
@@ -219,8 +213,10 @@ const shelves = [
         </p>
       </div>
 
-      <h1 id="hero-title" class="font-serif font-semibold text-ink text-display m-0 mb-7 max-w-[16ch] animate-el-rise [animation-delay:260ms]">
-        Data into decisions you can defend.
+      <div class="grid lg:grid-cols-[1.65fr_1fr] gap-12 lg:gap-16 items-end">
+      <div>
+      <h1 id="hero-title" class="font-serif font-normal text-ink text-display m-0 mb-7 animate-el-rise [animation-delay:100ms]">
+        Data into<br />decisions<br /><em class="text-accent">you can defend.</em>
       </h1>
 
       <p class="text-lede text-body max-w-[58ch] m-0 mb-10 animate-el-rise [animation-delay:380ms]">
@@ -235,15 +231,23 @@ const shelves = [
         <Button href="#what" variant="ghost">Start with the basics</Button>
       </div>
 
-      <div class="inline-flex flex-wrap items-center gap-3 px-4 py-3 bg-surface/70 border border-rule rounded-2xl animate-el-rise [animation-delay:560ms]">
-        <img
-          src="/images/profile2.jpg"
-          alt=""
-          width="36"
-          height="36"
-          loading="eager"
-          class="w-9 h-9 rounded-full object-cover border border-rule-strong"
+      </div>
+      <aside class="hero-profile animate-el-rise [animation-delay:240ms]" aria-label="About the practice">
+        <figure class="m-0">
+          <img src="/images/profile2.jpg" alt="Brian Cervantes Alvarez" width="480" height="560" fetchpriority="high" class="hero-portrait w-full object-cover" />
+          <figcaption class="flex justify-between gap-4 py-4 border-b border-rule text-xs">
+            <span class="font-semibold text-ink">Brian Cervantes Alvarez</span>
+            <span class="text-muted">Statistician / Builder</span>
+          </figcaption>
+        </figure>
+        <StatusBanner
+          href="https://www.oregon.gov/ode/"
+          org="Oregon Department of Education"
+          role="Business Intelligence Analyst · Since Dec 8, 2025"
         />
+      </aside>
+      </div>
+      <div class="hero-availability border-t border-rule pt-6 mt-10 animate-el-rise [animation-delay:560ms]">
         <p class="text-sm text-body m-0">
           <span class="font-semibold text-ink">Contract work: currently unavailable</span>
           <span class="text-muted"> — paused while I serve at ODE. Community questions are always welcome.</span>
@@ -262,7 +266,7 @@ const shelves = [
   >
     <ol class="grid grid-cols-1 md:grid-cols-3 gap-6 list-none m-0 p-0" data-stagger>
       {pipeline.map((p, i) => (
-        <li class="relative bg-surface border border-rule rounded-2xl p-7 m-0 transition-all duration-300 hover:-translate-y-1 hover:border-rule-strong hover:shadow-[0_20px_50px_-30px_color-mix(in_srgb,var(--color-ink)_35%,transparent)]">
+        <li class="relative border-t border-rule-strong pt-7 pb-4 m-0">
           <span class="font-mono text-xs font-semibold text-muted tracking-[0.18em]" aria-hidden="true">
             0{i + 1}
           </span>
@@ -307,7 +311,7 @@ const shelves = [
   >
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6" data-stagger>
       {practices.map((p) => (
-        <div class="group flex gap-5 bg-surface border border-rule rounded-2xl p-7 transition-colors hover:border-rule-strong">
+        <div class="group flex gap-5 border-t border-rule-strong py-7">
           <span
             class="shrink-0 w-10 h-10 rounded-xl bg-surface-soft border border-rule flex items-center justify-center font-mono text-sm font-semibold text-accent-ink transition-colors group-hover:bg-ink group-hover:text-bg group-hover:border-ink"
             aria-hidden="true"

@@ -33,6 +33,7 @@ const isActive = (href: string) =>
         <li class="m-0">
           <a
             href={l.href}
+            aria-current={isActive(l.href) ? 'page' : undefined}
             class:list={[
               'inline-block px-3 py-2 rounded-lg font-medium text-sm transition-colors',
               'no-underline',
@@ -84,7 +85,9 @@ const isActive = (href: string) =>
 
     <button
       id="theme-toggle"
-      aria-label="Toggle color theme"
+      type="button"
+      aria-label="Dark theme"
+      aria-pressed="false"
       class="text-body hover:text-ink p-2 rounded-lg hover:bg-surface-soft transition-colors"
     >
       <svg class="w-5 h-5 hidden dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -174,8 +177,7 @@ const isActive = (href: string) =>
     if (t.closest('#theme-toggle')) {
       const html = document.documentElement;
       const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-      try { localStorage.setItem('theme', next); } catch (err) { /* no-op */ }
-      html.setAttribute('data-theme', next);
+      document.dispatchEvent(new CustomEvent('theme:select', { detail: next }));
       updateHeaderTone();
       return;
     }
@@ -217,8 +219,7 @@ const isActive = (href: string) =>
     header.classList.toggle('tone-dark', over);
     const meta = document.querySelector('meta[name="theme-color"]');
     if (meta) {
-      const dark = over || document.documentElement.getAttribute('data-theme') === 'dark';
-      meta.setAttribute('content', dark ? '#090b0f' : '#fbfaf7');
+      meta.setAttribute('content', getComputedStyle(header).backgroundColor);
     }
   }
 
@@ -230,6 +231,7 @@ const isActive = (href: string) =>
   window.addEventListener('scroll', updateHeaderTone, { passive: true });
   window.addEventListener('resize', updateHeaderTone, { passive: true });
   document.addEventListener('astro:page-load', collectDarkBands);
+  document.addEventListener('theme:applied', updateHeaderTone);
   if (document.readyState !== 'loading') collectDarkBands();
   else document.addEventListener('DOMContentLoaded', collectDarkBands);
 </script>
