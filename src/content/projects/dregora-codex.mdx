@@ -1,0 +1,58 @@
+---
+title: 'The Dregora Codex'
+description: 'A personal interactive reference prototype connects loadouts, searchable enchantments, and progression through one structured knowledge base.'
+date: 2026-09-05
+tag: 'Dashboard'
+image: '/images/projects/dregora-codex-1280.webp'
+draft: true
+---
+
+import Overview from '@components/Overview.astro';
+
+<Overview>
+The Dregora Codex is an existing personal HTML, CSS, and JavaScript prototype for navigating a dense fantasy-game reference. A loadout selector connects equipment choices to ordered recommendations and explanations. Search, comparison tables, and progression views provide other ways into the same material. This case study examines that interface and its source structure. It does not validate the underlying gameplay recommendations or announce a public release. The source declares an August 3, 2026 update; this review draft was prepared September 5.
+</Overview>
+
+<figure><img src="/images/projects/dregora-codex-1280.webp" alt="Conceptual gouache illustration of an open reference codex, a blade, and colored stones on a mossy workbench" width="1280" height="854" /><figcaption>Original AI-generated conceptual artwork for this case study, not a screenshot or game asset.</figcaption></figure>
+
+## The design problem: many ways into the same reference
+
+A reference organized only as a long list asks the reader to remember how its entries connect. The Codex prototype supplies several entry points. A reader can begin with a weapon, search for an enchantment, compare equipment categories, or follow a progression path.
+
+The interface's useful organizing idea is the connection between a choice and its rationale. The loadout view presents ordered picks with explanations and links back to the enchantment reference. That gives readers a route from a recommendation to the supporting entry without searching the whole document again.
+
+## One data layer, several views
+
+The single HTML file separates embedded structured data from rendering and interaction logic. Named records connect weapons, paths, and enchantments. The renderer resolves those references into a selected loadout, its explanation, and related alternatives.
+
+<div class="reference-flow" aria-label="Reference architecture"><p><strong>Structured records</strong><br />Weapons · paths · enchantments</p><span aria-hidden="true">↓</span><p><strong>Connected views</strong><br />Loadout · search · comparison · progression</p><span aria-hidden="true">↓</span><p><strong>Return to a choice</strong><br />Hash links · copyable text · remembered weapon</p></div>
+
+The benefit is reuse: one named entry can support a tooltip, a search result, and an ordered loadout item. The tradeoff is that correctness now depends on those references staying consistent as the source data changes. The prototype includes a data-validation routine, but that does not establish that its recommendations are correct for any particular installed game version.
+
+## Features supported by the inspected source
+
+| Feature | What the implementation does |
+| --- | --- |
+| Loadout selector | Updates weapon details and an ordered path of enchantment picks |
+| Alternative paths | Presents another path and notes modeled incompatibilities |
+| Search and tier filters | Filters enchantment records across names, effects, explanations, and other indexed fields |
+| Reference views | Renders acquisition routes, equipment comparisons, build paths, progression, and appendix tables |
+| Tooltips and hash links | Connects terms and selections to related entries or views |
+| Copy loadout | Builds a plain-text summary with ordered picks and alternative-path labels |
+| Remembered selection | Reads a stored weapon on load and writes the selected weapon when leaving |
+
+These are source-inspected capabilities. This case study does not report a full usability study, accessibility certification, performance benchmark, or adoption metric. Persistence is specifically a remembered weapon; it should not be described as synchronizing complete builds across devices.
+
+## Keep reference confidence visible
+
+The source labels some entries as contested and names a version in its metadata. Its footer broadly credits community testing, r/RLCraft, and wikis, and identifies the guide as an unaffiliated fan work. Those acknowledgments help describe its context, but they are not item-level citations or a record of independently reproduced tests.
+
+A future public release would benefit from precise sources and version dates alongside factual claims, plus a clearer record of original contributions and asset rights. Those remain open issues. This case study therefore provides no public demo link and does not redistribute the original application or its reference database.
+
+The related [rare-event probability article](/blog/rare-events-dregora) shows why this matters analytically: a reproducible calculation can still depend on unverified assumptions about game rules. Reference design and numerical verification solve different parts of the same evidence problem.
+
+## Status and contribution
+
+**Status: personal interactive prototype; case-study draft.** The source's August 3 update is a declared version date, not proof of a launch. The file does not establish sole authorship or its human/AI division of work. Its fictional first-person introduction is not used as evidence of gameplay experience.
+
+AI drafted this case study, architecture diagram, and conceptual artwork from the inspected prototype under Brian's direction. Text/code generating model/version and reasoning effort: unknown (metadata unavailable). Image generating model/version and reasoning effort: unknown (metadata unavailable). No human review or signoff recorded. This is an unaffiliated portfolio description; no endorsement by the game or mod creators is implied.

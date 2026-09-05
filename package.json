@@ -14,7 +14,8 @@
     "astro": "astro",
     "check": "astro check",
     "port": "tsx scripts/qmd-to-mdx.ts",
-    "test": "node --import tsx --test tests/*.test.mjs"
+    "test": "node --import tsx --test tests/*.test.mjs",
+    "build:review": "node scripts/build-review.mjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.9",

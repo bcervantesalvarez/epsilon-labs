@@ -1,0 +1,101 @@
+---
+title: 'A rare event is a chain of assumptions'
+description: 'A Dregora probability model, a five-million-trial rerun, and how simulation error differs from uncertainty about the rules.'
+date: 2026-09-05
+tag: 'Statistics'
+image: '/images/personal/probability-gates.svg'
+draft: true
+readingTime: 7
+---
+
+import Overview from '@components/Overview.astro';
+
+<Overview>
+A very specific game encounter makes a useful probability problem: what would it take for one summoned boss to have a particular variant, a rare tier, and three named modifiers? An analysis dated August 29, 2026 turns that question into a model. This draft checks the arithmetic and reruns the simulation. The result is roughly one in 637,000 under the stated rules. Whether those rules describe the installed game is a separate question that this check does not settle.
+</Overview>
+
+<figure><img src="/images/personal/probability-gates.svg" alt="Three conditional gates: variant, tier, and a target modifier set. The result depends on every gate." width="1200" height="660" /><figcaption>A diagram of the assumed event structure, not measured encounter frequencies.</figcaption></figure>
+
+## Define the event before counting it
+
+The unit is **one eligible Amalgalich summon** in the source model for RLCraft Dregora. Success means a Russet variant, the Infernal tier, and the presence of Bulwark, Lifesteal, and Webber among the modifiers. Other modifiers may also be present. The question is not the chance of meeting any unusual creature during a play session, or of surviving the encounter.
+
+Let R denote the variant, I the tier, and T the target modifier set. The chain rule gives:
+
+<span class="math display">{'P(R \\cap I \\cap T) = P(R)\\,P(I \\mid R)\\,P(T \\mid R,I)'}</span>
+
+The source treats the variant draw as independent of the tier and modifier path. That assumption allows its factors to be multiplied as shown below; multiplication does not establish independence by itself.
+
+| Model input | Value used | What still needs game-level verification |
+| --- | --- | --- |
+| Variant weight | 20 out of a total 440; 1/22 | Which variant path and weights apply to this summon |
+| Tier gates | 1/20 × 1/10 × 1/5; 1/1,000 | Eligibility, configured gates, and interception by other mods |
+| Modifier pool | 26 distinct entries | Enabled entries and all relevant conflicts |
+| Requested count | 8–12 modifiers | The actual count-generating routine |
+| Acceptance rule | Check the existing chain head | Whether the installed version uses the modeled rule |
+
+These are inputs transcribed from the analysis, not newly inspected server settings. The original document reports configuration and bytecode checks. Those checks have not been independently reproduced for this article.
+
+## Start with a baseline that can be solved exactly
+
+Suppose every draw is accepted and N distinct modifiers are selected uniformly from 26. Exactly three specific modifiers must appear, so the probability is:
+
+<span class="math display">{'P(T\\mid N)=\\frac{\\binom{23}{N-3}}{\\binom{26}{N}}=\\frac{N(N-1)(N-2)}{26\\cdot25\\cdot24}'}</span>
+
+The modeled count is 8 plus three independent increments: one uniform draw from 0, 1, 2 and two fair binary draws. Enumerating the 12 equally likely combinations yields:
+
+| Requested N | 8 | 9 | 10 | 11 | 12 |
+| --- | --- | --- | --- | --- | --- |
+| Probability | 1/12 | 3/12 | 4/12 | 3/12 | 1/12 |
+
+Averaging over that distribution gives 501/10,400, or **4.81731%**, conditional on the Infernal branch. This is a benchmark for a simpler selection mechanism, not the final game-event probability.
+
+```python
+from fractions import Fraction
+from math import comb
+
+weights = {8: 1, 9: 3, 10: 4, 11: 3, 12: 1}
+baseline = sum(
+    Fraction(weight, 12) * Fraction(comb(23, n - 3), comb(26, n))
+    for n, weight in weights.items()
+)
+print(baseline)  # 501/10400
+```
+
+## A state-dependent rule changes the sample
+
+The supplied Python model removes each drawn entry from the pool. Before accepting the next entry, it checks whether the **most recently accepted modifier** conflicts with anything already in the chain. In the modeled conflict map, Webber conflicts with Gravity and Blastoff; the reverse conflicts are included too.
+
+Consider an illustrative sequence: Gravity is accepted, then Webber is accepted. The next candidate is rejected because the current head is Webber and Gravity is already present. Rejection leaves that head unchanged. The same check therefore rejects every remaining candidate until the pool empties.
+
+That mechanism can stop the accepted list before its requested length. It also means the final set is not a uniform N-element subset. The baseline formula no longer describes the process. This is a property of the supplied model; calling it a confirmed defect in an installed game would require matching-version evidence.
+
+## Rerun the simulation, then check it another way
+
+The source's Python block was rerun with its unchanged seed of 7 and **5,000,000 conditional Infernal trials**. It produced 173,328 successes: **3.46656%**, with an approximate 95% Monte Carlo interval of **3.4505%–3.4826%**. The interval uses the binomial standard error of the simulated proportion. It measures finite-run sampling variation, not uncertainty about game mechanics.
+
+An independent exact calculation was also added to the site repository. It groups the pool into five distinguished entries—the three targets and two conflicting entries—and 21 exchangeable others. A memoized recurrence tracks remaining entries, requested slots, and the last accepted type. Each branch is weighted by its share of the remaining pool. Once all three targets are present, success is permanent; if a blocking head appears first, no later draw can rescue the run.
+
+| Calculation | Conditional target probability | Interpretation |
+| --- | --- | --- |
+| Accept-all baseline | 4.81731% | Uniform-subset model |
+| Source simulation, rerun | 3.46656% | Finite simulation of the supplied conflict rule |
+| Exact state calculation | 3.45504% | Same assumed conflict model, without Monte Carlo error |
+
+The exact result is **6,993/202,400** and lies within the simulation interval. Combining it with the assumed variant and tier factors yields approximately **0.00015705%**, or **one in 636,751 eligible summons**. Rounding to one in 637,000 is more appropriate than treating the reciprocal as a precisely known encounter rate. The source's roughly one-in-635,000 estimate is consistent with its finite simulation.
+
+The verification script is `scripts/verify-dregora-model.py` in the site repository. It uses Python's standard library and does not execute any game code. Python documents the behavior of its sampling tools in the [random module reference](https://docs.python.org/3/library/random.html).
+
+## What the number can—and cannot—say
+
+This check supports the arithmetic and internal behavior of a specified model. It does not establish the configured probabilities, the complete conflict map, summon eligibility, or the effects of other mods. It also does not model later removal of modifiers. No independent game testing was performed.
+
+Even with independent repeated summons and unchanged rules, “one in 637,000” is a reciprocal probability, not a schedule or a guarantee. A long run can contain no successes; a short run can contain one. Before using the result as a gameplay claim, the installed version and the actual selection path would need to be pinned down.
+
+The useful analytical habit is transferable: name the event, separate the conditional factors, establish a simple benchmark, and check whether the implementation follows that benchmark's assumptions. More simulation reduces sampling noise. It cannot repair a wrong model.
+
+The related [Dregora Codex case study](/projects/dregora-codex) examines a different problem: organizing version-sensitive reference material into connected views.
+
+## Source and AI transparency
+
+Based on an analysis dated August 29, 2026 whose author metadata names Brian Cervantes Alvarez. Original human/AI contributions are unknown. AI drafted this article and diagram, reran the supplied simulation, and wrote an independent model check. Generating model/version and reasoning effort: unknown (metadata unavailable). Draft prepared September 5, 2026; no human review or signoff recorded.

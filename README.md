@@ -152,3 +152,7 @@ Practice cards use six distinct original vector illustrations, including a dashb
 ## Reading polish
 
 All blog posts and presentation reading views use a shared static, language-aware code renderer with dual-theme syntax colors, copy controls and separate output labels. Reader conversion retains language metadata, cleans slide scaffolding, and preserves source text, analytical figures and table encodings. See [the 21-route reading audit](READING-REVIEW.md) for coverage and limitations. Run `npm test` for the complete regression suite.
+
+## Personal content drafts
+
+Two 2026 articles and the Dregora Codex case study remain drafts. Use npm run build:review for local review, or npm run dev. Normal production builds exclude the draft pages and listing entries. See [personal content review](PERSONAL-CONTENT-REVIEW.md) for source limits, validation commands, dates, and AI provenance.

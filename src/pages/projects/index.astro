@@ -1,11 +1,12 @@
 ---
 // src/pages/projects/index.astro — Projects listing
+import { visibleContent } from '@lib/content-visibility';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Section from '@components/Section.astro';
 import ProjectShowcase from '@components/ProjectShowcase.astro';
 import { getCollection } from 'astro:content';
 
-const all = await getCollection('projects', ({ data }) => !data.draft);
+const all = await getCollection('projects', visibleContent);
 const projects = all.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
 <BaseLayout title="Projects" description="Statistical analyses, predictive modeling, and interactive applications.">
@@ -29,7 +30,7 @@ const projects = all.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf(
         <p class="text-body">Projects coming soon.</p>
       ) : (
         <div class="project-exhibition">
-          {projects.map((p, i) => <ProjectShowcase href={`/projects/${p.id}`} title={p.data.title} description={p.data.description} tag={p.data.tag} image={p.data.image} external={p.data.external} reverse={i % 2 === 1} />)}
+          {projects.map((p, i) => <ProjectShowcase href={`/projects/${p.id}`} title={p.data.title} description={p.data.description} tag={p.data.draft ? "Review draft · " + (p.data.tag || "Project") : p.data.tag} image={p.data.image} external={p.data.external} reverse={i % 2 === 1} />)}
         </div>
       )}
     </Section>

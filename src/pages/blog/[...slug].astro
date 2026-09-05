@@ -1,5 +1,6 @@
 ---
 import { getCollection, render, type CollectionEntry } from 'astro:content';
+import { visibleContent } from '@lib/content-visibility';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import BackLink from '@components/BackLink.astro';
 import LegacyCharts from '@components/LegacyCharts.astro';
@@ -7,7 +8,7 @@ import KatexAssets from '@components/KatexAssets.astro';
 import ReadingContent from '@components/ReadingContent.astro';
 
 export async function getStaticPaths() {
-  const entries = await getCollection('blog');
+  const entries = await getCollection('blog', visibleContent);
   return entries.map(entry => ({ params: { slug: entry.id }, props: { entry } }));
 }
 
@@ -24,10 +25,12 @@ const backLabel = 'All posts';
   description={entry.data.description}
   ogPath={`blog/${entry.id}`}
 >
+  {entry.data.draft && <meta slot="head" name="robots" content="noindex,nofollow" />}
   {/* KaTeX only ships on article routes — ported bodies may carry math */}
   <KatexAssets slot="head" />
   <article class="reading-page max-w-[960px] mx-auto px-6 pt-20 pb-16">
     <header class="max-w-prose mx-auto mb-12">
+    {entry.data.draft && <p class="draft-note">Review draft · September 5, 2026 · Not published</p>}
     <BackLink href={backHref} label={backLabel} />
     <p class="text-sm text-muted m-0 mb-3">{fmt(entry.data.date)}</p>
     <h1

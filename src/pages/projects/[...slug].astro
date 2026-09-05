@@ -1,11 +1,13 @@
 ---
 import { getCollection, render, type CollectionEntry } from 'astro:content';
+import { visibleContent } from '@lib/content-visibility';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import BackLink from '@components/BackLink.astro';
+import ReadingContent from '@components/ReadingContent.astro';
 import KatexAssets from '@components/KatexAssets.astro';
 
 export async function getStaticPaths() {
-  const entries = await getCollection('projects');
+  const entries = await getCollection('projects', visibleContent);
   return entries.map(entry => ({ params: { slug: entry.id }, props: { entry } }));
 }
 
@@ -20,10 +22,12 @@ const backLabel = 'All projects';
   description={entry.data.description}
   ogPath={`projects/${entry.id}`}
 >
+  {entry.data.draft && <meta slot="head" name="robots" content="noindex,nofollow" />}
   {/* KaTeX only ships on article routes — ported bodies may carry math */}
   <KatexAssets slot="head" />
   <article class="project-detail max-w-wrap mx-auto px-6 pt-20 pb-16">
     <header class="project-detail-header">
+    {entry.data.draft && <p class="draft-note">Review draft · September 5, 2026 · Not published</p>}
     <BackLink href={backHref} label={backLabel} />
     {entry.data.tag && (
       <p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted m-0 mb-4">
@@ -37,8 +41,8 @@ const backLabel = 'All projects';
       {entry.data.description}
     </p>
     </header>
-    <div class="article-body max-w-prose mx-auto">
-      <Content />
+    <div class="max-w-prose mx-auto">
+      {entry.data.draft ? <ReadingContent><Content /></ReadingContent> : <div class="article-body"><Content /></div>}
       <nav class="article-onward" aria-label="Continue exploring"><a href={backHref}>{backLabel} →</a><a href="/talks">Explore talks →</a></nav>
     </div>
   </article>

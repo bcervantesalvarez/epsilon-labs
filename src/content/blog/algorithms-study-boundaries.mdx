@@ -1,0 +1,70 @@
+---
+title: 'Build the study environment. Keep the struggle.'
+description: 'An ongoing algorithms self-study setup makes room for tooling help while reserving implementations and proofs for the learner.'
+date: 2026-09-05
+tag: 'Teaching'
+image: '/images/personal/study-workflow.svg'
+draft: true
+readingTime: 5
+---
+
+import Overview from '@components/Overview.astro';
+
+<Overview>
+An algorithms study repository can make practice easier to organize without making the answers easier to outsource. This personal environment pairs thirteen modules with written notes, implementation stubs, tests, and explicit rules for AI assistance. Its September 1, 2026 activity documents setup work. The progress checklist records no completed modules. The story here is the structure of the learning process: what the tools can help with, what the learner must produce, and how the record distinguishes the two.
+</Overview>
+
+<figure><img src="/images/personal/study-workflow.svg" alt="Study workflow: read, attempt independently, test and explain, record. Tutoring follows a written attempt and at least 45 minutes of effort." width="1200" height="660" /><figcaption>The intended workflow from the repository's learning policy. This is a process diagram, not a record of completed study.</figcaption></figure>
+
+## A scaffold is not a finished course
+
+The repository organizes thirteen modules, from foundations through sorting, trees, dynamic programming, graphs, network flow, and a mock exam. Each module separates a reading and problem specification, an implementation file, tests, and written notes. Larger projects are specified separately; their presence is not evidence of implementation.
+
+That separation makes several kinds of progress visible. Code can run while an argument remains unfinished. Notes can explain a method while edge cases still fail. A checked module is supposed to mean both the written theory work and the tests are complete. At the time of this draft, **none of the modules is checked complete**.
+
+The documented setup therefore supports a claim about preparation and an ongoing study workflow. It does not establish algorithm mastery, course completion, or results from the planned projects.
+
+## Give tooling a clear job
+
+The repository provides a Python environment, VS Code settings, a test runner, and a GitHub Actions test workflow. The test runner uses the standard library's `unittest` framework and can select a module or a project. The documented commands include:
+
+```bash
+python run_tests.py
+python run_tests.py m06
+```
+
+These commands organize feedback. They do not replace the work needed to interpret it. The runner reports failures, errors, and skipped tests separately. Its documented treatment of unimplemented stubs is to skip their tests, so a run without failures cannot by itself establish that exercises are implemented. A useful reading of the result includes the skipped count.
+
+The CI workflow is configured to invoke the runner on pushes and pull requests. That is evidence of a configured check, not evidence that a hosted run has passed. The site review inspected the tooling and policy; it did not solve or grade the coursework.
+
+## Make the boundary concrete enough to follow
+
+The learning policy does more than ask an assistant to be helpful. It names the work that must remain with the learner and sets a threshold before hints: **at least 45 minutes of independent effort and a written attempt**.
+
+| Assistance allowed by the policy | Work reserved for the learner |
+| --- | --- |
+| Explain an already-read concept using a different example | Assigned implementations, including scaffolding and pseudocode |
+| Explain what a failing test checks | Repairs that make an exercise pass |
+| Point to the first gap in an existing argument | The requested proof, recurrence, reduction, or complexity argument |
+| Supply extra test inputs for the learner's own code | An answer assembled from generated solution pieces |
+| Help with environment, editor, git, and test tooling | Independent practice and the resulting technical claims |
+
+The editor configuration disables inline suggestions and Copilot completions in this workspace. Assistant instruction files carry the tutoring rules. These are deliberate boundaries in the repository, not guarantees that every future interaction will honor them. The policy also requires changes to the rules to be made explicitly rather than silently treating a request for an answer as permission to relax them.
+
+No exercise solutions are reproduced here. The boundary is part of what makes this setup worth documenting.
+
+## Keep assistance attributable
+
+For permitted AI help, the policy asks for a note recording the date, the request, and what was learned. That creates a place to distinguish the learner's original attempt from the help received afterward. A useful record should say what actually happened; neither an assistant nor a checklist can invent the learning on the learner's behalf.
+
+The same care applies to the repository itself. Its MIT license names Brian Cervantes Alvarez, and the local history records five setup commits on September 1. Those facts do not establish how much of the scaffold was generated by AI. This article does not assign an unsupported authorship split to it.
+
+## Judge the next stage by the work it leaves behind
+
+The next evidence of progress would be dated module completion, independently written implementations, test results interpreted alongside skipped counts, and written explanations that stand on their own. Those are prospective criteria, not results already achieved.
+
+The environment reduces friction around running checks and keeping records. The policy deliberately leaves the reasoning work in place. That makes the project an ongoing experiment in disciplined practice rather than a portfolio of completed algorithms.
+
+## Source and AI transparency
+
+Based on the personal repository's README, progress checklist, learning policies, test runner, editor settings, CI configuration, license, and September 1, 2026 commit metadata. AI drafted this article and diagram from those sources under Brian's direction. Original scaffold contributions are unknown. Generating model/version and reasoning effort: unknown (metadata unavailable). Draft prepared September 5, 2026; no human review or signoff recorded.

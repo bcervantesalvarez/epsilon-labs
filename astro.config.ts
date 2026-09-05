@@ -40,7 +40,7 @@ export default defineConfig({
     sitemap({
       // /forms/thank-you is noindex; /single is a hidden easter egg.
       // Neither belongs in the sitemap.
-      filter: (page) => !page.includes('/forms/') && !page.includes('/single'),
+      filter: (page) => process.env.PREVIEW_DRAFTS !== '1' && !page.includes('/forms/') && !page.includes('/single'),
     }),
   ],
   vite: {
