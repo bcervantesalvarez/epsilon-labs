@@ -1,0 +1,21 @@
+---
+interface Props { href: string; title: string; description: string; tag?: string; image?: string; external?: string; reverse?: boolean; }
+const { href, title, description, tag, image, external, reverse } = Astro.props;
+const conceptual = image?.includes('/images/projects/');
+const alt = image?.includes('wine-chemistry') ? 'Conceptual wine chemistry still life with red and white wine' : image?.includes('uk-road') ? 'Conceptual miniature road junction and layered terrain' : title;
+---
+<article class:list={['project-showcase', { reverse }]}>
+  <a class="project-stage" href={href} aria-label={`Explore ${title}`}>
+    <span class="stage-layer stage-back" aria-hidden="true"></span>
+    <span class="stage-layer stage-middle" aria-hidden="true"></span>
+    <div class:list={['stage-image', { 'stage-brand': !conceptual }]}>
+      {image && <img src={image} srcset={conceptual ? `${image.replace('-1280', '-640')} 640w, ${image} 1280w` : undefined} sizes="(max-width: 760px) 90vw, 55vw" alt={alt} loading="lazy" width="1280" height="854" />}
+    </div>
+  </a>
+  <div class="showcase-copy">
+    <p class="showcase-tag">{tag}</p>
+    <h2><a href={href}>{title}</a></h2>
+    <p>{description}</p>
+    <div class="showcase-actions"><a href={href}>Explore project <span aria-hidden="true">→</span></a>{external && <a href={external} target="_blank" rel="noreferrer">Open dashboard ↗</a>}</div>
+  </div>
+</article>

@@ -20,7 +20,7 @@ cleanly with zero out-of-band coordination.
 | Design tokens (colors)     | `src/styles/global.css` (`@theme` + `[data-theme="dark"]`) |
 | Tailwind utility names     | `src/styles/global.css` — Tailwind v4 generates utilities from `@theme`; there is **no** `tailwind.config.ts` |
 | Site identity (name, socials, absolute URLs) | `src/lib/site.ts` (origin derives from `site` in `astro.config.ts`) |
-| Brand mark / logo          | `src/assets/logo/epsilon-mark.svg` (currentColor, inherits theme) + `epsilon-tile.svg` (fixed-color app tile); keep `public/favicon.svg` in sync with the tile |
+| Brand mark / logo          | `src/assets/logo/epsilon-mark.svg` (currentColor, inherits theme) + `epsilon-tile.svg` (fixed-color app tile; shared epsilon/L geometry); keep `public/favicon.svg` in sync with the tile |
 | Site-wide HTML / `<head>`  | `src/layouts/BaseLayout.astro`                    |
 | Navbar links               | `src/components/Navbar.astro` (`links` array)     |
 | Footer copy / links        | `src/components/Footer.astro`                     |
@@ -28,7 +28,7 @@ cleanly with zero out-of-band coordination.
 | Buttons / CTAs             | `src/components/Button.astro` (variants: `primary`, `ghost`) |
 | Card UI                    | `src/components/Card.astro`                       |
 | Section heading + container| `src/components/Section.astro`                    |
-| Landing-page chapters      | `src/pages/index.astro` via `LandingSection.astro` — tones `light`/`tint`/`dark` map to `.tone-*` classes in `global.css`; the dark tone is a fixed deep band that contrasts in both themes |
+| Landing-page chapters      | `src/pages/index.astro` via `LandingSection.astro` — tones `light`/`tint`/`depth` map to `.tone-*` classes in `global.css`; all tones follow the selected light/dark palette |
 | Page bodies                | `src/pages/<route>.astro`                         |
 | Project/post/talk content  | `src/content/<collection>/<slug>.mdx`             |
 | Content schemas            | `src/content.config.ts` (Zod, validated at build) |
@@ -200,9 +200,19 @@ Cloudflare Workers (static assets):
 - Custom domain:  `epsilon-labs.org` (attached to the Worker in the
   Cloudflare dashboard)
 
+## Legacy article visuals
+
+`LegacyCharts.astro` restores saved Plotly JSON on blog pages with a lazy local
+renderer. Preserve source data, trace colors, axis ranges and scale types.
+Prose list markers and responsive code/table rules live in `global.css`.
+
 ## Hidden pages
 
 `/single` is an easter egg — noindex, excluded from the sitemap and the
 Pagefind index, reachable only by clicking the About-page portrait five
 times within ten seconds (trigger script lives in `src/pages/about.astro`).
 Keep it out of navigation, feeds, and listings.
+
+## Presentation and article maintenance
+
+Use `Presentation.astro` for slide decks; do not apply the generic article iframe wrapper to them. Quarto decks use 3:2 canvases, and the local Slides.com export uses its authored 960:700 canvas. `src/content/presentation-readers` contains faithful responsive reading snapshots; update them when the source decks change. See `public/presentations/README.md` for source-specific limitations. All public blog posts belong in the timeline regardless of historical status. Keep `/archive` as an inbound redirect, not navigation.

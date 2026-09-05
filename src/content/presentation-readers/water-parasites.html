@@ -1,0 +1,190 @@
+<section><div><div><h1><span><strong>Climate Change is Changing Host-Parasite Relationships</strong></span></h1></div></div>
+<div><div><p><span>By Brian Cervantes Alvarez, Willa Van Liew, Hans Lehndorff</span></p></div></div>
+<div><div><svg><line></line><line></line></svg></div></div>
+<div><div><svg><rect></rect></svg></div></div></section>
+<section><div><div><h1>A study was conducted to identify whether temperature affects the toxicity of pesticides</h1></div></div>
+<div><div>
+<p>The study was developed from these concerns:</p>
+<ul>
+<li>
+<p>The global temperature increase might cause:</p>
+<ul>
+<li>
+<p>Increased transmission</p>
+</li>
+<li>
+<p>Decreased transmission</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Pesticides that are used to deal with those parasites are not being tested in different temperatures settings.</p>
+</li>
+<li>
+<p>Does temperature affect the toxicity of pesticides?</p>
+</li>
+</ul>
+</div></div>
+<div><div><svg><line></line><line></line></svg></div></div>
+<div><div><svg><rect></rect></svg></div></div></section>
+<section><div><div><h1>Pesticides used on the cercariae tadpoles</h1></div></div>
+<div><div><p><strong>Atrazine Herbicide</strong></p></div></div>
+<div><div><svg><line></line><line></line></svg></div></div>
+<div><div><svg><rect></rect></svg></div></div>
+<div><div><p><strong>Azoxystrobin Fungicide</strong></p></div></div>
+<div><div><p><strong>Carbaryl Insecticide</strong></p></div></div>
+<div><div><img alt="" loading="lazy" src="https://s3.amazonaws.com/media-p.slid.es/uploads/2349001/images/10220098/Screen_Shot_2023-02-13_at_8.46.50_PM.png"/></div></div>
+<div><div><img alt="" loading="lazy" src="https://s3.amazonaws.com/media-p.slid.es/uploads/2349001/images/10220102/Screen_Shot_2023-02-13_at_8.46.54_PM.png"/></div></div>
+<div><div><img alt="" loading="lazy" src="https://s3.amazonaws.com/media-p.slid.es/uploads/2349001/images/10220103/Screen_Shot_2023-02-13_at_8.47.04_PM.png"/></div></div></section>
+<section><div><div><h1><strong>Observing the cercariae of trematode Echinostoma trivolvis</strong></h1></div></div>
+<div><div><svg><line></line><line></line></svg></div></div>
+<div><div><svg><rect></rect></svg></div></div>
+<div><div><img alt="" loading="lazy" src="https://s3.amazonaws.com/media-p.slid.es/uploads/2349001/images/10223813/Screen_Shot_2023-02-14_at_9.06.48_PM.png"/></div></div>
+<div><div><img alt="" loading="lazy" src="https://s3.amazonaws.com/media-p.slid.es/uploads/2349001/images/10223815/Screen_Shot_2023-02-14_at_9.07.12_PM.png"/></div></div></section>
+<section><div><div><h1><strong>Experiment AND Data Collection</strong></h1></div></div>
+<div><div><svg><line></line><line></line></svg></div></div>
+<div><div><svg><rect></rect></svg></div></div>
+<div><div>
+<p>Methodology</p>
+<p>Prepared a sample of 1,076 cercariae tadpoles.</p>
+<ol>
+<li>
+<p>Use fixed temperature of [TEMP]</p>
+<ol>
+<li>
+<p>Tested [NAME] pesticide</p>
+</li>
+<li>
+<p>Apply various concentrations to tadpole groupings.</p>
+</li>
+<li>
+<p>Repeat previous steps with next pesticide [NAME].</p>
+</li>
+</ol>
+</li>
+<li>
+<p>Record the Status and TTKD of each tadpole in group.</p>
+</li>
+<li>
+<p>Repeat steps 1 &amp; 2 with next [TEMP]</p>
+</li>
+</ol>
+</div></div>
+<div><div>
+<p>Key data</p>
+<ul>
+<li><p>Id: unique identifier for each parasite</p></li>
+<li><p>Temp: temperature of the water</p></li>
+<li><p>Detected_conc: concentration of pesticide</p></li>
+<li><p>TTKD : Time to ‘knockdown’</p></li>
+<li><p>Status: Was tadpole knocked down?</p></li>
+<li><p>Pesticide: Pesticide in test</p></li>
+</ul>
+</div></div>
+<div><div><svg><rect></rect></svg></div></div>
+<div><div><svg><rect></rect></svg></div></div>
+<div><div><svg><line></line><line></line></svg></div></div>
+<div><div><svg><line></line><line></line></svg></div></div></section>
+<section><div><div><h1><strong>Did the time to death of the parasites differ significantly by temperature for each pesticide?</strong></h1></div></div>
+<div><div><svg><line></line><line></line></svg></div></div>
+<div><div><svg><rect></rect></svg></div></div>
+<div><div><svg><line></line><line></line></svg></div></div>
+<div><div><svg><line></line><line></line></svg></div></div>
+<div><div><svg><line></line><line></line></svg></div></div></section>
+<section><section><div><div><h1>Survival Curve For PESTICIDE <u>ATRAZINE</u>
+</h1></div></div>
+<div><div><svg><line></line><line></line></svg></div></div>
+<div><div><svg><rect></rect></svg></div></div>
+<div><div><img alt="" loading="lazy" src="https://s3.amazonaws.com/media-p.slid.es/uploads/2349001/images/10238868/atrazine.svg"/></div></div></section><section><div><div><h1>CODE USED FOR SURVIVAL ANALYSIS CuRVE OF <u>ATRAZINE</u>
+</h1></div></div>
+<div><div><svg><line></line><line></line></svg></div></div>
+<div><div><svg><rect></rect></svg></div></div>
+<div><div><pre data-language="r"><code>at3 = ds %&gt;%
+  filter(pesticide == "atrazine")
+  
+at3sf = survfit(Surv(at3$TTKD, at3$status)~at3$temp) 
+atrazine = ggsurvplot(fit = at3sf,
+                      data = at3, 
+                      legend = "bottom",
+                      palette = "Dark2", 
+                      risk.table = F, 
+                      legend.labs = c("18°C","24°C", "30°C"),
+                      conf.int=F,
+                      surv.median.line="hv") +
+  labs(title = "Survival Rate with Atrazine", 
+       x = "Time in Hours")
+       
+atrazine
+survdiff(Surv(at3$TTKD, at3$status)~at3$temp)</code></pre></div></div></section></section>
+<section><section><div><div><h1>Survival Curve For PESTICIDE <u><strong>Azoxystrobin</strong></u>
+</h1></div></div>
+<div><div><svg><line></line><line></line></svg></div></div>
+<div><div><svg><rect></rect></svg></div></div>
+<div><div><img alt="" loading="lazy" src="https://s3.amazonaws.com/media-p.slid.es/uploads/2349001/images/10238867/azoxystrobin.svg"/></div></div></section><section><div><div><h1>CODE USED FOR SURVIVAL ANALYSIS CuRVE OF <u><strong>Azoxystrobin</strong></u>
+</h1></div></div>
+<div><div><svg><line></line><line></line></svg></div></div>
+<div><div><svg><rect></rect></svg></div></div>
+<div><div><pre data-language="r"><code>at1 = ds %&gt;% 
+  filter(pesticide == "azoxystrobin")
+
+at1sf = survfit(Surv(at1$TTKD, at1$status)~at1$temp) 
+azoxystrobin = ggsurvplot(fit = at1sf, 
+                          data = at1,
+                          palette = "Dark2",
+                          legend = "bottom",
+                          legend.labs = c("18°C","24°C", "30°C"),
+                          risk.table = F,
+                          conf.int=F,
+                          surv.median.line="hv") +
+  labs(title = "Survival Rate with Pesticide Azoxystrobin",
+       x = "Time in Hours") 
+
+azoxystrobin
+survdiff(Surv(at1$TTKD, at1$status)~at1$temp)</code></pre></div></div></section></section>
+<section><section><div><div><h1>Survival Curve For PESTICIDE <u><strong>Carbaryl</strong></u>
+</h1></div></div>
+<div><div><svg><line></line><line></line></svg></div></div>
+<div><div><svg><rect></rect></svg></div></div>
+<div><div><img alt="" loading="lazy" src="https://s3.amazonaws.com/media-p.slid.es/uploads/2349001/images/10238869/carbaryl.svg"/></div></div></section><section><div><div><h1>CODE USED FOR SURVIVAL ANALYSIS CuRVE OF <u><strong>Carbaryl</strong></u>
+</h1></div></div>
+<div><div><svg><line></line><line></line></svg></div></div>
+<div><div><svg><rect></rect></svg></div></div>
+<div><div><pre data-language="r"><code>at2 = ds %&gt;%
+  filter(pesticide == "carbaryl")
+
+at2sf = survfit(Surv(at2$TTKD, at2$status)~at2$temp) 
+carbaryl = ggsurvplot(fit = at2sf,
+                      data = at2,
+                      palette = "Dark2",
+                      legend = "bottom",
+                      legend.labs = c("18°C","24°C", "30°C"),
+                      risk.table = F,
+                      conf.int=F, 
+                      surv.median.line="hv") +
+  labs(title = "Survival Rate with Carbaryl", 
+       x = "Time in Hours")
+
+carbaryl
+survdiff(Surv(at2$TTKD, at2$status)~at2$temp)</code></pre></div></div></section></section>
+<section><div><div><h1>Pesticide vs. Temperature</h1></div></div>
+<div><div><svg><line></line><line></line></svg></div></div>
+<div><div><svg><rect></rect></svg></div></div>
+<div><div><img alt="" loading="lazy" src="https://s3.amazonaws.com/media-p.slid.es/uploads/2349001/images/10238905/Screen_Shot_2023-02-20_at_9.08.32_PM.png"/></div></div>
+<div><div><h2>Survival Difference In TEmperature</h2></div></div>
+<div><div><img alt="" loading="lazy" src="https://s3.amazonaws.com/media-p.slid.es/uploads/2349001/images/10238914/Screen_Shot_2023-02-20_at_9.21.21_PM.png"/></div></div>
+<div><div><h2>Survival Difference in Pesticides</h2></div></div></section>
+<section><div><div><h1>Conclusion</h1></div></div>
+<div><div><svg><line></line><line></line></svg></div></div>
+<div><div><svg><rect></rect></svg></div></div>
+<div><div><img alt="" loading="lazy" src="https://s3.amazonaws.com/media-p.slid.es/uploads/2349001/images/10238908/Screen_Shot_2023-02-20_at_9.12.57_PM.png"/></div></div>
+<div><div>
+<p>Main findings were:</p>
+<ol>
+<li>a strong effect of temperature across all pesticide trials – higher temperatures caused cercariae to cease swimming activity earlier.</li>
+<li>The pesticides were directly toxic to cercariae to some degree.</li>
+<li>Important to conduct toxicity studies at multiple temperatures</li>
+</ol>
+</div></div>
+<div><div><svg><rect></rect></svg></div></div>
+<div><div><svg><line></line><line></line></svg></div></div>
+<div><div><p><em>Original Study: https://purr.purdue.edu/publications/3933/1</em></p></div></div></section>

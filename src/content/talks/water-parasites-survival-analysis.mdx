@@ -5,14 +5,14 @@ date: 2023-02-27
 tag: 'Survival analysis'
 image: '/images/parasite.jpeg'
 status: 'active'
-venue: 'OSU statistics seminar'
+venue: 'Willamette University · Master’s program presentation'
 ---
 
 import Overview from "@components/Overview.astro";
-import body from "./water-parasites-survival-analysis.body.html?raw";
+import Presentation from "@components/Presentation.astro";
 
 <Overview>
   Pesticide doses that were once harmless in cool water become measurably lethal as freshwater systems warm. This talk uses survival analysis — the same statistical tool used in medical trials — to quantify how much that shift matters for aquatic organisms.
 </Overview>
 
-<article class="article-body" set:html={body}></article>
+<Presentation reader="/presentations/read/water-parasites" src="/talks/water-parasites/index.html" title="Temperature and Pesticide Toxicity: A Survival Analysis" ratio="48 / 35" />

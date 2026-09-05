@@ -1,11 +1,12 @@
 ---
 // src/pages/projects/index.astro — Projects listing
+import { visibleContent } from '@lib/content-visibility';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Section from '@components/Section.astro';
-import Card from '@components/Card.astro';
+import ProjectShowcase from '@components/ProjectShowcase.astro';
 import { getCollection } from 'astro:content';
 
-const all = await getCollection('projects', ({ data }) => !data.draft && data.status === 'active');
+const all = await getCollection('projects', visibleContent);
 const projects = all.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
 <BaseLayout title="Projects" description="Statistical analyses, predictive modeling, and interactive applications.">
@@ -19,27 +20,17 @@ const projects = all.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf(
         </h1>
         <p class="text-lede text-body max-w-[60ch] m-0">
           Statistical analyses, predictive modeling, and interactive
-          applications. Older work lives in the <a href="/archive">archive</a>.
+          applications, including earlier work.
         </p>
       </div>
     </section>
 
     <Section first>
       {projects.length === 0 ? (
-        <p class="text-body">Projects coming soon. Until then, see the <a href="/archive">archive</a>.</p>
+        <p class="text-body">Projects coming soon.</p>
       ) : (
-        <div class="card-flow">
-          {projects.map(p => (
-            <Card
-              href={p.data.external ?? `/projects/${p.id}`}
-              external={!!p.data.external}
-              title={p.data.title}
-              description={p.data.description}
-              tag={p.data.tag}
-              image={p.data.image}
-              imageAlt={p.data.title}
-            />
-          ))}
+        <div class="project-exhibition">
+          {projects.map((p, i) => <ProjectShowcase href={`/projects/${p.id}`} title={p.data.title} description={p.data.description} tag={p.data.draft ? "Review draft · " + (p.data.tag || "Project") : p.data.tag} image={p.data.image} external={p.data.external} reverse={i % 2 === 1} />)}
         </div>
       )}
     </Section>

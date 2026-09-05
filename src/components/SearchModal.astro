@@ -7,10 +7,11 @@
 ---
 <dialog
   id="search-dialog"
+  aria-labelledby="search-title"
   class="search-dialog bg-bg text-body backdrop:bg-ink/40 backdrop:backdrop-blur-sm rounded-2xl border border-rule shadow-2xl max-w-2xl w-[92vw] p-0 m-auto top-[14vh]"
 >
   <div class="flex items-center justify-between px-5 py-3 border-b border-rule">
-    <h2 class="text-sm font-semibold uppercase tracking-[0.14em] text-muted m-0">
+    <h2 id="search-title" class="text-sm font-semibold uppercase tracking-[0.14em] text-muted m-0">
       Search
     </h2>
     <button
@@ -30,8 +31,7 @@
   <div class="p-5">
     <div id="search-target" class="search-target"></div>
     <p id="search-fallback" class="text-sm text-muted m-0 hidden">
-      Search isn't indexed yet. Run <code class="text-xs">npm run build</code> to
-      generate the index, then refresh.
+      Search is temporarily unavailable. Please use the main navigation to browse the site.
     </p>
   </div>
 </dialog>
@@ -108,13 +108,7 @@
       }
     });
 
-    document.addEventListener('keydown', (e) => {
-      const meta = e.metaKey || e.ctrlKey;
-      if (meta && e.key.toLowerCase() === 'k') {
-        e.preventDefault();
-        openSearch();
-      }
-    });
+    // Leave browser shortcuts native; the second skip control opens search.
   })();
 </script>
 

@@ -1,0 +1,17 @@
+---
+import TopicMark from "@components/TopicMark.astro";
+interface Props {
+  href: string;
+  title: string;
+  tag: string;
+  description: string;
+  image?: string;
+}
+const { href, title, tag, description, image } = Astro.props;
+const topic = title.includes('Statistical Learning') ? 'learning-book' : title.includes('Statistics') ? 'sampling' : title.includes('World') ? 'world' : title === 'TidyTuesday' ? 'calendar' : title === 'R for Data Science' ? 'workflow' : 'data';
+---
+<a href={href} target="_blank" rel="noreferrer" class="resource-card">
+  <span class="resource-icon" aria-hidden="true">{image ? <img class:list={{ "resource-paper-logo": image.includes("rbloggerslogo") || image.includes("rweeklylogo") }} src={image} alt="" width="64" height="64" loading="lazy" /> : <TopicMark topic={topic} />}</span>
+  <div class="resource-copy"><span class="resource-tag">{tag}</span><h3>{title}</h3><p>{description}</p></div>
+  <span class="resource-arrow" aria-hidden="true">↗</span>
+</a>

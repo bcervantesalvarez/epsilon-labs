@@ -13,9 +13,9 @@ type Props = { entry: CollectionEntry<'talks'> };
 const { entry } = Astro.props;
 const { Content } = await render(entry);
 const fmt = (d: Date) => d.toLocaleDateString('en-US',
-  { year: 'numeric', month: 'long', day: 'numeric' });
-const backHref = entry.data.status === 'archived' ? '/archive' : '/talks';
-const backLabel = entry.data.status === 'archived' ? 'Back to archive' : 'All talks';
+  { timeZone: 'UTC', year: 'numeric', month: 'long', day: 'numeric' });
+const backHref = '/talks';
+const backLabel = 'All talks';
 ---
 <BaseLayout
   title={entry.data.title}
@@ -24,7 +24,7 @@ const backLabel = entry.data.status === 'archived' ? 'Back to archive' : 'All ta
 >
   {/* KaTeX only ships on article routes — ported bodies may carry math */}
   <KatexAssets slot="head" />
-  <article class="max-w-prose mx-auto px-6 pt-20 pb-16">
+  <article class="talk-detail max-w-wrap mx-auto px-6 pt-20 pb-16">
     <BackLink href={backHref} label={backLabel} />
     <p class="text-sm text-muted m-0 mb-3">
       {fmt(entry.data.date)}{entry.data.venue ? ` · ${entry.data.venue}` : ''}
@@ -36,7 +36,7 @@ const backLabel = entry.data.status === 'archived' ? 'Back to archive' : 'All ta
       {entry.data.title}
     </h1>
     <p class="text-lede text-body m-0 mb-10">{entry.data.description}</p>
-    <div class="article-body max-w-prose mx-auto">
+    <div class="article-body mx-auto">
       <Content />
     </div>
   </article>

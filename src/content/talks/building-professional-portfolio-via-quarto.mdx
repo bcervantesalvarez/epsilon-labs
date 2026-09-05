@@ -9,10 +9,10 @@ venue: 'Workshop'
 ---
 
 import Overview from "@components/Overview.astro";
-import body from "./building-professional-portfolio-via-quarto.body.html?raw";
+import Presentation from "@components/Presentation.astro";
 
 <Overview>
   A working portfolio is the single highest-leverage piece of personal infrastructure a data professional can own. This talk makes the case and walks through the setup: Quarto for authoring, GitHub Pages for hosting, a custom domain on top.
 </Overview>
 
-<article class="article-body" set:html={body}></article>
+<Presentation reader="/presentations/read/BuildAQuartoPortfolio" src="/presentations/BuildAQuartoPortfolio/index.html" title="Building a Professional Portfolio with Quarto + GitHub Pages" />

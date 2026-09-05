@@ -3,22 +3,23 @@
 // Entries hang off a vertical rail grouped by year; a floating glass
 // date pill pops up while you scroll and tracks the entry closest to
 // the top of the viewport.
+import { visibleContent } from '@lib/content-visibility';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Section from '@components/Section.astro';
 import { getCollection } from 'astro:content';
 
-const all = await getCollection('blog', ({ data }) => !data.draft && data.status === 'active');
+const all = await getCollection('blog', visibleContent);
 const posts = all.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
 const fmt = (d: Date) =>
-  d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  d.toLocaleDateString('en-US', { timeZone: 'UTC', year: 'numeric', month: 'long', day: 'numeric' });
 const pillLabel = (d: Date) =>
-  d.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+  d.toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', year: 'numeric' });
 
 // Group by year, newest first (posts are already sorted desc)
-const years = [...new Set(posts.map(p => p.data.date.getFullYear()))].map(y => ({
+const years = [...new Set(posts.map(p => p.data.date.getUTCFullYear()))].map(y => ({
   year: y,
-  entries: posts.filter(p => p.data.date.getFullYear() === y),
+  entries: posts.filter(p => p.data.date.getUTCFullYear() === y),
 }));
 ---
 <BaseLayout title="Blog" description="Practical notes on statistical practice, modeling, and analytical tooling.">
@@ -32,7 +33,7 @@ const years = [...new Set(posts.map(p => p.data.date.getFullYear()))].map(y => (
         </h1>
         <p class="text-lede text-body max-w-[60ch] m-0">
           Practical notes on statistical practice, modeling, and analytical
-          tooling — in the order they happened.
+          tooling — with original project activity labeled by work date.
         </p>
       </div>
     </section>
@@ -68,7 +69,7 @@ const years = [...new Set(posts.map(p => p.data.date.getFullYear()))].map(y => (
                               </span>
                             )}
                             <time datetime={p.data.date.toISOString().slice(0, 10)} class="font-mono">
-                              {fmt(p.data.date)}
+                              {`${p.data.draft ? 'Draft · ' : ''}${p.data.dateKind === 'work' ? 'Work date · ' : ''}${fmt(p.data.date)}`}
                             </time>
                           </p>
                           <h3

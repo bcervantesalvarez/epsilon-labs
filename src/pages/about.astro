@@ -3,6 +3,7 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import Section from '@components/Section.astro';
 import Button from '@components/Button.astro';
 import SchoolBanner from '@components/SchoolBanner.astro';
+import TopicMark from '@components/TopicMark.astro';
 
 // Education banners. Colors taken from each school's brand palette.
 // Ordered most-recent first so it reads top-to-bottom as a timeline.
@@ -10,11 +11,12 @@ const schools = [
   {
     school: 'Oregon State University',
     degree: 'M.S. Statistics',
+    degreeTone: 'copper' as const,
     years: '2023 – 2025',
     href: 'https://stat.oregonstate.edu/',
     hrefLabel: 'Department of Statistics',
     logoSrc: '/images/schools/oregon-state.svg',
-    monogram: 'OSU',
+    logoDarkSrc: '/images/schools/oregon-state-white.svg',
     logoAlt: 'Oregon State University wordmark',
     color: '#DC4405',  // Beaver Orange
     accent: '#FFFFFF',
@@ -27,11 +29,12 @@ const schools = [
   {
     school: 'Willamette University',
     degree: 'M.S. Data Science',
+    degreeTone: 'navy' as const,
     years: '2022 – 2023',
     href: 'https://willamette.edu/academics/computing/data-science/',
     hrefLabel: 'Data Science program',
     logoSrc: '/images/schools/willamette.svg',
-    monogram: 'WU',
+    logoDarkSrc: '/images/schools/willamette-white.svg',
     logoAlt: 'Willamette University wordmark',
     color: '#A6093D',  // Willamette Cardinal
     accent: '#E1A03F', // Old Gold
@@ -44,11 +47,12 @@ const schools = [
   {
     school: 'Linfield University',
     degree: 'B.S. Mathematics',
+    degreeTone: 'plum' as const,
     years: '2018 – 2022',
     href: 'https://www.linfield.edu/',
     hrefLabel: 'Visit Linfield',
-    logoSrc: '/images/schools/linfield.svg',
-    monogram: 'L',
+    logoSrc: '/images/schools/linfield.png',
+    logoDarkSrc: '/images/schools/linfield-white.png',
     logoAlt: 'Linfield University logo',
     color: '#4B0082',  // Linfield Wildcat purple
     accent: '#FFFFFF',
@@ -79,7 +83,7 @@ const schools = [
             </p>
             <div class="flex flex-wrap gap-3">
               <Button href="mailto:briancervantesalvarez@gmail.com">Email me</Button>
-              <Button href="https://linkedin.com/in/bcervantesalvarez" target="_blank" rel="noreferrer" variant="ghost">LinkedIn</Button>
+              <Button href="https://linkedin.com/in/bcervantesalvarez" target="_blank" rel="noreferrer" variant="ghost"><img src="/images/brands/linkedin.png" alt="" width="24" height="20" class="social-mark" />LinkedIn</Button>
               <Button href="/resume" variant="ghost">Resume</Button>
               <Button href="/documents/resume/bca-resume.pdf" target="_blank" rel="noreferrer" variant="ghost">CV (PDF)</Button>
             </div>
@@ -98,8 +102,10 @@ const schools = [
       </div>
     </section>
 
-    <Section eyebrow="Practice" title="How I work." first>
-      <div class="max-w-prose">
+    <Section eyebrow="Practice" title="How I work." first id="statistical-practice">
+      <div class="statistical-perspective">
+        <div class="perspective-art" aria-hidden="true"><span class="perspective-sheet back"></span><span class="perspective-sheet middle"></span><div class="perspective-sheet front"><TopicMark topic="statistics" /></div></div>
+        <div class="perspective-copy">
         <p class="text-body m-0 mb-4">
           Most analytics work is judged by how it reads. I build mine to
           be judged by how well it holds up under audit, replication, and
@@ -113,11 +119,12 @@ const schools = [
           proposal. Nothing gets billed without a deliverable behind it.
         </p>
       </div>
+      </div>
     </Section>
 
-    <!-- Where I trained — alternating school banners -->
-    <Section eyebrow="Where I trained" title="Three degrees, one statistical career.">
-      <div class="flex flex-col gap-6">
+    <!-- Existing degree content, presented as floating credentials. -->
+    <Section eyebrow="Where I trained" title="Three degrees, one statistical career." id="education">
+      <div class="education-exhibition">
         {schools.map(s => <SchoolBanner {...s} />)}
       </div>
       <p class="text-sm text-muted mt-8 m-0 max-w-prose">
@@ -126,8 +133,12 @@ const schools = [
       </p>
     </Section>
 
-    <Section eyebrow="Independence" title="A note on conflicts.">
-      <div class="max-w-prose">
+    <section class="independence-note" aria-labelledby="independence-heading">
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-widest text-accent m-0">Independence</p>
+        <h2 id="independence-heading">A note on conflicts.</h2>
+      </div>
+      <div class="independence-copy">
         <p class="text-body m-0">
           I'm currently employed as a Business Intelligence Analyst at the
           Oregon Department of Education. Epsilon Labs is operated
@@ -136,7 +147,7 @@ const schools = [
           that touches the same data systems or stakeholders.
         </p>
       </div>
-    </Section>
+    </section>
 
   </div>
 

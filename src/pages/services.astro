@@ -1,7 +1,9 @@
 ---
+import PracticeCard from '@components/PracticeCard.astro';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Section from '@components/Section.astro';
 import Button from '@components/Button.astro';
+import TopicMark from '@components/TopicMark.astro';
 
 const practiceAreas = [
   { title: 'Statistical analysis & modeling',
@@ -19,17 +21,18 @@ const practiceAreas = [
 ];
 
 const steps = [
-  ['1. Scoping call', 'A 30-minute conversation about the question, the data, the timeline, and the decision the analysis needs to support. No charge, no obligation.'],
-  ['2. Written proposal', "A short document covering approach, deliverables, milestones, fee, and what's explicitly out of scope. You sign or pass."],
-  ['3. Project or retainer', 'Fixed-fee for bounded work. Monthly retainer for ongoing support across a quarter or year. Every billable hour ties back to a deliverable.'],
-  ['4. Handoff', 'Source code, documentation, and a written debrief. Your team owns the result and can rerun it without me.'],
+  ['Scoping call', 'A 30-minute conversation about the question, the data, the timeline, and the decision the analysis needs to support. No charge, no obligation.'],
+  ['Written proposal', "A short document covering approach, deliverables, milestones, fee, and what's explicitly out of scope. You sign or pass."],
+  ['Project or retainer', 'Fixed-fee for bounded work. Monthly retainer for ongoing support across a quarter or year. Every billable hour ties back to a deliverable.'],
+  ['Handoff', 'Source code, documentation, and a written debrief. Your team owns the result and can rerun it without me.'],
 ];
 ---
 <BaseLayout title="Services" description="What you can hire Epsilon Labs for and how an engagement runs.">
   <div class="ed">
 
-    <section class="pt-24 pb-12 lg:pt-28 lg:pb-16">
-      <div class="max-w-wrap mx-auto px-6">
+    <section class="services-intro pt-24 pb-12 lg:pt-28 lg:pb-16">
+      <div class="max-w-wrap mx-auto px-6 services-hero">
+        <div>
         <p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted m-0 mb-5">Services</p>
         <h1 class="font-serif font-semibold text-ink text-5xl md:text-7xl tracking-tight leading-[1.04] m-0 mb-6">
           What you can hire me for.
@@ -44,29 +47,23 @@ const steps = [
           <Button href="mailto:briancervantesalvarez@gmail.com">Email me</Button>
           <Button href="#practice-areas" variant="ghost">See practice areas</Button>
         </div>
+        </div>
+        <div class="services-sculpture" aria-hidden="true"><span class="service-plane back"><TopicMark topic="data" /></span><span class="service-plane middle"><TopicMark topic="learning" /></span><span class="service-plane front"><TopicMark topic="statistics" /></span></div>
       </div>
     </section>
 
     <Section eyebrow="Practice areas" title="What I do." first id="practice-areas">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
-        {practiceAreas.map(a => (
-          <div>
-            <h3 class="text-lg font-bold text-ink m-0 mb-2">{a.title}</h3>
-            <p class="text-body m-0">{a.body}</p>
-          </div>
-        ))}
+      <div class="service-catalog">
+        {practiceAreas.map((area, i) => <PracticeCard title={area.title} body={area.body} kind={i} />)}
       </div>
     </Section>
 
     <Section eyebrow="Engagement" title="How an engagement runs.">
-      <ul class="list-none m-0 p-0 max-w-narrow">
+      <ol class="engagement-path">
         {steps.map(([label, body]) => (
-          <li class="py-6 border-t border-rule first:border-t-0 first:pt-0 grid grid-cols-1 sm:grid-cols-[220px_1fr] gap-2 sm:gap-8">
-            <div class="font-bold text-ink text-base">{label}</div>
-            <div class="text-body">{body}</div>
-          </li>
+          <li><h3>{label}</h3><p>{body}</p></li>
         ))}
-      </ul>
+      </ol>
     </Section>
 
     <Section>

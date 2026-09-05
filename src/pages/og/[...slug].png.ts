@@ -5,6 +5,7 @@
 // The endpoint is prerendered, so each path is written to disk during
 // `astro build` and served as a static PNG.
 import type { APIContext, GetStaticPathsResult } from 'astro';
+import { visibleContent } from '@lib/content-visibility';
 import { getCollection } from 'astro:content';
 import satori from 'satori';
 import { Resvg } from '@resvg/resvg-js';
@@ -48,7 +49,7 @@ export async function getStaticPaths(): Promise<GetStaticPathsResult> {
     },
   ];
 
-  for (const e of await getCollection('projects')) {
+  for (const e of await getCollection('projects', visibleContent)) {
     items.push({
       params: { slug: `projects/${e.id}` },
       props: {
@@ -59,7 +60,7 @@ export async function getStaticPaths(): Promise<GetStaticPathsResult> {
       } satisfies OGProps,
     });
   }
-  for (const e of await getCollection('blog')) {
+  for (const e of await getCollection('blog', visibleContent)) {
     items.push({
       params: { slug: `blog/${e.id}` },
       props: {

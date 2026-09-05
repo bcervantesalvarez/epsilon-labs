@@ -1,0 +1,96 @@
+---
+title: 'Millions of sensor readings, weak predictions'
+description: 'A Spark course project shows why timestamp alignment, sampling units, and validation design matter more than the raw row count.'
+date: 2025-03-17
+dateKind: work
+draftedDate: 2026-09-05
+tag: 'Data engineering'
+image: '/images/personal/spark-sensors-1280.webp'
+draft: true
+readingTime: 9
+---
+
+import Overview from '@components/Overview.astro';
+
+<Overview>
+More than fourteen million sensor rows can still produce a weak predictive baseline. This academic project used pandas, cloud storage, and Spark to align smartphone acceleration with slower alcohol-sensor measurements, summarize the data, and fit a small logistic model. The original report gives an AUC around 0.52–0.57. That result is useful as a starting point, especially when read alongside the design: few participants, repeated measurements, a row-level split, and limited features. The engineering and the evaluation answer different questions.
+</Overview>
+
+<figure><img src="/images/personal/spark-sensors-1280.webp" srcset="/images/personal/spark-sensors-640.webp 640w, /images/personal/spark-sensors-1280.webp 1280w" sizes="(max-width: 760px) 94vw, 736px" alt="Conceptual unbranded phone with colored motion ribbons and a slower timing band on a laboratory bench" width="1280" height="854" /><figcaption>AI-generated conceptual illustration; no participant data, device reading, or experimental setup is depicted.</figcaption></figure>
+
+## A large table with a small number of people
+
+The data came from **Bar Crawl: Detecting Heavy Drinking**, a public UCI dataset credited to the work of Killian, Passino, Nandi, Madden, and Clapp. UCI documents 14,057,567 accelerometer observations from 13 included participants, with smartphone acceleration sampled at 40 Hz and transdermal alcohol content (TAC) measured at much wider intervals. The public data is anonymized and licensed CC BY 4.0. Brian's project analyzes that dataset; it did not collect the study data. [Dataset and attribution](https://archive.ics.uci.edu/dataset/515/bar+crawl+detecting+heavy+drinking).
+
+The row count measures recording density, not the number of independent people represented. Thousands of adjacent records can share a participant, device, movement episode, and nearby label. This matters both statistically and computationally. Spark can distribute row operations, but distributing rows does not make them independent observations for evaluating generalization.
+
+The work date on this article is the repository milestone: March 17, 2025 in Pacific time. The report and script were committed at 05:27 UTC on March 18. The folder's “Winter 2024” label and the report's dynamic `date: today` field are not used as historical publication dates.
+
+## Alignment creates the analysis table
+
+The [original report and script](https://github.com/bcervantesalvarez/MS-Statistics/tree/295f095dda00ecfae416643c5e3cd45e5e3aea08/Academic-Year-2024-2025/Winter%202024/Data%20Science%20Tools/Final%20Project) describe a pandas preparation stage: combine phone metadata with participant records, make timestamps comparable, and match acceleration observations to the nearest cleaned TAC observation within each participant. The script begins with the prepared CSV rather than reproducing that entire preprocessing stage.
+
+<div class="reference-flow" aria-label="Sensor analysis pipeline"><p><strong>Participant-specific streams</strong><br />Acceleration · cleaned TAC · phone metadata</p><span aria-hidden="true">↓</span><p><strong>Time alignment in pandas</strong><br />Comparable timestamps and nearest-label matching</p><span aria-hidden="true">↓</span><p><strong>Prepared table → cloud storage → Spark</strong><br />Summaries, exploration, and a sampled baseline</p></div>
+
+Nearest-time matching is a modeling decision. It can attach a later label to an earlier motion sample, and it can assign the same slow-moving label to many fast samples. For descriptive retrospective analysis, that may be an intentional approximation. For a future real-time prediction task, the information available at prediction time would need a separate definition. A row that can be joined is not automatically a row whose label is valid for the intended use.
+
+The dataset documentation says the supplied cleaned TAC readings were filtered and shifted backward to address lag. That preprocessing belongs to the dataset's creators. Applying another shift without checking which files were used could duplicate the adjustment. [UCI preprocessing notes](https://archive.ics.uci.edu/dataset/515/bar+crawl+detecting+heavy+drinking).
+
+A stronger reconstruction of this pipeline would record matching direction, maximum tolerated time gap, unmatched-row counts, and participant-level coverage. Those checks are proposed here; the retained source does not establish that they were all performed. No raw participant records are reproduced in this article.
+
+## What Spark was used to do
+
+The project reads the prepared table from Google Cloud Storage, casts numeric and time fields, computes summaries, and writes results and figures back to storage. Dataproc provides the Spark execution environment. This is evidence of a course workflow, not a benchmark showing that a local alternative could not handle the data.
+
+The original report describes approximately 1.5 GB after merging. File size alone does not establish that distributed computing was necessary. Spark was a useful platform for practicing distributed transformations and modeling; comparing its cost or speed with a single-machine pipeline would require measurements that are not available here.
+
+The acceleration-magnitude feature is:
+
+<span class="math display">{'m=\\sqrt{x^2+y^2+z^2}'}</span>
+
+It combines the three axes into one scalar. It does not retain every aspect of direction, orientation, or temporal pattern. Adding magnitude to x, y, and z therefore gives a simple feature set, not a complete representation of movement behavior.
+
+The script also summarizes magnitude in one-minute windows. Its aggregation groups on the time window, without adding participant ID as a grouping key. That produces a pooled time summary where records from different people can contribute to a window. It should not be read as an individual person's time series. A participant-level redesign would make that grouping choice explicit.
+
+## Exploration and prediction use different subsets
+
+The exploratory code fits K-means on a limited selection of rows and uses PCA for a two-dimensional display. Some plotting paths use `limit()` before conversion to pandas. A limit is a cap on collected rows; it should not be called a representative random sample. Such plots can help inspect data behavior, but their selection mechanism affects what they show.
+
+The logistic-regression path is more specific:
+
+| Step in the source | Setting | Consequence for interpretation |
+| --- | --- | --- |
+| Construct label | TAC reading at least 0.08 | A source-defined analytical threshold, not a validated impairment decision |
+| Assemble features | x, y, z, magnitude | No temporal feature set in this baseline |
+| Random sample | 1%, without replacement, seed 42 | Reduces rows used for fitting |
+| Split sampled rows | 70% training / 30% testing, seed 42 | Does not hold out participants |
+| Tune regularization | Four combinations, two-fold CV | A small search inside the training subset |
+| Evaluate | Area under ROC | Ranking discrimination, not calibration or operational usefulness |
+
+Spark's [tuning documentation](https://spark.apache.org/docs/latest/ml-tuning.html) explains the distinction between model selection inside cross-validation and subsequent evaluation on held-out data. Here the important question is what is held out: the code splits rows, not people.
+
+The threshold must remain a description of the project's label. TAC is not interchangeable with blood-alcohol concentration, and this article does not treat 0.08 as a legal or medical decision rule. The model is an academic baseline, not a tool for deciding whether someone can drive or is clinically impaired.
+
+## Weak discrimination is still a result worth understanding
+
+The original report states an AUC of approximately **0.52–0.57**, and a magnitude–TAC correlation near **0.0489**. These are historical source-reported results; this revision did not rebuild the cloud environment or rerun the analysis. The AUC range is not presented as a confidence interval.
+
+An AUC near 0.5 indicates limited separation in the ranking of positive and negative cases under that evaluation. It does not tell us whether a chosen probability threshold is calibrated or whether any particular action would be safe. A low linear correlation also does not rule out every nonlinear or time-dependent relationship.
+
+The report describes phone-type offsets and suggests sensor calibration as an explanation. The observed difference does not isolate a calibration cause. Device orientation, participant composition, and recording conditions could also matter. The source's causal-sounding interpretation is therefore best retained as a hypothesis requiring additional evidence.
+
+The report and the plotted ROC also need careful provenance. The script computes one evaluator result on the predictions, then caps a pandas subset for its ROC plotting path. A curve from that cap is not automatically identical to the metric over all test predictions. Without reproducing those outputs, this article uses the report's stated range rather than claiming one exact reconciled score.
+
+## A more informative next evaluation
+
+The current row split can place observations from the same participant—and nearby periods—on both sides. That allows shared person/device characteristics and temporal dependence to influence the result. It does not prove the measured score was inflated by a known amount, but it prevents interpreting the result as a clean test on unseen people.
+
+A prospective revision would first choose the intended generalization target. Predicting later periods for known participants is different from predicting for a completely new participant. For the latter, partition participants before model selection, keep their observations together within each fold, and reserve an untouched final evaluation set. With only 13 included participants, uncertainty across held-out people would be important to report alongside a pooled score.
+
+Window-based features—variability, changes over time, or frequency summaries—are another possible direction already suggested by the report. They would need to be constructed without crossing the chosen split boundaries. Improved features and better validation should be evaluated as separate changes; neither is a measured improvement in the current project.
+
+The practical lesson is that data engineering can succeed at producing a usable table while the modeling result remains modest. That is not a reason to disguise the score. It is a reason to make alignment, units, sampling, and validation part of the story.
+
+## Source and AI transparency
+
+Brian's academic report names him as author and discloses programming assistance from GitHub Copilot and ChatGPT; original model versions and effort are unknown. AI drafted this retrospective, original pipeline diagram, and conceptual cover from public sources under Brian's direction. Current text/code revision: `gpt-6-astra` (execution metadata verified); reasoning effort extra high, user-reported (not independently verified). Image model/version and reasoning effort: unknown (metadata unavailable). Work milestone March 17, 2025 Pacific; draft prepared September 5, 2026. Results were not independently rerun; no human signoff recorded.

@@ -1,8 +1,9 @@
 ---
+import GitHubMark from "@components/GitHubMark.astro";
 // src/components/Footer.astro
+import mark from '@/assets/logo/epsilon-mark.svg?raw';
 const year = new Date().getFullYear();
 const legal = [
-  { href: '/archive',  label: 'Archive'        },
   { href: '/privacy',  label: 'Privacy Policy' },
   { href: '/license',  label: 'License'        },
 ];
@@ -14,8 +15,9 @@ const social = [
 ---
 <footer class="border-t border-rule mt-24">
   <div class="max-w-wrap mx-auto px-6 py-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-    <p class="text-sm text-muted m-0">
-      © {year} Epsilon Labs · Brian Cervantes Alvarez
+    <p class="text-sm text-muted m-0 flex items-center gap-3">
+      <span class="footer-mark" aria-hidden="true"><Fragment set:html={mark} /></span>
+      <span class="min-w-0 [overflow-wrap:anywhere]">© {year} Epsilon Labs · Brian Cervantes Alvarez</span>
     </p>
     <div class="flex flex-wrap items-center gap-6 text-sm">
       {legal.map(l => (
@@ -26,11 +28,20 @@ const social = [
           href={s.href}
           target={s.href.startsWith('http') ? '_blank' : undefined}
           rel={s.href.startsWith('http') ? 'noreferrer' : undefined}
-          class="text-muted hover:text-ink no-underline"
+          class="text-muted hover:text-ink no-underline inline-flex items-center gap-2 min-h-11"
         >
+          {s.label === 'LinkedIn' && <img src="/images/brands/linkedin.png" alt="" width="24" height="20" class="social-mark" />}
+          {s.label === 'GitHub' && <GitHubMark />}
           {s.label}
         </a>
       ))}
     </div>
+  </div>
+  <div class="max-w-wrap mx-auto px-6 pb-24 flex flex-wrap items-start gap-x-8 gap-y-4 text-sm">
+    <a href="#main" data-back-top class="inline-flex items-center min-h-11">Back to top ↑</a>
+    <details class="keyboard-help">
+      <summary class="min-h-11 cursor-pointer">Keyboard navigation</summary>
+      <p>Use Tab and Shift+Tab to move between controls, and Enter to follow links. The first two controls skip to the content and open site search. Escape closes search or the mobile menu. Ctrl+Home / Ctrl+End (Cmd+↑ / Cmd+↓ on Mac) use your browser’s native page navigation. Long articles offer an “On this page” list.</p>
+    </details>
   </div>
 </footer>

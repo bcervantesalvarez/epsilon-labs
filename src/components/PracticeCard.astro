@@ -1,0 +1,57 @@
+---
+import TopicMark from './TopicMark.astro';
+interface Props { title: string; body: string; kind: number; servicesLink?: boolean; }
+const { title, body, kind, servicesLink = false } = Astro.props;
+const topics = ['statistics','learning','dashboard','publishing','training','review'];
+const names = ['Uncertainty shrinks with information','A threshold changes the decision','Filter a tiny dashboard','Same inputs, same result','Start with the question','Review the reasoning'];
+const id = `practice-demo-${kind}`;
+---
+<article class="practice-flip" data-practice-kind={kind}>
+  <div class="practice-turn">
+    <div class="practice-face practice-front" aria-hidden="false">
+      <div class="service-symbol" aria-hidden="true"><TopicMark topic={topics[kind]} /></div>
+      <h3>{title}</h3><p>{body}</p>
+      <div class="practice-controls">
+        <button type="button" data-flip-open aria-expanded="false" aria-controls={id} aria-label={`Explore interactive example: ${title}`}>Turn it over <span aria-hidden="true">↻</span></button>
+        {servicesLink && <a href="/services#practice-areas">Explore services ↗</a>}
+      </div>
+    </div>
+    <div class="practice-face practice-back" id={id} aria-hidden="true" inert>
+      <button type="button" data-flip-close aria-label={`Return to summary: ${title}`}>← Summary</button>
+      <p class="demo-eyebrow">{title}</p><h3>{names[kind]}</h3>
+      <p class="demo-note">Illustrative demo · synthetic values, not client results.</p>
+      {kind === 0 && <div class="mini-demo">
+        <label>Sample size <input data-demo-input type="range" min="8" max="128" step="8" value="32" /></label>
+        <svg viewBox="0 0 300 100" aria-hidden="true"><path class="demo-axis" d="M20 65H280M150 57V73"/><path data-interval d="M97 50H203M97 40V60M203 40V60"/><circle cx="150" cy="50" r="5"/></svg>
+        <output aria-live="polite">n = 32 · margin ±0.35</output><p>Known SD = 1. A normal-theory 95% interval has margin 1.96 / √n. More observations narrow it.</p>
+      </div>}
+      {kind === 1 && <div class="mini-demo">
+        <label>Decision threshold <input data-demo-input type="range" min="10" max="90" step="10" value="50" /></label>
+        <div class="prediction-dots" aria-hidden="true">{[.1,.22,.38,.46,.57,.69,.82,.93].map(p=><span data-probability={p} data-positive={p >= .5}>{Math.round(p*100)}%</span>)}</div>
+        <output aria-live="polite">Threshold 50% · 4 of 8 flagged</output><p>Changing a threshold changes decisions. It does not establish a model’s accuracy.</p>
+      </div>}
+      {kind === 2 && <div class="mini-demo">
+        <label>Fictional region <select data-demo-input><option value="all">All regions</option><option value="north">North</option><option value="south">South</option></select></label>
+        <div class="demo-bars" aria-hidden="true"><span style="--bar:75%">A · 30</span><span style="--bar:100%">B · 40</span><span style="--bar:50%">C · 20</span></div>
+        <output aria-live="polite">All regions · 90 illustrative units</output><p>A useful filter updates both the visual and its total.</p>
+      </div>}
+      {kind === 3 && <div class="mini-demo">
+        <div class="pipeline-demo" aria-hidden="true"><span>12 + 18 + 10 + 20</span><b>↓</b><span>Sum → 60</span></div>
+        <button type="button" data-demo-run>Rerun calculation</button><output aria-live="polite">Ready · fixed inputs sum to 60</output><p>Rerun the same fixed inputs. The result remains 60; the run counter changes.</p>
+      </div>}
+      {kind === 4 && <div class="mini-demo">
+        <p>Before comparing a continuous outcome between two independent groups, what comes first?</p>
+        <button type="button" data-demo-answer="design">Check the design and assumptions</button><button type="button" data-demo-answer="p">Choose the smallest p-value</button>
+        <output aria-live="polite">Choose an answer.</output>
+      </div>}
+      {kind === 5 && <div class="mini-demo">
+        {['Question clearly defined','Assumptions documented','Validation kept separate'].map(item=><label class="demo-check"><input data-demo-input type="checkbox" />{item}</label>)}
+        <output aria-live="polite">0 of 3 review prompts checked</output><p>A starting checklist for discussion, not a certification of an analysis.</p>
+      </div>}
+    </div>
+  </div>
+</article>
+<script>
+  import { mountPracticeCards } from '../lib/practice-cards.js';
+  mountPracticeCards(document);
+</script>

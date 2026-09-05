@@ -1,7 +1,8 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Section from '@components/Section.astro';
-import Card from '@components/Card.astro';
+import ResourceCard from '@components/ResourceCard.astro';
+import TopicMark from '@components/TopicMark.astro';
 
 // Grouped shelves — mirrored (in condensed form) by the Resources
 // section on the landing page. Keep the two in sync when editing.
@@ -71,18 +72,16 @@ const groups = [
     </section>
 
     <Section first>
-      <div class="flex flex-col gap-16">
-        {groups.map((g) => (
-          <div>
-            <h2 class="text-sm font-bold uppercase tracking-[0.14em] text-ink border-b border-rule pb-3 m-0 mb-8">
-              {g.label}
-            </h2>
-            <div class="card-flow">
-              {g.items.map(r => (
-                <Card {...r} external imageAlt={r.title} />
-              ))}
-            </div>
-          </div>
+      <nav class="resource-topics" aria-label="Resource topics">{groups.map((g, i) => <a href={`#resource-topic-${i}`}>{g.label}</a>)}</nav>
+      <div class="resource-shelves">
+        {groups.map((g, i) => (
+          <section class="resource-shelf" id={`resource-topic-${i}`}>
+            <header class="resource-shelf-heading">
+              <div class="resource-topic-art"><TopicMark topic={['publishing', 'community', 'foundations', 'data'][i]} /></div>
+              <h2>{g.label}</h2>
+            </header>
+            <div class="resource-list">{g.items.map(r => <ResourceCard {...r} />)}</div>
+          </section>
         ))}
       </div>
     </Section>

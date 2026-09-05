@@ -3,11 +3,11 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import Section from '@components/Section.astro';
 import { getCollection } from 'astro:content';
 
-const all = await getCollection('talks', ({ data }) => !data.draft && data.status === 'active');
+const all = await getCollection('talks', ({ data }) => !data.draft);
 const talks = all.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
 const fmt = (d: Date) => d.toLocaleDateString('en-US',
-  { year: 'numeric', month: 'long', day: 'numeric' });
+  { timeZone: 'UTC', year: 'numeric', month: 'long', day: 'numeric' });
 
 // Two letters from the year for the marker stamp
 const yearStamp = (d: Date) => String(d.getFullYear()).slice(-2);
@@ -33,12 +33,12 @@ const yearStamp = (d: Date) => String(d.getFullYear()).slice(-2);
       {talks.length === 0 ? (
         <p class="text-body">New talks will be posted here.</p>
       ) : (
-        <ol class="list-none m-0 p-0 max-w-narrow mx-auto flex flex-col gap-px bg-rule" data-stagger>
+        <ol class="list-none m-0 p-0 talk-list mx-auto flex flex-col gap-6" data-stagger>
           {talks.map((t, idx) => (
-            <li class="bg-bg">
+            <li class="talk-ticket bg-surface">
               <a
                 href={`/talks/${t.id}`}
-                class="talk-row group relative grid grid-cols-1 md:grid-cols-[80px_1fr_auto] gap-4 md:gap-8 items-start py-8 md:py-10 px-1 md:px-2 no-underline transition-colors hover:bg-surface-soft"
+                class="talk-row group relative grid grid-cols-1 md:grid-cols-[80px_1fr_auto] gap-4 md:gap-8 items-start py-7 md:py-10 px-6 md:px-8 no-underline transition-colors hover:bg-surface-soft"
               >
                 <!-- Number stamp + year -->
                 <div class="hidden md:flex flex-col items-start gap-1 font-mono text-muted">

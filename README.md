@@ -110,6 +110,49 @@ should follow when editing this repo.
 
 ---
 
-*Transparency note: this Astro rewrite was built by **Claude** —
+Historical provenance: the original repository attributes its Astro rewrite to Claude Code. Exact model/version and reasoning effort are unknown (metadata unavailable).*Claude** —
 Anthropic's Claude Code agent, running its latest-generation frontier
 model with extended thinking mode enabled.*
+
+
+## September 2026 visual redesign
+
+Light and dark modes follow their selected palette throughout the site. The connected epsilon/L monogram uses copper/deep-navy in light mode and copper/pale-blue in dark mode. All geometry is vector; the hero uses closely spaced extruded layers with reduced-motion support. Official institution, LinkedIn and GitHub marks retain their shapes. Linfield's displayed bounds center the actual artwork. The three existing degrees use a distinct floating credential-card composition that shares Projects’ hover and depth language, alongside an illustrated statistical-practice panel; degree headings lead in distinct copper, navy and plum accents, with smaller university labels. Degree facts and department links are preserved.
+
+Projects use alternating large showcases with multiple image planes and clear onward links. Two new conceptual project covers were generated with the built-in image-generation tool; responsive WebP files replace general illustrations, while brand marks and analytical figures remain intact. Image-generation model/version and reasoning effort: unknown (metadata unavailable). Services has a dimensional hero, six illustrated practice offerings and an engagement path. Resources uses topic shelves, enlarged marks, compact reading rows and distinct original concept artwork. All 15 blog posts share the main timeline; `/archive` redirects to `/blog`, and existing article URLs remain intact. Calendar dates use UTC formatting to avoid previous-day shifts.
+
+Articles restore list markers and disclosures, scrollable code/tables, locally bundled KaTeX, and four saved Plotly charts. Data and mathematical meaning are preserved. The gym chart keeps all 15 traces and facet labels; wide plots scroll inside their frame. Thirty-five webR examples now expose their saved R code because the imported article omitted the original inline exercise runtime.
+
+All six presentations have a dedicated viewer with previous/next buttons, expanded view, standalone link and responsive reading view. See [presentation notes](public/presentations/README.md). The Willamette master's-program affiliation replaces the incorrect OSU event label on the survival-analysis talk. Its source date remains unchanged.
+
+Known source limitations: three Missing Data plot files are absent from the upstream repository and are explicitly marked unavailable. Quarto 101's live Python demo opens on its original origin because its worker requires that origin. The published webR deck contains stale self-contained YouTube embeds and may report media/runtime errors; slide navigation and readable content remain available. External Shiny services and media retain their own runtime and theme. An interactive GT payload omitted during the earlier import cannot be reconstructed from this repository.
+
+Validation: `npm run check`, `npm run build`, and `node --test tests/theme.test.mjs`. Browser QA covered all 15 blog routes and all six reading views at 390px with no page overflow or KaTeX errors; all six slide viewers rendered and advanced on desktop/mobile. Explicit expand/collapse checks confirmed each canvas remained inside its frame with scale below 1, and collapsed layouts had no overflow. Primary page themes, navigation, school logos, 320px layout and reduced motion were also checked. This is functional and visual QA, not independent verification of analytical claims.
+
+The site-grounded assistant is a future high-priority item in [BACKLOG.md](BACKLOG.md). No backend service was implemented or provisioned in this pass. No production deployment was performed.
+
+AI contribution: Codex generated the redesign, vector identity, rendering fixes and validation code from Brian's direction and existing content. Model/version: unknown (metadata unavailable). Reasoning effort: unknown (metadata unavailable). No human signoff recorded.
+
+The current monogram uses original level, centrally interwoven epsilon and serif capital L outlines, inspired by the restrained AS reference. The L passes behind the epsilon’s lower curve and in front through its middle, with transparent over-under cuts and no oversized sweep. Copper/deep navy and the lighter dark-mode reverse share geometry across the header, footer, hero, favicon and six reusable SVG variants. The hero renders depth within one SVG for smooth edges.
+
+
+### Navigation and practice-card interactions
+
+Back-to-top resolves the current button after Astro navigation, hides below a viewport-aware threshold, transfers focus to main content and honors reduced motion. A footer link remains available. On mobile a bottom strip separates the control from reading content; bottom-right remains free for any future assistant. Skip-to-content and skip-to-search precede the navigation. Article contents lists appear for articles with at least three second-level headings. Keyboard guidance documents native controls; no global shortcut overrides browser commands. Presentation readers use one main landmark.
+
+All six Services practice areas and the four corresponding home-page cards reveal topic-specific, clearly labeled synthetic demos on click/tap or Enter/Space. Only the active face is exposed to reading and tab order; returning restores focus. Reduced motion changes faces without rotation. Summaries and Services links remain available. Tests cover navigation replacement, focus, reduced motion, demo calculations and face state. These targeted checks are not a formal accessibility certification.
+
+
+### Editorial imagery and topic artwork
+
+All 15 blog posts were inventoried: 10 decorative covers were regenerated and installed with responsive WebP sources and descriptive alternatives; five logo-based covers remain accurate. All 37 other in-article images are unchanged (33 analytical figures, three instructional chart examples and one research poster). See `public/images/blog/README.md` for coverage and `public/images/blog/Prompts.md` for prompts and image-generation provenance. No analytical data or results were fabricated or regenerated.
+
+Practice cards use six distinct original vector illustrations, including a dashboard, reporting loop, training book and methodology-review magnifier. Resource illustrations distinguish books, sampling, calendars, linked data tables and world data. Nested image frames and forced white padding were removed. R-bloggers and R Weekly retain source assets with near-white paper knocked out at render time; their colored marks are retained. No new raster logo was generated.
+
+## Reading polish
+
+All blog posts and presentation reading views use a shared static, language-aware code renderer with dual-theme syntax colors, copy controls and separate output labels. Reader conversion retains language metadata, cleans slide scaffolding, and preserves source text, analytical figures and table encodings. See [the 21-route reading audit](READING-REVIEW.md) for coverage and limitations. Run `npm test` for the complete regression suite.
+
+## Personal content drafts
+
+Five personal/academic articles and two project case studies remain drafts. The articles and Discord project label evidenced source activity as Work date; draft preparation dates are separate, not backdated publication claims. Use npm run build:review for local review, or npm run dev. Normal production builds exclude the draft pages and listing entries. See [personal content review](PERSONAL-CONTENT-REVIEW.md) for source limits, validation commands, dates, and AI provenance.
