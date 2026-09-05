@@ -13,7 +13,7 @@ readingTime: 12
 import Overview from '@components/Overview.astro';
 
 <Overview>
-Three well-geared players met an Infernal Amalgalich with Webber, Fiery, Bulwark, and Lifesteal. Under the analysis's assumed selection rules, the chance of at least those four modifiers is about **1.05746% given Infernal**—roughly one in 94.6 modeled Infernal cases. That is a conditional model result, not a measured encounter rate. The original three-modifier calculation remains below as a benchmark, with its extra Russet assumption kept separate.
+Three well-geared players met a Russet Infernal Amalgalich with Webber, Fiery, Bulwark, and Lifesteal. Under the analysis's assumed selection rules, the chance of at least those four modifiers is about **1.05746% given Infernal**—roughly one in 94.6 modeled Infernal cases. Including the source’s assumed Russet and Infernal probabilities gives roughly **one in 2.08 million eligible summons** for the full modeled event. Brian’s account identifies the encounter; the model assumptions, not that account, supply the probabilities. The original three-modifier calculation remains below as a separate benchmark.
 </Overview>
 
 <figure><img src="/images/personal/amalgalich-1280.webp" srcset="/images/personal/amalgalich-640.webp 640w, /images/personal/amalgalich-1280.webp 1280w" sizes="(max-width: 760px) 94vw, 736px" alt="Playful conceptual undead boss looming over a tiny adventurer with oversized dice in a fantasy arena" width="1280" height="854" /><figcaption>AI-generated conceptual fan-style illustration of the Amalgalich probability question. It is not a screenshot, an exact creature model, or a depiction of measured results.</figcaption></figure>
@@ -22,13 +22,13 @@ Three well-geared players met an Infernal Amalgalich with Webber, Fiery, Bulwark
 
 There were three of us: two friends and me, playing RLCraft Dregora. We thought we were prepared. I had parasite armor, and I remember my friends wearing it too. Our setup included near-maxed nunchucks, a Sentient Bow, and a wine build. This was near-endgame gear, not a casual first attempt with whatever happened to be in our inventories.
 
-Then the Amalgalich spawned with what I remember as **Webber, Fiery, Bulwark, and Lifesteal**, on an Infernal boss. Bulwark felt like it cut our effective damage in half. We would chip away at the boss, then a hit on one of us seemed to heal it almost back to full. Together, the modifiers made the fight feel almost unwinnable despite the preparation.
+Then the Amalgalich spawned with what I remember as **Webber, Fiery, Bulwark, and Lifesteal**, on a Russet Infernal boss. Bulwark felt like it cut our effective damage in half. We would chip away at the boss, then a hit on one of us seemed to heal it almost back to full. Together, the modifiers made the fight feel almost unwinnable despite the preparation.
 
 Those are my recollections, not measurements of the installed mod's mechanics. I remember Bulwark as roughly 50% damage negation. Fiery set us on fire; I am not assigning it a direct damage multiplier. The apparent healing amount was not measured. The probability model below does not calculate combat damage or healing.
 
 [Amalgalich's creator page](https://www.lycanitesmobs.com/mobevent/amalgalich) identifies the boss and its summoning event. The question that interested me was more specific than “how rare is this boss?” What were the odds of a stack like the one we had just faced?
 
-My August 29 analysis originally targeted **Bulwark, Lifesteal, and Webber**, with **Russet** and **Infernal** also required. I have since clarified that Fiery was present too, and that the boss was Infernal. Russet remains unconfirmed. August 29 is the analysis date, not an established encounter date. Adding a fourth required modifier changes the calculation; the older estimate cannot simply be attached to the fuller account.
+My August 29 analysis originally targeted **Bulwark, Lifesteal, and Webber**, with **Russet** and **Infernal** also required. I have since clarified that Fiery was present too, and that the boss was both Russet and Infernal. Those details are my firsthand account, not independently checked game logs. August 29 is the analysis date, not an established encounter date. Adding a fourth required modifier changes the calculation; the older estimate cannot simply be attached to the fuller account.
 
 ## The four-modifier question
 
@@ -46,7 +46,13 @@ Fiery is present in the source's 26-entry pool and has no conflict listed in its
 
 The exact recurrence keeps six distinguished entries: the four targets plus Gravity and Blastoff, which conflict with Webber in the source model. The other 20 entries remain exchangeable. It was checked against an independently written enumerator on an eight-entry toy pool: **2,088 successes among 20,160 ordered six-draw prefixes**, matching the recurrence exactly. A separate random-permutation simulation then checked the full model; its interval contains the exact result. These checks validate the implemented assumptions, not the game installation.
 
-No Russet factor belongs in this conditional answer. If the source's separate 1-in-1,000 Infernal gate were also correct for eligible summons, combining that gate with the four-target result would give about one in 94,566 eligible summons, without a variant requirement. That extra gate remains an assumption; the firsthand account establishes what appeared in this encounter, not the population frequency of the tier. Neither figure estimates the chance of winning the fight.
+### From the conditional result to the full modeled encounter
+
+The conditional answer holds the Infernal branch fixed and does not require a variant. To model the full reported combination, use the source's **1/22 Russet probability**, **1/1,000 Infernal gate probability**, and its assumption that the variant draw is independent of the tier/modifier path. Under those assumptions, the joint probability is (1/22) × (1/1,000) × (1,739/164,450) = **1,739/3,617,900,000**, approximately **0.0000480666%**, or **one in 2,080,449 eligible summons**—roughly one in 2.08 million.
+
+This event requires Russet, Infernal, and **at least all four named modifiers**, with other modifiers allowed. The four-modifier chance is already conditional on Infernal; no extra assumption of independence between the tier and modifier selection is needed to multiply those two terms. Independence of the variant from that joint path is a separate source-model assumption. Brian's report confirms which attributes he recalls seeing; it does not establish their population probabilities or that independence.
+
+The source's configuration, variant pool, tier gates, and acceptance routine still need matching-installation verification before this number can be presented as the actual game's encounter rate. Neither the conditional nor joint result estimates the chance of winning. The old one-in-636,751 result below counts only the three-target set and must not be reused for this four-target event.
 
 The rest of this article walks through the **original three-target calculation**. Its baseline, comparison chart, and one-in-636,751 combined result refer to Bulwark/Lifesteal/Webber plus the stated variant/tier assumptions. They help explain how the method works; they are not the four-target answer above.
 

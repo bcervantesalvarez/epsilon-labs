@@ -95,3 +95,11 @@ print(json.dumps({"FourTargetFraction": str(four), "FourTargetProbabilityGivenIn
                   "ToySuccesses": toy_hits, "ToyOrders": len(toy_orders), "SimulationTrials": trials,
                   "SimulationSuccesses": hits, "SimulationProbability": estimate,
                   "SimulationApprox95Interval": [estimate - 1.96 * se, estimate + 1.96 * se]}, indent=2))
+
+# Full four-target scenario uses the same explicitly assumed variant/tier gates.
+four_joint = four * Fraction(1, 22) * Fraction(1, 1000)
+assert four_joint == Fraction(1739, 3617900000)
+assert four_joint < joint
+print(json.dumps({"FourTargetJointFraction": str(four_joint),
+                  "FourTargetJointProbability": float(four_joint),
+                  "FourTargetJointReciprocal": float(1 / four_joint)}, indent=2))
