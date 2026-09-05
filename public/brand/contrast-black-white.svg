@@ -1,4 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="400" height="400" fill="none" role="img" aria-label="Epsilon Labs monogram">
-  <path d="M49 25C36 12 16 18 18 33C19 43 31 46 44 42C27 42 13 49 15 63C17 79 35 84 48 72" stroke="#111111" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M48 72C61 58 91 26 78 15C65 4 56 31 61 55C64 73 56 85 49 83C40 80 50 71 61 75C72 80 83 86 90 73" stroke="#ffffff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none"><g stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+<path d="M49,25C34,12 16,20 18,34C20,45 32,47 43,45C25,43 13,52 17,65C20.74,79.96 36.23,83.17 55.517,70.446" stroke="#111"/>
+<path d="M67.844,60.524C70.531,57.974 73.256,55.136 76,52" stroke="#111"/>
+<path d="M18,87C25.425,96.075 30.808,94.26 35.834,84.924" stroke="#fff"/>
+<path d="M42.522,70.886C54.897,49.842 83.286,27.776 77,17C67,4 55,22 60,48C64,70 59,81 72,81C81,81 86,76 90,71" stroke="#fff"/>
+</g></svg>

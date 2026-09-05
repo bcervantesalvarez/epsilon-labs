@@ -3,12 +3,17 @@
 import mark from '@/assets/logo/epsilon-mark.svg?raw';
 interface Props { class?: string; }
 const { class: extra = '' } = Astro.props;
+const curves = mark.replace(/<svg[^>]*>/, '').replace(/<\/svg>\s*$/, '');
 ---
 <div class={`brand-sculpture ${extra}`} aria-hidden="true">
   <div class="sculpture-object">
-    {Array.from({ length: 24 }, (_, i) => (
-      <span class="sculpture-layer" style={`--layer: ${i}`}><Fragment set:html={mark} /></span>
-    ))}
-    <span class="sculpture-face"><Fragment set:html={mark} /></span>
+    <svg viewBox="0 0 104 106" fill="none" aria-hidden="true">
+      <g class="sculpture-extrusion">
+        {Array.from({ length: 24 }, (_, i) => (
+          <g transform={`translate(${(24 - i) * .125} ${(24 - i) * .167})`}><Fragment set:html={curves} /></g>
+        ))}
+      </g>
+      <g class="sculpture-vector-face"><Fragment set:html={curves} /></g>
+    </svg>
   </div>
 </div>

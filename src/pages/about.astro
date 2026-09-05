@@ -3,6 +3,7 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import Section from '@components/Section.astro';
 import Button from '@components/Button.astro';
 import SchoolBanner from '@components/SchoolBanner.astro';
+import TopicMark from '@components/TopicMark.astro';
 
 // Education banners. Colors taken from each school's brand palette.
 // Ordered most-recent first so it reads top-to-bottom as a timeline.
@@ -10,6 +11,7 @@ const schools = [
   {
     school: 'Oregon State University',
     degree: 'M.S. Statistics',
+    degreeTone: 'copper' as const,
     years: '2023 – 2025',
     href: 'https://stat.oregonstate.edu/',
     hrefLabel: 'Department of Statistics',
@@ -27,6 +29,7 @@ const schools = [
   {
     school: 'Willamette University',
     degree: 'M.S. Data Science',
+    degreeTone: 'navy' as const,
     years: '2022 – 2023',
     href: 'https://willamette.edu/academics/computing/data-science/',
     hrefLabel: 'Data Science program',
@@ -44,6 +47,7 @@ const schools = [
   {
     school: 'Linfield University',
     degree: 'B.S. Mathematics',
+    degreeTone: 'plum' as const,
     years: '2018 – 2022',
     href: 'https://www.linfield.edu/',
     hrefLabel: 'Visit Linfield',
@@ -98,8 +102,10 @@ const schools = [
       </div>
     </section>
 
-    <Section eyebrow="Practice" title="How I work." first>
-      <div class="max-w-prose">
+    <Section eyebrow="Practice" title="How I work." first id="statistical-practice">
+      <div class="statistical-perspective">
+        <div class="perspective-art" aria-hidden="true"><span class="perspective-sheet back"></span><span class="perspective-sheet middle"></span><div class="perspective-sheet front"><TopicMark topic="statistics" /></div></div>
+        <div class="perspective-copy">
         <p class="text-body m-0 mb-4">
           Most analytics work is judged by how it reads. I build mine to
           be judged by how well it holds up under audit, replication, and
@@ -113,11 +119,12 @@ const schools = [
           proposal. Nothing gets billed without a deliverable behind it.
         </p>
       </div>
+      </div>
     </Section>
 
-    <!-- Where I trained — alternating school banners -->
-    <Section eyebrow="Where I trained" title="Three degrees, one statistical career.">
-      <div class="flex flex-col gap-6">
+    <!-- Existing degree content, presented as floating credentials. -->
+    <Section eyebrow="Where I trained" title="Three degrees, one statistical career." id="education">
+      <div class="education-exhibition">
         {schools.map(s => <SchoolBanner {...s} />)}
       </div>
       <p class="text-sm text-muted mt-8 m-0 max-w-prose">

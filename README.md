@@ -117,7 +117,7 @@ model with extended thinking mode enabled.*
 
 ## September 2026 visual redesign
 
-Light and dark modes follow their selected palette throughout the site. The connected epsilon/L monogram uses copper/teal in light mode and peach/aqua in dark mode. All geometry is vector; the hero uses closely spaced extruded layers with reduced-motion support. Official institution, LinkedIn and GitHub marks retain their shapes. Linfield's displayed bounds center the actual artwork.
+Light and dark modes follow their selected palette throughout the site. The connected epsilon/L monogram uses copper/deep-navy in light mode and copper/pale-blue in dark mode. All geometry is vector; the hero uses closely spaced extruded layers with reduced-motion support. Official institution, LinkedIn and GitHub marks retain their shapes. Linfield's displayed bounds center the actual artwork. The three existing degrees use a distinct floating credential-card composition that shares Projects’ hover and depth language, alongside an illustrated statistical-practice panel; degree headings lead in distinct copper, navy and plum accents, with smaller university labels. Degree facts and department links are preserved.
 
 Projects use alternating large showcases with multiple image planes and clear onward links. Two new conceptual project covers were generated with the built-in image-generation tool; responsive WebP files replace general illustrations, while brand marks and analytical figures remain intact. Image-generation model/version and reasoning effort: unknown (metadata unavailable). Services has a dimensional hero, six illustrated practice offerings and an engagement path. Resources uses topic shelves, enlarged marks, compact reading rows and distinct original concept artwork. All 15 blog posts share the main timeline; `/archive` redirects to `/blog`, and existing article URLs remain intact. Calendar dates use UTC formatting to avoid previous-day shifts.
 
@@ -132,3 +132,5 @@ Validation: `npm run check`, `npm run build`, and `node --test tests/theme.test.
 The site-grounded assistant is a future high-priority item in [BACKLOG.md](BACKLOG.md). No backend service was implemented or provisioned in this pass. No production deployment was performed.
 
 AI contribution: Codex generated the redesign, vector identity, rendering fixes and validation code from Brian's direction and existing content. Model/version: unknown (metadata unavailable). Reasoning effort: unknown (metadata unavailable). No human signoff recorded.
+
+The current monogram uses a consistent 6-unit stroke, smooth cubic curves and two alternating transparent underpasses. Primary copper/deep navy and the lighter dark-mode reverse share identical geometry across the header, hero, favicon and six reusable SVG variants.
