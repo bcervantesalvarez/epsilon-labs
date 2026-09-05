@@ -1,4 +1,5 @@
 ---
+import PracticeCard from '@components/PracticeCard.astro';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Section from '@components/Section.astro';
 import Button from '@components/Button.astro';
@@ -53,12 +54,7 @@ const steps = [
 
     <Section eyebrow="Practice areas" title="What I do." first id="practice-areas">
       <div class="service-catalog">
-        {practiceAreas.map((area, i) => (
-          <article class="service-offering">
-            <div class="service-symbol"><TopicMark topic={['statistics', 'learning', 'data', 'publishing', 'community', 'statistics'][i]} /></div>
-            <div><h3>{area.title}</h3><p>{area.body}</p></div>
-          </article>
-        ))}
+        {practiceAreas.map((area, i) => <PracticeCard title={area.title} body={area.body} kind={i} />)}
       </div>
     </Section>
 

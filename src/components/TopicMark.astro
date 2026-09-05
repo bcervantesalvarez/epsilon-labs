@@ -1,12 +1,49 @@
 ---
 interface Props { topic: string; }
 const { topic } = Astro.props;
+const accent = 'var(--color-accent)';
 ---
-<svg viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-  {topic === 'statistics' ? <><path d="M20 70C29 70 31 28 48 28S67 70 77 70M17 75H80"/><text x="48" y="24" text-anchor="middle" fill="currentColor" stroke="none" font-family="Georgia, serif" font-size="24">σ</text></> :
-   topic === 'learning' ? <><path d="M18 75V20M18 75H80M24 65L74 27"/><circle cx="29" cy="56" r="4"/><circle cx="41" cy="61" r="4"/><circle cx="51" cy="35" r="4"/><circle cx="64" cy="44" r="4"/><circle cx="73" cy="19" r="4"/></> :
-   topic === 'community' ? <><circle cx="48" cy="25" r="9"/><circle cx="22" cy="52" r="8"/><circle cx="74" cy="52" r="8"/><path d="M35 46Q48 36 61 46M10 75Q22 62 34 75M62 75Q74 62 86 75M30 40L39 33M57 33L66 40M34 58H62"/></> :
-   topic === 'publishing' ? <><path d="M16 24Q33 18 48 27Q63 18 80 24V73Q63 67 48 76Q33 67 16 73Z M48 27V76M25 36L39 38M25 47L39 49M58 38L71 36M58 49L71 47"/></> :
-   topic === 'world' ? <><circle cx="48" cy="48" r="31"/><ellipse cx="48" cy="48" rx="14" ry="31"/><path d="M17 48H79M24 29Q48 42 72 29M24 67Q48 54 72 67"/></> :
-   <><ellipse cx="48" cy="24" rx="27" ry="10"/><path d="M21 24V70C21 84 75 84 75 70V24M21 47C21 61 75 61 75 47"/><path d="M34 40H42M34 64H42"/></>}
+<svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  {topic === 'statistics' ? <>
+    <path d="M17 91H105M24 84V27" opacity=".35"/><path d="M27 79C42 78 43 28 60 28S79 78 97 79" stroke-width="3.5"/>
+    <path d="M35 94H85M35 88V100M85 88V100" stroke={accent}/><circle cx="60" cy="94" r="4" fill={accent} stroke="none"/>
+    <path d="M48 68V40M73 69V43" stroke-dasharray="2 5" opacity=".4"/>
+  </> : topic === 'learning' ? <>
+    <path d="M25 26L60 42L96 23M25 60L60 42L96 60M25 94L60 77L96 97M25 26L60 77M25 94L60 42M60 77L96 23" opacity=".45"/>
+    {[26,60,94].map(y=><circle cx="25" cy={y} r="8" fill="var(--color-surface)"/>)}<circle cx="60" cy="42" r="10" fill="var(--color-surface)"/><circle cx="60" cy="77" r="10" fill="var(--color-surface)"/>
+    {[23,60,97].map(y=><circle cx="96" cy={y} r="7" fill={accent} stroke="none"/>)}
+  </> : topic === 'dashboard' ? <>
+    <rect x="13" y="22" width="94" height="77" rx="9"/><path d="M13 38H107M24 30H26M34 30H36"/><rect x="23" y="49" width="31" height="38" rx="4" opacity=".4"/>
+    <path d="M31 77V67M39 77V59M47 77V63" stroke={accent} stroke-width="5"/><path d="M65 56H95M65 67H83M65 79H91"/><path d="M32 108H88M49 99V108M71 99V108" opacity=".45"/>
+  </> : topic === 'publishing' || topic === 'workflow' ? <>
+    <path d="M28 14H72L91 33V93H28Z"/><path d="M72 14V33H91M39 46H76M39 58H76M39 70H62" opacity=".6"/>
+    <path d="M19 27H14V105H77V99" opacity=".35"/><path d="M75 79A17 17 0 1 1 67 99M66 89L67 99L77 97" stroke={accent} stroke-width="3"/>
+  </> : topic === 'training' || topic === 'foundations' ? <>
+    <path d="M13 42Q35 33 57 47Q79 33 103 42V98Q80 89 57 103Q35 89 13 98ZM57 47V103"/>
+    <path d="M24 56L45 61M24 69L45 74M70 61L91 56M70 74L91 69" opacity=".45"/>
+    <path d="M50 26C40 14 61 5 68 17C72 24 63 28 63 33H54V29M54 38H63" stroke={accent}/><path d="M35 19H29M80 19H86M40 7L35 3M76 7L81 3" stroke={accent}/>
+  </> : topic === 'review' ? <>
+    <path d="M20 16H73L91 34V101H20ZM73 16V34H91M31 45H62M31 56H53M31 82H49M31 93H59" opacity=".6"/>
+    <circle cx="73" cy="70" r="21" stroke-width="3"/><path d="M88 86L106 105" stroke-width="6"/><path d="M61 70L70 79L86 60" stroke={accent} stroke-width="3.5"/>
+  </> : topic === 'community' ? <>
+    <path d="M16 24H78V69H42L25 84V69H16Z"/><path d="M88 43H105V93H89L77 105V93H53V80" opacity=".55"/>
+    <circle cx="33" cy="46" r="4" fill={accent} stroke="none"/><circle cx="47" cy="46" r="4" fill={accent} stroke="none"/><circle cx="61" cy="46" r="4" fill={accent} stroke="none"/>
+    <path d="M70 81H92M88 68H95" opacity=".4"/>
+  </> : topic === 'world' ? <>
+    <circle cx="59" cy="60" r="39"/><ellipse cx="59" cy="60" rx="18" ry="39" opacity=".4"/><path d="M20 60H98M29 36Q59 51 89 36M29 84Q59 69 89 84" opacity=".4"/>
+    <path d="M36 39L46 34L53 40L49 51L41 54L44 66L53 74L47 84M73 40L83 46L77 57L66 58L67 72L77 77" stroke={accent} stroke-width="4"/>
+  </> : topic === 'calendar' ? <>
+    <rect x="17" y="24" width="86" height="79" rx="8"/><path d="M17 45H103M36 16V34M83 16V34" stroke-width="3"/>
+    {[31,50,69,88].map(x=><><circle cx={x} cy="61" r="3" fill="currentColor" stroke="none"/><circle cx={x} cy="80" r="3" fill="currentColor" stroke="none"/></>)}<circle cx="69" cy="80" r="11" stroke={accent}/>
+  </> : topic === 'learning-book' ? <>
+    <path d="M23 17H86V104H23C13 104 13 88 23 88H86M23 17V88"/><path d="M34 30H74" opacity=".4"/><path d="M38 53L58 67L73 47M38 76L58 67" stroke={accent}/><circle cx="38" cy="53" r="4"/><circle cx="38" cy="76" r="4"/><circle cx="58" cy="67" r="5"/><circle cx="73" cy="47" r="4"/>
+  </> : topic === 'sampling' ? <>
+    <path d="M15 29H104V98H15Z" opacity=".4"/>
+    {[31,50,69,88].map((x,i)=><>{[45,63,81].map((y,j)=><circle cx={x} cy={y} r="5" fill={(i+j)%3===0?accent:'none'} stroke={(i+j)%3===0?accent:'currentColor'}/>)}</>)}
+    <path d="M25 18H94M35 11H84" opacity=".35"/>
+  </> : <>
+    <rect x="12" y="17" width="57" height="43" rx="6"/><path d="M12 31H69M29 31V60M47 31V60M12 46H69" opacity=".45"/>
+    <rect x="51" y="73" width="57" height="33" rx="6"/><path d="M51 86H108M69 86V106M89 86V106" opacity=".45"/>
+    <path d="M31 68V89H42M78 39H91V63M85 57L91 63L97 57" stroke={accent} stroke-width="3"/>
+  </>}
 </svg>

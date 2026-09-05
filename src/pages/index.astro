@@ -6,6 +6,7 @@
 // open shelves → an honest invitation. Sections alternate light /
 // tint / depth tones (see .tone-depth in global.css) instead of
 // horizontal rules.
+import PracticeCard from '@components/PracticeCard.astro';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import LandingSection from '@components/LandingSection.astro';
 import Card from '@components/Card.astro';
@@ -310,13 +311,7 @@ const shelves = [
     link={{ href: '/services', label: 'All services' }}
   >
     <div class="practice-grid" data-stagger>
-      {practices.map((p) => (
-        <a class="practice-panel" href="/services">
-          <h3>{p.title}</h3>
-          <p>{p.body}</p>
-          <span class="practice-link">Explore services <span aria-hidden="true">↗</span></span>
-        </a>
-      ))}
+      {practices.map((p, i) => <PracticeCard title={p.title} body={p.body} kind={i} servicesLink />)}
     </div>
   </LandingSection>
 

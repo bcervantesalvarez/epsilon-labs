@@ -205,9 +205,11 @@ const resolvedOg = ogImage ?? `/og/${ogPath ?? 'default'}.png`;
   </script>
 </head>
 <body class="bg-bg text-body font-sans text-base">
+  <svg width="0" height="0" aria-hidden="true" style="position:absolute"><defs><filter id="resource-paper-knockout" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  -10 -10 -10 0 29" /></filter></defs></svg>
   <a href="#main" class="skip-link">Skip to content</a>
+  <button type="button" class="skip-link skip-search" data-search-open>Search this site</button>
   <Navbar />
-  <main id="main">
+  <main id="main" tabindex="-1">
     <slot />
   </main>
   <Footer />

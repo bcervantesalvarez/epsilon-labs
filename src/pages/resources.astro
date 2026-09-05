@@ -77,7 +77,7 @@ const groups = [
         {groups.map((g, i) => (
           <section class="resource-shelf" id={`resource-topic-${i}`}>
             <header class="resource-shelf-heading">
-              <div class="resource-topic-art"><TopicMark topic={['publishing', 'community', 'statistics', 'world'][i]} /></div>
+              <div class="resource-topic-art"><TopicMark topic={['publishing', 'community', 'foundations', 'data'][i]} /></div>
               <h2>{g.label}</h2>
             </header>
             <div class="resource-list">{g.items.map(r => <ResourceCard {...r} />)}</div>

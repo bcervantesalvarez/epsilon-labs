@@ -133,4 +133,18 @@ The site-grounded assistant is a future high-priority item in [BACKLOG.md](BACKL
 
 AI contribution: Codex generated the redesign, vector identity, rendering fixes and validation code from Brian's direction and existing content. Model/version: unknown (metadata unavailable). Reasoning effort: unknown (metadata unavailable). No human signoff recorded.
 
-The current monogram uses a consistent 6-unit stroke, smooth cubic curves and two alternating transparent underpasses. Primary copper/deep navy and the lighter dark-mode reverse share identical geometry across the header, hero, favicon and six reusable SVG variants.
+The current monogram uses original level, centrally interwoven epsilon and serif capital L outlines, inspired by the restrained AS reference. The L passes behind the epsilon’s lower curve and in front through its middle, with transparent over-under cuts and no oversized sweep. Copper/deep navy and the lighter dark-mode reverse share geometry across the header, footer, hero, favicon and six reusable SVG variants. The hero renders depth within one SVG for smooth edges.
+
+
+### Navigation and practice-card interactions
+
+Back-to-top resolves the current button after Astro navigation, hides below a viewport-aware threshold, transfers focus to main content and honors reduced motion. A footer link remains available. On mobile a bottom strip separates the control from reading content; bottom-right remains free for any future assistant. Skip-to-content and skip-to-search precede the navigation. Article contents lists appear for articles with at least three second-level headings. Keyboard guidance documents native controls; no global shortcut overrides browser commands. Presentation readers use one main landmark.
+
+All six Services practice areas and the four corresponding home-page cards reveal topic-specific, clearly labeled synthetic demos on click/tap or Enter/Space. Only the active face is exposed to reading and tab order; returning restores focus. Reduced motion changes faces without rotation. Summaries and Services links remain available. Tests cover navigation replacement, focus, reduced motion, demo calculations and face state. These targeted checks are not a formal accessibility certification.
+
+
+### Editorial imagery and topic artwork
+
+All 15 blog posts were inventoried: 10 decorative covers were regenerated and installed with responsive WebP sources and descriptive alternatives; five logo-based covers remain accurate. All 37 other in-article images are unchanged (33 analytical figures, three instructional chart examples and one research poster). See `public/images/blog/README.md` for coverage and `public/images/blog/Prompts.md` for prompts and image-generation provenance. No analytical data or results were fabricated or regenerated.
+
+Practice cards use six distinct original vector illustrations, including a dashboard, reporting loop, training book and methodology-review magnifier. Resource illustrations distinguish books, sampling, calendars, linked data tables and world data. Nested image frames and forced white padding were removed. R-bloggers and R Weekly retain source assets with near-white paper knocked out at render time; their colored marks are retained. No new raster logo was generated.
