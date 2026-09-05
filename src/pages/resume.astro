@@ -1,4 +1,5 @@
 ---
+import GitHubMark from "@components/GitHubMark.astro";
 // src/pages/resume.astro — Web-native resume.
 // One-page scannable layout. Keep this in sync as roles change; the
 // static PDF in public/documents/resume/bca-resume.pdf is a snapshot
@@ -93,7 +94,7 @@ const capabilities = [
       <div class="flex flex-wrap gap-3 mt-6">
         <Button href="mailto:briancervantesalvarez@gmail.com">Email</Button>
         <Button href="https://linkedin.com/in/bcervantesalvarez" target="_blank" rel="noreferrer" variant="ghost">LinkedIn</Button>
-        <Button href="https://github.com/bcervantesalvarez" target="_blank" rel="noreferrer" variant="ghost">GitHub</Button>
+        <Button href="https://github.com/bcervantesalvarez" target="_blank" rel="noreferrer" variant="ghost"><GitHubMark /> GitHub</Button>
         <Button href="/documents/resume/bca-resume.pdf" target="_blank" rel="noreferrer" variant="ghost">PDF version</Button>
       </div>
     </header>

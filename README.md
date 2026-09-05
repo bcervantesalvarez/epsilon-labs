@@ -110,48 +110,25 @@ should follow when editing this repo.
 
 ---
 
-*Transparency note: this Astro rewrite was built by **Claude** —
+Historical provenance: the original repository attributes its Astro rewrite to Claude Code. Exact model/version and reasoning effort are unknown (metadata unavailable).*Claude** —
 Anthropic's Claude Code agent, running its latest-generation frontier
 model with extended thinking mode enabled.*
 
 
 ## September 2026 visual redesign
 
-Light mode uses light surfaces throughout; dark mode uses dark surfaces,
-including the landing hero and portrait. A custom curving epsilon/L vector
-monogram appears in navigation, footer, favicon, and an extruded hero treatment.
-Layered portrait panels, restrained pointer tilt, and consistent card depth add
-dimension without obscuring the content. Resources uses uniform cards; Talks
-uses layered rows; the blog retains its timeline.
+Light and dark modes follow their selected palette throughout the site. The connected epsilon/L monogram uses copper/teal in light mode and peach/aqua in dark mode. All geometry is vector; the hero uses closely spaced extruded layers with reduced-motion support. Official institution, LinkedIn and GitHub marks retain their shapes. Linfield's displayed bounds center the actual artwork.
 
-A single theme controller preserves selections across navigation, works without
-browser storage, follows system changes until a selection is made, and
-synchronizes tabs. The keyboard-operable Dark theme button exposes its pressed
-state. Reduced motion disables animation, pointer tilt, and smooth scrolling.
+Projects use alternating large showcases with multiple image planes and clear onward links. Two new conceptual project covers were generated with the built-in image-generation tool; responsive WebP files replace general illustrations, while brand marks and analytical figures remain intact. Image-generation model/version and reasoning effort: unknown (metadata unavailable). Services has a dimensional hero, six illustrated practice offerings and an engagement path. Resources uses topic shelves, enlarged marks, compact reading rows and distinct original concept artwork. All 15 blog posts share the main timeline; `/archive` redirects to `/blog`, and existing article URLs remain intact. Calendar dates use UTC formatting to avoid previous-day shifts.
 
-The article system restores ordered/unordered and nested markers, corrects
-legacy hyphenated paragraphs into semantic lists, wraps wide tables, and keeps
-code output keyboard-scrollable. Saved Plotly payloads now render through a
-locally hosted, lazily loaded Plotly basic 4.0.0 bundle. Chart backgrounds and
-labels adapt to the theme; source observations, scales, ranges, and trace colors
-are preserved. Larger cover images are constrained; onward links lead back to
-writing and projects. Source text and factual claims have not been re-evaluated.
+Articles restore list markers and disclosures, scrollable code/tables, locally bundled KaTeX, and four saved Plotly charts. Data and mathematical meaning are preserved. The gym chart keeps all 15 traces and facet labels; wide plots scroll inside their frame. Thirty-five webR examples now expose their saved R code because the imported article omitted the original inline exercise runtime.
 
-Cross-origin Shiny apps and published slide decks control their own internal
-appearance. Previously omitted interactive widgets whose payloads are absent
-remain omitted, with their existing explanatory notices. Original static chart
-images retain their colors. Asset source records accompany official university
-and LinkedIn marks under `public/images/schools/` and `public/images/brands/`.
-Plotly's license is included under `public/vendor/`.
+All six presentations have a dedicated viewer with previous/next buttons, expanded view, standalone link and responsive reading view. See [presentation notes](public/presentations/README.md). The Willamette master's-program affiliation replaces the incorrect OSU event label on the survival-analysis talk. Its source date remains unchanged.
 
-Validation: `npm run check`, `npm run build`, and
-`node --test tests/theme.test.mjs`. Preview with `npm run preview` after building.
-Production deployment remains a separate, explicitly approved step.
+Known source limitations: three Missing Data plot files are absent from the upstream repository and are explicitly marked unavailable. Quarto 101's live Python demo opens on its original origin because its worker requires that origin. The published webR deck contains stale self-contained YouTube embeds and may report media/runtime errors; slide navigation and readable content remain available. External Shiny services and media retain their own runtime and theme. An interactive GT payload omitted during the earlier import cannot be reconstructed from this repository.
 
-AI contribution: Codex generated the redesign, custom monogram, theme and article
-fixes, and regression tests, and sourced official marks. Brian supplied the
-existing content/assets and specific design feedback. Model/version: unknown
-(metadata unavailable). Reasoning effort: unknown (metadata unavailable).
-No human signoff is recorded for this revision. The earlier Astro rewrite
-attribution above is retained from the repository and was not independently
-verified.
+Validation: `npm run check`, `npm run build`, and `node --test tests/theme.test.mjs`. Browser QA covered all 15 blog routes and all six reading views at 390px with no page overflow or KaTeX errors; all six slide viewers rendered and advanced on desktop/mobile. Explicit expand/collapse checks confirmed each canvas remained inside its frame with scale below 1, and collapsed layouts had no overflow. Primary page themes, navigation, school logos, 320px layout and reduced motion were also checked. This is functional and visual QA, not independent verification of analytical claims.
+
+The site-grounded assistant is a future high-priority item in [BACKLOG.md](BACKLOG.md). No backend service was implemented or provisioned in this pass. No production deployment was performed.
+
+AI contribution: Codex generated the redesign, vector identity, rendering fixes and validation code from Brian's direction and existing content. Model/version: unknown (metadata unavailable). Reasoning effort: unknown (metadata unavailable). No human signoff recorded.

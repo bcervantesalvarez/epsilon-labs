@@ -17,8 +17,15 @@ const { school, degree, years, href, hrefLabel = 'Visit department', color, desc
 ---
 <article class="school-banner grid grid-cols-1 md:grid-cols-[.9fr_1.2fr] rounded-3xl border border-rule overflow-hidden bg-surface" style={`--school-color: ${color}`}>
   <div class="school-identity p-8 md:p-10 flex flex-col gap-5 border-b md:border-b-0 md:border-r border-rule bg-surface-soft">
-    {logoSrc && <div class="school-logo"><img src={logoSrc} alt={logoAlt} loading="lazy" decoding="async" width="250" height="100" class={logoDarkSrc ? "dark:hidden" : ""} />
-      {logoDarkSrc && <img src={logoDarkSrc} alt={logoAlt} loading="lazy" decoding="async" width="250" height="100" class="hidden dark:block" />}</div>}
+    {logoSrc && <div class:list={["school-logo", { "school-logo-linfield": logoSrc.includes("linfield") }]}>
+      {logoSrc.includes('linfield') ? <>
+        <svg viewBox="74 71 139 146" role="img" aria-label={logoAlt} class="dark:hidden"><image href={logoSrc} width="288" height="288" /></svg>
+        <svg viewBox="74 71 139 146" role="img" aria-label={logoAlt} class="hidden dark:block"><image href={logoDarkSrc || logoSrc} width="288" height="288" /></svg>
+      </> : <>
+        <img src={logoSrc} alt={logoAlt} loading="lazy" decoding="async" width="250" height="100" class={logoDarkSrc ? "dark:hidden" : ""} />
+        {logoDarkSrc && <img src={logoDarkSrc} alt={logoAlt} loading="lazy" decoding="async" width="250" height="100" class="hidden dark:block" />}
+      </>}
+    </div>}
     <div>
       <p class="text-xs font-semibold uppercase tracking-widest text-muted m-0 mb-2">{degree}</p>
       <h3 class="font-serif text-3xl text-ink m-0 leading-tight">{school}</h3>

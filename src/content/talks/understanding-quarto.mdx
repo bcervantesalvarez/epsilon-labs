@@ -9,10 +9,10 @@ venue: 'Department seminar'
 ---
 
 import Overview from "@components/Overview.astro";
-import body from "./understanding-quarto.body.html?raw";
+import Presentation from "@components/Presentation.astro";
 
 <Overview>
   Quarto is the modern successor to RMarkdown. This talk introduces what it is, why it earned the upgrade, and how it fits into a data professional's publishing workflow.
 </Overview>
 
-<article class="article-body" set:html={body}></article>
+<Presentation reader="/presentations/read/TeachingQuarto" src="/presentations/TeachingQuarto/index.html" title="Quarto 101" />

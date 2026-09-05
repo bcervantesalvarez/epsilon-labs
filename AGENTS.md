@@ -212,3 +212,7 @@ Prose list markers and responsive code/table rules live in `global.css`.
 Pagefind index, reachable only by clicking the About-page portrait five
 times within ten seconds (trigger script lives in `src/pages/about.astro`).
 Keep it out of navigation, feeds, and listings.
+
+## Presentation and article maintenance
+
+Use `Presentation.astro` for slide decks; do not apply the generic article iframe wrapper to them. Quarto decks use 3:2 canvases, and the local Slides.com export uses its authored 960:700 canvas. `src/content/presentation-readers` contains faithful responsive reading snapshots; update them when the source decks change. See `public/presentations/README.md` for source-specific limitations. All public blog posts belong in the timeline regardless of historical status. Keep `/archive` as an inbound redirect, not navigation.

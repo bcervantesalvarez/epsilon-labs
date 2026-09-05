@@ -9,10 +9,10 @@ venue: 'Graduate seminar'
 ---
 
 import Overview from "@components/Overview.astro";
-import body from "./missing-data-with-mice-statistical-analysis.body.html?raw";
+import Presentation from "@components/Presentation.astro";
 
 <Overview>
   Real datasets have holes. How you fill those holes silently determines what conclusion you reach. This talk explains the three flavors of missingness and walks through a real imputation in R.
 </Overview>
 
-<article class="article-body" set:html={body}></article>
+<Presentation reader="/presentations/read/MissingData" src="/presentations/MissingData/index.html" title="Missing Data and the MICE Approach" />

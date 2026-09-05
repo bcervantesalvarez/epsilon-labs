@@ -3,11 +3,11 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import Section from '@components/Section.astro';
 import { getCollection } from 'astro:content';
 
-const all = await getCollection('talks', ({ data }) => !data.draft && data.status === 'active');
+const all = await getCollection('talks', ({ data }) => !data.draft);
 const talks = all.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
 const fmt = (d: Date) => d.toLocaleDateString('en-US',
-  { year: 'numeric', month: 'long', day: 'numeric' });
+  { timeZone: 'UTC', year: 'numeric', month: 'long', day: 'numeric' });
 
 // Two letters from the year for the marker stamp
 const yearStamp = (d: Date) => String(d.getFullYear()).slice(-2);

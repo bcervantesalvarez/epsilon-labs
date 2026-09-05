@@ -23,16 +23,18 @@ const rel = external ? 'noreferrer' : undefined;
   class="project-card group flex flex-col h-full bg-surface border border-rule overflow-hidden no-underline hover:border-ink"
 >
   {image && (
-    <div class="aspect-[16/10] bg-surface-soft border-b border-rule overflow-hidden">
+    <div class="project-art">
       <img
         src={image}
+        srcset={image.includes("/images/projects/") ? `${image.replace("-1280", "-640")} 640w, ${image} 1280w` : undefined}
+        sizes="(max-width: 640px) 100vw, 40vw"
         alt={imageAlt}
         loading="lazy"
-        class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.025]"
+        class="project-image"
       />
     </div>
   )}
-  <div class="flex-1 px-6 pt-5 pb-7">
+  <div class="project-copy flex-1 px-6 pt-5 pb-7">
     {tag && (
       <p class="text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-accent-ink m-0 mb-2">
         {tag}
@@ -46,5 +48,6 @@ const rel = external ? 'noreferrer' : undefined;
         {description}
       </p>
     )}
+    <span class="project-action">{external ? "Open dashboard" : "Explore project"} <span aria-hidden="true">↗</span></span>
   </div>
 </a>

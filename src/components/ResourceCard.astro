@@ -1,4 +1,5 @@
 ---
+import TopicMark from "@components/TopicMark.astro";
 interface Props {
   href: string;
   title: string;
@@ -7,16 +8,10 @@ interface Props {
   image?: string;
 }
 const { href, title, tag, description, image } = Astro.props;
+const topic = title.includes("Statistical Learning") ? "learning" : title.includes("Statistics") ? "statistics" : title.includes("World") ? "world" : tag === "Book" ? "publishing" : "data";
 ---
-<a href={href} target="_blank" rel="noreferrer" class="resource-card group">
-  <div class="flex items-center justify-between gap-4">
-    <span class="resource-icon" aria-hidden="true">
-      {image ? <img src={image} alt="" width="64" height="64" loading="lazy" /> :
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h12a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3V4Z"/><path d="M4 16h15M8 8h7M8 11h5"/></svg>}
-    </span>
-    <span class="text-xs font-semibold uppercase tracking-widest text-muted">{tag}</span>
-  </div>
-  <h3 class="font-serif text-2xl text-ink leading-tight m-0">{title}</h3>
-  <p class="text-sm text-body m-0 leading-relaxed">{description}</p>
-  <span class="resource-action">Explore resource <span aria-hidden="true">↗</span></span>
+<a href={href} target="_blank" rel="noreferrer" class="resource-card">
+  <span class="resource-icon" aria-hidden="true">{image ? <img src={image} alt="" width="64" height="64" loading="lazy" /> : <TopicMark topic={topic} />}</span>
+  <div class="resource-copy"><span class="resource-tag">{tag}</span><h3>{title}</h3><p>{description}</p></div>
+  <span class="resource-arrow" aria-hidden="true">↗</span>
 </a>

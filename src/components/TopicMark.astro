@@ -1,0 +1,12 @@
+---
+interface Props { topic: string; }
+const { topic } = Astro.props;
+---
+<svg viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  {topic === 'statistics' ? <><path d="M20 70C29 70 31 28 48 28S67 70 77 70M17 75H80"/><text x="48" y="24" text-anchor="middle" fill="currentColor" stroke="none" font-family="Georgia, serif" font-size="24">σ</text></> :
+   topic === 'learning' ? <><path d="M18 75V20M18 75H80M24 65L74 27"/><circle cx="29" cy="56" r="4"/><circle cx="41" cy="61" r="4"/><circle cx="51" cy="35" r="4"/><circle cx="64" cy="44" r="4"/><circle cx="73" cy="19" r="4"/></> :
+   topic === 'community' ? <><circle cx="48" cy="25" r="9"/><circle cx="22" cy="52" r="8"/><circle cx="74" cy="52" r="8"/><path d="M35 46Q48 36 61 46M10 75Q22 62 34 75M62 75Q74 62 86 75M30 40L39 33M57 33L66 40M34 58H62"/></> :
+   topic === 'publishing' ? <><path d="M16 24Q33 18 48 27Q63 18 80 24V73Q63 67 48 76Q33 67 16 73Z M48 27V76M25 36L39 38M25 47L39 49M58 38L71 36M58 49L71 47"/></> :
+   topic === 'world' ? <><circle cx="48" cy="48" r="31"/><ellipse cx="48" cy="48" rx="14" ry="31"/><path d="M17 48H79M24 29Q48 42 72 29M24 67Q48 54 72 67"/></> :
+   <><ellipse cx="48" cy="24" rx="27" ry="10"/><path d="M21 24V70C21 84 75 84 75 70V24M21 47C21 61 75 61 75 47"/><path d="M34 40H42M34 64H42"/></>}
+</svg>

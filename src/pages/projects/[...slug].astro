@@ -12,8 +12,8 @@ export async function getStaticPaths() {
 type Props = { entry: CollectionEntry<'projects'> };
 const { entry } = Astro.props;
 const { Content } = await render(entry);
-const backHref = entry.data.status === 'archived' ? '/archive' : '/projects';
-const backLabel = entry.data.status === 'archived' ? 'Back to archive' : 'All projects';
+const backHref = '/projects';
+const backLabel = 'All projects';
 ---
 <BaseLayout
   title={entry.data.title}
@@ -22,7 +22,8 @@ const backLabel = entry.data.status === 'archived' ? 'Back to archive' : 'All pr
 >
   {/* KaTeX only ships on article routes — ported bodies may carry math */}
   <KatexAssets slot="head" />
-  <article class="max-w-prose mx-auto px-6 pt-20 pb-16">
+  <article class="project-detail max-w-wrap mx-auto px-6 pt-20 pb-16">
+    <header class="project-detail-header">
     <BackLink href={backHref} label={backLabel} />
     {entry.data.tag && (
       <p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted m-0 mb-4">
@@ -35,8 +36,10 @@ const backLabel = entry.data.status === 'archived' ? 'Back to archive' : 'All pr
     <p class="text-lede text-body m-0 mb-10">
       {entry.data.description}
     </p>
+    </header>
     <div class="article-body max-w-prose mx-auto">
       <Content />
+      <nav class="article-onward" aria-label="Continue exploring"><a href={backHref}>{backLabel} →</a><a href="/talks">Explore talks →</a></nav>
     </div>
   </article>
 </BaseLayout>

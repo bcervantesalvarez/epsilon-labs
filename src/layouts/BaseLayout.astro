@@ -262,7 +262,7 @@ const resolvedOg = ogImage ?? `/og/${ogPath ?? 'default'}.png`;
         f.setAttribute('allowfullscreen', '');
       });
 
-      document.querySelectorAll('.article-body iframe').forEach((f) => {
+      document.querySelectorAll('.article-body iframe:not([data-presentation])').forEach((f) => {
         if (f.parentElement?.classList.contains('iframe-shell')) return;
 
         const shell = document.createElement('div');

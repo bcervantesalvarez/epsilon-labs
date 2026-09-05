@@ -1,9 +1,9 @@
 ---
+import GitHubMark from "@components/GitHubMark.astro";
 // src/components/Footer.astro
 import mark from '@/assets/logo/epsilon-mark.svg?raw';
 const year = new Date().getFullYear();
 const legal = [
-  { href: '/archive',  label: 'Archive'        },
   { href: '/privacy',  label: 'Privacy Policy' },
   { href: '/license',  label: 'License'        },
 ];
@@ -31,6 +31,7 @@ const social = [
           class="text-muted hover:text-ink no-underline inline-flex items-center gap-2 min-h-11"
         >
           {s.label === 'LinkedIn' && <img src="/images/brands/linkedin.png" alt="" width="24" height="20" class="social-mark" />}
+          {s.label === 'GitHub' && <GitHubMark />}
           {s.label}
         </a>
       ))}

@@ -7,13 +7,13 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import Section from '@components/Section.astro';
 import { getCollection } from 'astro:content';
 
-const all = await getCollection('blog', ({ data }) => !data.draft && data.status === 'active');
+const all = await getCollection('blog', ({ data }) => !data.draft);
 const posts = all.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
 const fmt = (d: Date) =>
-  d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  d.toLocaleDateString('en-US', { timeZone: 'UTC', year: 'numeric', month: 'long', day: 'numeric' });
 const pillLabel = (d: Date) =>
-  d.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+  d.toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', year: 'numeric' });
 
 // Group by year, newest first (posts are already sorted desc)
 const years = [...new Set(posts.map(p => p.data.date.getFullYear()))].map(y => ({

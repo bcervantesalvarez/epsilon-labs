@@ -9,10 +9,10 @@ venue: 'Graduate seminar'
 ---
 
 import Overview from "@components/Overview.astro";
-import body from "./loan-application-statistical-analysis.body.html?raw";
+import Presentation from "@components/Presentation.astro";
 
 <Overview>
   Banks use models to decide who gets a loan. This talk takes a public dataset of 32,581 applications and works through a logistic regression to predict approval — then uses the result to teach what to do when a coefficient comes back with the wrong sign.
 </Overview>
 
-<article class="article-body" set:html={body}></article>
+<Presentation reader="/presentations/read/LoanApproval" src="https://bcervantesalvarez.github.io/Presentations/LoanApproval/" title="Loan Approval: A Logistic Regression Walkthrough" />

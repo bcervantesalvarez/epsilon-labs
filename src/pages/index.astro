@@ -20,7 +20,7 @@ const talks = allTalks
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, 4);
 const fmtTalk = (d: Date) =>
-  d.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
+  d.toLocaleDateString('en-US', { timeZone: 'UTC', year: 'numeric', month: 'short' });
 const yearStamp = (d: Date) => String(d.getFullYear()).slice(-2);
 
 // ---- Chapter 02: the discipline in three moves ----------------------
@@ -58,22 +58,18 @@ const vignettes = [
 // ---- Chapter 04: practice areas --------------------------------------
 const practices = [
   {
-    n: 'A',
     title: 'Statistical analysis & modeling',
     body: 'Experimental design, hypothesis testing, regression, and Bayesian inference for questions that deserve careful answers.',
   },
   {
-    n: 'B',
     title: 'Predictive modeling & ML',
     body: 'Classification, forecasting, and risk scoring with proper validation. Models built to hold up under audit.',
   },
   {
-    n: 'C',
     title: 'Interactive dashboards',
     body: 'Self-service decision tools your team can poke at without me in the room — defaults that surface signal first.',
   },
   {
-    n: 'D',
     title: 'Reproducible reporting',
     body: 'Pipelines that document their assumptions, version cleanly, and produce the same numbers next quarter.',
   },
@@ -135,16 +131,16 @@ const featuredProjects = [
     title: 'UK Traffic Accident Trends',
     description: 'An interactive dashboard for exploring incident patterns — filters, dynamic views, defaults that surface signal first.',
     tag: 'Dashboard',
-    image: '/images/ukcaraccident.webp',
-    imageAlt: 'UK Car Accident dashboard',
+    image: '/images/projects/uk-road-analysis-1280.webp',
+    imageAlt: 'Conceptual miniature road junction with layered terrain and location markers',
   },
   {
     href: '/projects/wine-multivariate-statistical-analysis',
     title: 'Multivariate Analysis: Wine Quality',
     description: 'PCA and supervised models with diagnostics to separate signal from noise across correlated chemical features.',
     tag: 'Statistical modeling',
-    image: '/images/redwhite.jpeg',
-    imageAlt: 'Wine Multivariate Analysis',
+    image: '/images/projects/wine-chemistry-1280.webp',
+    imageAlt: 'Conceptual red and white wine still life with abstract chemical relationships',
   },
   {
     href: '/projects/yelp-business-reviews-shiny-app',
@@ -307,26 +303,19 @@ const shelves = [
   <!-- ── 04 · How Epsilon Labs helps ───────────────────────────── -->
   <LandingSection
     id="how"
-    n="04"
-    eyebrow="The practice"
+    n=""
+    eyebrow="Services"
     title="From open question to defensible decision."
     intro="Four practice areas, one throughline: every engagement ends with something your team can run without me in the room."
     link={{ href: '/services', label: 'All services' }}
   >
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6" data-stagger>
+    <div class="practice-grid" data-stagger>
       {practices.map((p) => (
-        <div class="group flex gap-5 border-t border-rule-strong py-7">
-          <span
-            class="shrink-0 w-10 h-10 rounded-xl bg-surface-soft border border-rule flex items-center justify-center font-mono text-sm font-semibold text-accent-ink transition-colors group-hover:bg-ink group-hover:text-bg group-hover:border-ink"
-            aria-hidden="true"
-          >
-            {p.n}
-          </span>
-          <div>
-            <h3 class="text-lg font-bold text-ink m-0 mb-2">{p.title}</h3>
-            <p class="text-body text-sm leading-relaxed m-0">{p.body}</p>
-          </div>
-        </div>
+        <a class="practice-panel" href="/services">
+          <h3>{p.title}</h3>
+          <p>{p.body}</p>
+          <span class="practice-link">Explore services <span aria-hidden="true">↗</span></span>
+        </a>
       ))}
     </div>
   </LandingSection>
@@ -443,7 +432,7 @@ const shelves = [
     title="Talks & workshops."
     intro="Live teaching is where the practice sharpens. Every deck below is embedded on its page — open one and present it fullscreen."
     tone="depth"
-    link={{ href: '/talks', label: 'Full archive' }}
+    link={{ href: '/talks', label: 'All talks' }}
   >
     <!-- Speaker card -->
     <div class="flex flex-wrap items-center gap-6 bg-surface border border-rule rounded-2xl px-7 py-6 mb-12">

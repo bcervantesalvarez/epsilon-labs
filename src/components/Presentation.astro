@@ -1,0 +1,77 @@
+---
+interface Props { src: string; title: string; ratio?: string; reader: string; }
+const { src, title, reader, ratio = '3 / 2' } = Astro.props;
+const embedded = `${src}${src.includes('?') ? '&' : '?'}controls=true&keyboardCondition=focused&minScale=0.05&maxScale=1&margin=0.06`;
+---
+<figure class="presentation-viewer" style={`--slide-ratio: ${ratio}`}>
+  <div class="presentation-toolbar">
+    <div class="presentation-navigation" aria-label="Slide navigation">
+      <button type="button" data-slide="prev" aria-label="Previous slide">←</button>
+      <button type="button" data-slide="next" aria-label="Next slide">→</button>
+    </div>
+    <a href={reader}>Read</a>
+    <a href={src} target="_blank" rel="noreferrer">Open slides ↗</a>
+    <button type="button" data-expand aria-expanded="false">Expand</button>
+  </div>
+  <iframe src={embedded} title={title} loading="lazy" allow="fullscreen" allowfullscreen data-presentation></iframe>
+  <figcaption>Use arrows or swipe. Choose Read for larger text on a phone.</figcaption>
+</figure>
+<script>
+  let current: HTMLElement | null = null;
+  let returnFocus: HTMLElement | null = null;
+  const observers: ResizeObserver[] = [];
+  const relayout = (viewer: HTMLElement) => {
+    const frame = viewer.querySelector<HTMLIFrameElement>('iframe');
+    if (frame) frame.contentWindow?.postMessage(JSON.stringify({ method: 'layout' }), new URL(frame.src).origin);
+  };
+  const close = () => {
+    if (!current) return;
+    current.classList.remove('is-expanded');
+    const button = current.querySelector<HTMLButtonElement>('[data-expand]');
+    button?.setAttribute('aria-expanded', 'false');
+    if (button) button.textContent = 'Expand';
+    document.documentElement.classList.remove('presentation-open');
+    relayout(current);
+    current = null; returnFocus?.focus();
+  };
+  document.addEventListener('keydown', event => {
+    if (!current) return;
+    if (event.key === 'Escape') { event.preventDefault(); close(); }
+    if (event.key === 'Tab') {
+      const focusable = [...current.querySelectorAll<HTMLElement>('button, a, iframe')];
+      if (event.shiftKey && document.activeElement === focusable[0]) {
+        event.preventDefault(); focusable.at(-1)?.focus();
+      } else if (!event.shiftKey && document.activeElement === focusable.at(-1)) {
+        event.preventDefault(); focusable[0]?.focus();
+      }
+    }
+  });
+  document.addEventListener('astro:before-swap', () => { close(); observers.forEach(observer => observer.disconnect()); observers.length = 0; });
+  function initPresentations() {
+    document.querySelectorAll<HTMLElement>('.presentation-viewer:not([data-ready])').forEach(viewer => {
+      viewer.dataset.ready = 'true';
+      const frame = viewer.querySelector<HTMLIFrameElement>('iframe')!;
+      const origin = new URL(frame.src, location.href).origin;
+      const resize = new ResizeObserver(() => relayout(viewer));
+      resize.observe(frame); observers.push(resize);
+      frame.addEventListener('load', () => relayout(viewer));
+      viewer.querySelectorAll<HTMLButtonElement>('[data-slide]').forEach(button => {
+        button.addEventListener('click', () => {
+          frame.contentWindow?.postMessage(JSON.stringify({method: button.dataset.slide}), origin);
+        });
+      });
+      const expand = viewer.querySelector<HTMLButtonElement>('[data-expand]')!;
+      expand.addEventListener('click', () => {
+        if (current === viewer) { close(); return; }
+        close(); current = viewer; returnFocus = expand;
+        viewer.classList.add('is-expanded');
+        document.documentElement.classList.add('presentation-open');
+        expand.setAttribute('aria-expanded', 'true'); expand.textContent = 'Close'; expand.focus();
+        requestAnimationFrame(() => relayout(viewer));
+      });
+    });
+  }
+  document.addEventListener('astro:page-load', initPresentations);
+  if (document.readyState !== 'loading') initPresentations();
+  else document.addEventListener('DOMContentLoaded', initPresentations);
+</script>
