@@ -99,7 +99,7 @@
 </h1></div></div>
 <div><div><svg><line></line><line></line></svg></div></div>
 <div><div><svg><rect></rect></svg></div></div>
-<div><div><pre><code>at3 = ds %&gt;%
+<div><div><pre data-language="r"><code>at3 = ds %&gt;%
   filter(pesticide == "atrazine")
   
 at3sf = survfit(Surv(at3$TTKD, at3$status)~at3$temp) 
@@ -124,7 +124,7 @@ survdiff(Surv(at3$TTKD, at3$status)~at3$temp)</code></pre></div></div></section>
 </h1></div></div>
 <div><div><svg><line></line><line></line></svg></div></div>
 <div><div><svg><rect></rect></svg></div></div>
-<div><div><pre><code>at1 = ds %&gt;% 
+<div><div><pre data-language="r"><code>at1 = ds %&gt;% 
   filter(pesticide == "azoxystrobin")
 
 at1sf = survfit(Surv(at1$TTKD, at1$status)~at1$temp) 
@@ -149,7 +149,7 @@ survdiff(Surv(at1$TTKD, at1$status)~at1$temp)</code></pre></div></div></section>
 </h1></div></div>
 <div><div><svg><line></line><line></line></svg></div></div>
 <div><div><svg><rect></rect></svg></div></div>
-<div><div><pre><code>at2 = ds %&gt;%
+<div><div><pre data-language="r"><code>at2 = ds %&gt;%
   filter(pesticide == "carbaryl")
 
 at2sf = survfit(Surv(at2$TTKD, at2$status)~at2$temp) 

@@ -148,3 +148,7 @@ All six Services practice areas and the four corresponding home-page cards revea
 All 15 blog posts were inventoried: 10 decorative covers were regenerated and installed with responsive WebP sources and descriptive alternatives; five logo-based covers remain accurate. All 37 other in-article images are unchanged (33 analytical figures, three instructional chart examples and one research poster). See `public/images/blog/README.md` for coverage and `public/images/blog/Prompts.md` for prompts and image-generation provenance. No analytical data or results were fabricated or regenerated.
 
 Practice cards use six distinct original vector illustrations, including a dashboard, reporting loop, training book and methodology-review magnifier. Resource illustrations distinguish books, sampling, calendars, linked data tables and world data. Nested image frames and forced white padding were removed. R-bloggers and R Weekly retain source assets with near-white paper knocked out at render time; their colored marks are retained. No new raster logo was generated.
+
+## Reading polish
+
+All blog posts and presentation reading views use a shared static, language-aware code renderer with dual-theme syntax colors, copy controls and separate output labels. Reader conversion retains language metadata, cleans slide scaffolding, and preserves source text, analytical figures and table encodings. See [the 21-route reading audit](READING-REVIEW.md) for coverage and limitations. Run `npm test` for the complete regression suite.

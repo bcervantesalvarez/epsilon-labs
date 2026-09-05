@@ -4,6 +4,7 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import BackLink from '@components/BackLink.astro';
 import LegacyCharts from '@components/LegacyCharts.astro';
 import KatexAssets from '@components/KatexAssets.astro';
+import ReadingContent from '@components/ReadingContent.astro';
 
 export async function getStaticPaths() {
   const entries = await getCollection('blog');
@@ -37,9 +38,9 @@ const backLabel = 'All posts';
     </h1>
     <p class="text-lede text-body m-0 mb-10">{entry.data.description}</p>
     </header>
-    <div class="article-body max-w-prose mx-auto">
+    <ReadingContent>
       <Content />
-    </div>
+    </ReadingContent>
     <nav aria-label="Continue reading" class="reading-next max-w-prose mx-auto mt-16 border-t border-rule pt-8 flex flex-wrap justify-between gap-6">
       <a href={backHref} class="text-accent font-semibold">← {backLabel}</a>
       <a href="/projects" class="text-accent font-semibold">Explore the projects →</a>

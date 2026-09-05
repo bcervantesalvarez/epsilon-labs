@@ -30,14 +30,18 @@
     const updates: Record<string, unknown> = {
       paper_bgcolor: background, plot_bgcolor: background,
       'font.color': color,
+      'font.family': 'Inter, sans-serif',
       'legend.font.color': color,
+      'legend.font.family': 'Inter, sans-serif',
       'legend.bgcolor': background,
     };
     const layout = layouts.get(element) || {};
     Object.keys(layout).filter(key => /^[xy]axis\d*$/.test(key)).forEach(key => {
       updates[`${key}.color`] = color;
       updates[`${key}.tickfont.color`] = color;
+      updates[`${key}.tickfont.family`] = 'Inter, sans-serif';
       updates[`${key}.title.font.color`] = color;
+      updates[`${key}.title.font.family`] = 'Inter, sans-serif';
       updates[`${key}.gridcolor`] = grid;
     });
     (layout.annotations || []).forEach((_: unknown, index: number) => {

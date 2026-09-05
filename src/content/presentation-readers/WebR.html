@@ -34,7 +34,7 @@ Brian Cervantes Alvarez
 <section id="traditional-teaching-methods-screenshots-and-code-2">
 <h2>Traditional Teaching Methods: <em>Screenshots and Code</em></h2>
 <h3 id="static-code-in-rstudio-better">Static Code in RStudio (Better)</h3>
-<div id="cb1"><pre><code><span id="cb1-1"><a href=""></a><span># Load necessary package</span></span>
+<div id="cb1"><pre data-language="r"><code><span id="cb1-1"><a href=""></a><span># Load necessary package</span></span>
 <span id="cb1-2"><a href=""></a><span>library</span>(stats)</span>
 <span id="cb1-3"><a href=""></a></span>
 <span id="cb1-4"><a href=""></a><span># Conduct a two-sample t-test</span></span>
@@ -48,7 +48,7 @@ Brian Cervantes Alvarez
 <section id="traditional-teaching-methods-screenshots-and-code-3">
 <h2>Traditional Teaching Methods: <em>Screenshots and Code</em></h2>
 <h3 id="static-code-in-rstudio-better-1">Static Code in RStudio (Better)</h3>
-<div id="cb2"><pre><code><span id="cb2-1"><a href=""></a><span># Load necessary package</span></span>
+<div id="cb2"><pre data-language="r"><code><span id="cb2-1"><a href=""></a><span># Load necessary package</span></span>
 <span id="cb2-2"><a href=""></a><span>library</span>(stats)</span>
 <span id="cb2-3"><a href=""></a></span>
 <span id="cb2-4"><a href=""></a><span># Conduct a two-sample t-test</span></span>
@@ -60,7 +60,7 @@ Brian Cervantes Alvarez
 <span id="cb2-10"><a href=""></a><span>t.test</span>(group_A, group_B)</span></code><button title="Copy to Clipboard"><i></i></button></pre></div>
 <div>
 <div>
-<pre><code>
+<pre data-code-kind="output" data-language="text"><code>
     Welch Two Sample t-test
 
 data:  group_A and group_B
@@ -136,7 +136,7 @@ mean of x mean of y
 <h3 id="linear-regression">Linear Regression</h3>
 <p>We’ll first start with the webR team’s demo example, the statistician’s way of saying, “Hello world!”—linear regression:</p>
 <div id="qwebr-insertion-location-1"></div>
-<pre><code># Run this simple linear regression with 
+<pre data-language="r"><code># Run this simple linear regression with 
 # mpg as the response, am 
 fit = lm(mpg ~ am, data=mtcars)
 summary(fit)
@@ -149,7 +149,7 @@ names(mtcars)</code></pre>
 <h3 id="linear-regression-1">Linear Regression</h3>
 <p>You can continue your code from the previous slide! Just make sure you remember what variables you used!</p>
 <div id="qwebr-insertion-location-2"></div>
-<pre><code># Run this code for magic to happen
+<pre data-language="r"><code># Run this code for magic to happen
 coef(fit)</code></pre>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
@@ -158,7 +158,7 @@ coef(fit)</code></pre>
 <h3 id="summarize-data">Summarize Data</h3>
 <p>Glancing at data frames:</p>
 <div id="qwebr-insertion-location-3"></div>
-<pre><code>data = mtcars
+<pre data-language="r"><code>data = mtcars
 summary(data)</code></pre>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <div>
@@ -173,7 +173,7 @@ summary(data)</code></pre>
 <div>
 <p>Advanced base R graphing:</p>
 <div id="qwebr-insertion-location-4"></div>
-<pre><code>x1 = seq(0, 1, length = 20)
+<pre data-language="r"><code>x1 = seq(0, 1, length = 20)
 y1 = rep(0, 20)
 x2 = rep(0, 20)
 y2 = seq(0.75, 0, length = 20)
@@ -192,7 +192,7 @@ box(col = "grey")</code></pre>
 <h3 id="ggplot2-example"><code>ggplot2</code> Example</h3>
 <p>Create a box plot with <code>ggplot2</code>:</p>
 <div id="qwebr-insertion-location-5"></div>
-<pre><code># Plot
+<pre data-language="r"><code># Plot
 g &lt;- ggplot(mpg, aes(x = class, y = cty))
 g + geom_boxplot(varwidth=T, fill="plum") + 
     labs(title="Box plot", 
@@ -208,7 +208,7 @@ g + geom_boxplot(varwidth=T, fill="plum") +
 <h2>webR Demo 3</h2>
 <h3 id="mixing-active-and-non-active-r-code">Mixing Active and Non-Active R Code</h3>
 <p>For <em>if-else</em> statements:</p>
-<div id="cb4"><pre><code><span id="cb4-1"><a href=""></a><span>if</span> (...) {</span>
+<div id="cb4"><pre data-language="r"><code><span id="cb4-1"><a href=""></a><span>if</span> (...) {</span>
 <span id="cb4-2"><a href=""></a>  <span># Statements for TRUE</span></span>
 <span id="cb4-3"><a href=""></a>} <span>else</span> {</span>
 <span id="cb4-4"><a href=""></a>  <span># Statements for FALSE</span></span>
@@ -223,7 +223,7 @@ g + geom_boxplot(varwidth=T, fill="plum") +
 <div>
 <p>Let’s classify temperature to print “Hot!” or “Cold!”:</p>
 <div id="qwebr-insertion-location-6"></div>
-<pre><code>temperature = 60
+<pre data-language="r"><code>temperature = 60
 
 if (temperature &gt; 76) {
   print("Hot!")

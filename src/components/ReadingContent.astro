@@ -1,0 +1,43 @@
+---
+import { formatReadingHtml } from '@lib/reading';
+interface Props { html?: string; reader?: boolean; }
+const { html, reader = false } = Astro.props;
+const rendered = await formatReadingHtml(html ?? await Astro.slots.render('default'), reader);
+---
+<div class:list={['article-body reading-content', { 'deck-reader': reader }]} set:html={rendered}></div>
+<script>
+  function labelScrollableMath() {
+    document.querySelectorAll<HTMLElement>('.reading-content .math').forEach(math => {
+      if (math.scrollWidth > math.clientWidth + 1) {
+        math.tabIndex = 0;
+        math.setAttribute('role', 'region');
+        math.setAttribute('aria-label', 'Mathematical expression, scroll horizontally to read');
+      } else {
+        math.removeAttribute('tabindex'); math.removeAttribute('role'); math.removeAttribute('aria-label');
+      }
+    });
+  }
+  document.addEventListener('astro:page-load', labelScrollableMath);
+  window.addEventListener('resize', labelScrollableMath, { passive: true });
+  document.fonts.ready.then(labelScrollableMath);
+  document.addEventListener('click', async (event) => {
+    const button = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-copy-code]');
+    if (!button) return;
+    const frame = button.closest('.code-frame');
+    const code = frame?.querySelector('pre code');
+    const status = frame?.querySelector('[data-copy-status]');
+    if (!code || !status) return;
+    try {
+      await navigator.clipboard.writeText(code.textContent || '');
+      button.textContent = 'Copied';
+      status.textContent = 'Code copied to clipboard.';
+    } catch {
+      const range = document.createRange(); range.selectNodeContents(code);
+      const selection = window.getSelection(); selection?.removeAllRanges(); selection?.addRange(range);
+      (code.closest('pre') as HTMLElement)?.focus();
+      status.textContent = 'Clipboard unavailable. Code selected; use your keyboard copy command.';
+      button.textContent = 'Selected';
+    }
+    window.setTimeout(() => { if (button.isConnected) button.textContent = 'Copy'; }, 2500);
+  });
+</script>

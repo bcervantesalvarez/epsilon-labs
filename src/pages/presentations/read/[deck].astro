@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import KatexAssets from '@components/KatexAssets.astro';
+import ReadingContent from '@components/ReadingContent.astro';
 const bodies = import.meta.glob('../../../content/presentation-readers/*.html', { eager: true, query: '?raw', import: 'default' });
 const decks = [
   ['BuildAQuartoPortfolio', 'Building a Professional Portfolio with Quarto and GitHub Pages', '/talks/building-professional-portfolio-via-quarto'],
@@ -18,11 +19,13 @@ const body = bodies[`../../../content/presentation-readers/${deck[0]}.html`] as 
 ---
 <BaseLayout title={`${deck[1]} · Reading view`}>
   <KatexAssets slot="head" />
-  <article class="max-w-prose mx-auto px-6 pt-24 pb-16">
+  <article class="reading-page reader-page max-w-[960px] mx-auto px-6 pt-24 pb-16">
+    <header class="reader-header">
     <a href={deck[2]}>← Back to presentation</a>
     <h1 class="font-serif text-4xl text-ink mt-8 mb-5">{deck[1]}</h1>
     <p class="text-muted">Reading view preserves the published slide content in a scrolling layout. Open the presentation for interactive examples and animated fragments.</p>
-    <div class="article-body deck-reader" set:html={body}></div>
+    </header>
+    <ReadingContent html={body} reader />
     <p class="text-xs text-muted mt-12">AI assistance: Codex adapted the original authors’ slide content for responsive reading. Model/version: unknown (metadata unavailable). Reasoning effort: unknown (metadata unavailable). No human signoff recorded.</p>
   </article>
 </BaseLayout>

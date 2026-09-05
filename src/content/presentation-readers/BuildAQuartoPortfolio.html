@@ -157,12 +157,12 @@ Brian Cervantes Alvarez
 <h2>GitHub Pages Workflow</h2>
 <ol type="1">
 <li><p><strong>Clone</strong>: Create local copy of your repository</p>
-<div id="cb1"><pre><code><span id="cb1-1"><a href=""></a><span>git</span> clone https://github.com/yourusername/yourrepo.git</span></code><button title="Copy to Clipboard"><i></i></button></pre></div></li>
+<div id="cb1"><pre data-language="bash"><code><span id="cb1-1"><a href=""></a><span>git</span> clone https://github.com/yourusername/yourrepo.git</span></code><button title="Copy to Clipboard"><i></i></button></pre></div></li>
 <li><p><strong>Modify</strong>: Add Quarto files (.qmd) and content</p></li>
 <li><p><code>Commit</code>: Save changes with descriptive messages</p>
-<div id="cb2"><pre><code><span id="cb2-1"><a href=""></a><span>git</span> commit <span>-m</span> <span>"Added project showcase section"</span></span></code><button title="Copy to Clipboard"><i></i></button></pre></div></li>
+<div id="cb2"><pre data-language="bash"><code><span id="cb2-1"><a href=""></a><span>git</span> commit <span>-m</span> <span>"Added project showcase section"</span></span></code><button title="Copy to Clipboard"><i></i></button></pre></div></li>
 <li><p><code>Push</code>: Sync to GitHub</p>
-<div id="cb3"><pre><code><span id="cb3-1"><a href=""></a><span>git</span> push origin main</span></code><button title="Copy to Clipboard"><i></i></button></pre></div></li>
+<div id="cb3"><pre data-language="bash"><code><span id="cb3-1"><a href=""></a><span>git</span> push origin main</span></code><button title="Copy to Clipboard"><i></i></button></pre></div></li>
 </ol>
 <div>
 <p><em>Always <code>pull</code> before pushing to avoid conflicts!</em></p>
@@ -248,7 +248,7 @@ Brian Cervantes Alvarez
 </ul>
 <p><strong>Add your Website files with the Terminal:</strong></p>
 <ul>
-<li><div id="cb4"><pre><code><span id="cb4-1"><a href=""></a>  <span>quarto</span> create-project . <span>--type</span> website</span></code><button title="Copy to Clipboard"><i></i></button></pre></div></li>
+<li><div id="cb4"><pre data-language="bash"><code><span id="cb4-1"><a href=""></a>  <span>quarto</span> create-project . <span>--type</span> website</span></code><button title="Copy to Clipboard"><i></i></button></pre></div></li>
 </ul>
 </div><div>
 <p><strong>Essential Files:</strong></p>
@@ -266,7 +266,7 @@ Brian Cervantes Alvarez
 <div>
 <div>
 <p><strong>Typical Repository Structure:</strong></p>
-<div id="cb5"><pre><code><span id="cb5-1"><a href=""></a><span>📁</span> yourRepoName/</span>
+<div id="cb5"><pre data-language="text"><code><span id="cb5-1"><a href=""></a><span>📁</span> yourRepoName/</span>
 <span id="cb5-2"><a href=""></a><span>├──</span> 📁 _site/          <span># Auto-generated site files (exclude from repo)</span></span>
 <span id="cb5-3"><a href=""></a><span>├──</span> 📄 _quarto.yml     <span># Main configuration file</span></span>
 <span id="cb5-4"><a href=""></a><span>├──</span> 📄 index.qmd       <span># Homepage content</span></span>
@@ -274,7 +274,7 @@ Brian Cervantes Alvarez
 <span id="cb5-6"><a href=""></a><span>└──</span> 📄 styles.css      <span># Custom CSS styles</span></span></code><button title="Copy to Clipboard"><i></i></button></pre></div>
 </div><div>
 <p><strong>Important <code>.gitignore</code> Entries:</strong></p>
-<pre><code>_site/
+<pre data-language="text"><code>_site/
 _cache/
 .Rproj.user
 .DS_Store</code></pre>
@@ -286,7 +286,7 @@ _cache/
 <div>
 <div>
 <p><strong>Core Configuration:</strong></p>
-<div id="cb7"><pre><code><span id="cb7-1"><a href=""></a><span>project</span><span>:</span></span>
+<div id="cb7"><pre data-language="yaml"><code><span id="cb7-1"><a href=""></a><span>project</span><span>:</span></span>
 <span id="cb7-2"><a href=""></a><span>  </span><span>type</span><span>:</span><span> website</span></span>
 <span id="cb7-3"><a href=""></a><span>  </span><span>output-dir</span><span>:</span><span> docs</span><span>  # Required for GitHub Pages</span></span>
 <span id="cb7-4"><a href=""></a></span>
@@ -340,15 +340,15 @@ _cache/
 <p><strong>Initial Deployment Steps:</strong></p>
 <ol type="1">
 <li><p><strong>Render Locally:</strong></p>
-<div id="cb8"><pre><code><span id="cb8-1"><a href=""></a><span>quarto</span> render</span></code><button title="Copy to Clipboard"><i></i></button></pre></div>
+<div id="cb8"><pre data-language="bash"><code><span id="cb8-1"><a href=""></a><span>quarto</span> render</span></code><button title="Copy to Clipboard"><i></i></button></pre></div>
 <ul>
 <li>Ensure the <code>docs/</code> directory is generated with your site files.</li>
 </ul></li>
 <li><p><strong>Commit Changes:</strong></p>
-<div id="cb9"><pre><code><span id="cb9-1"><a href=""></a><span>git</span> add .</span>
+<div id="cb9"><pre data-language="bash"><code><span id="cb9-1"><a href=""></a><span>git</span> add .</span>
 <span id="cb9-2"><a href=""></a><span>git</span> commit <span>-m</span> <span>"Initial site setup"</span></span></code><button title="Copy to Clipboard"><i></i></button></pre></div></li>
 <li><p><strong>Push to GitHub:</strong></p>
-<div id="cb10"><pre><code><span id="cb10-1"><a href=""></a><span>git</span> push origin main</span></code><button title="Copy to Clipboard"><i></i></button></pre></div></li>
+<div id="cb10"><pre data-language="bash"><code><span id="cb10-1"><a href=""></a><span>git</span> push origin main</span></code><button title="Copy to Clipboard"><i></i></button></pre></div></li>
 </ol>
 </div><div>
 <p><strong>Customize Your Site:</strong></p>
