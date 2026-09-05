@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Section from '@components/Section.astro';
-import Card from '@components/Card.astro';
+import ResourceCard from '@components/ResourceCard.astro';
 
 // Grouped shelves — mirrored (in condensed form) by the Resources
 // section on the landing page. Keep the two in sync when editing.
@@ -77,9 +77,9 @@ const groups = [
             <h2 class="text-sm font-bold uppercase tracking-[0.14em] text-ink border-b border-rule pb-3 m-0 mb-8">
               {g.label}
             </h2>
-            <div class="card-flow">
+            <div class="resource-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {g.items.map(r => (
-                <Card {...r} external imageAlt={r.title} />
+                <ResourceCard {...r} />
               ))}
             </div>
           </div>

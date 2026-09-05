@@ -1,0 +1,92 @@
+<script>
+  // Restore saved R Plotly payloads without running R or modifying observations.
+  type PlotlyAPI = {
+    newPlot: (element: HTMLElement, data: unknown[], layout: Record<string, unknown>, config: Record<string, unknown>) => Promise<void>;
+    relayout: (element: HTMLElement, layout: Record<string, unknown>) => Promise<void>;
+    purge: (element: HTMLElement) => void;
+    Plots: { resize: (element: HTMLElement) => void };
+  };
+  type Payload = { x: { data: unknown[]; layout: Record<string, any>; config?: Record<string, unknown> } };
+  const chartWindow = window as typeof window & { Plotly?: PlotlyAPI };
+  let library: Promise<PlotlyAPI> | undefined;
+  let charts: HTMLElement[] = [];
+  let observer: IntersectionObserver | undefined;
+  function loadPlotly() {
+    if (chartWindow.Plotly) return Promise.resolve(chartWindow.Plotly);
+    return library ??= new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = '/vendor/plotly-basic-4.0.0.min.js';
+      script.onload = () => chartWindow.Plotly ? resolve(chartWindow.Plotly) : reject(new Error('Chart renderer unavailable'));
+      script.onerror = () => { library = undefined; reject(new Error('Chart renderer unavailable')); };
+      document.head.appendChild(script);
+    });
+  }
+  function palette(element: HTMLElement) {
+    const style = getComputedStyle(element);
+    const color = style.getPropertyValue('--color-body').trim();
+    const background = style.getPropertyValue('--color-surface').trim();
+    const grid = style.getPropertyValue('--color-rule').trim();
+    return {
+      paper_bgcolor: background, plot_bgcolor: background,
+      'font.color': color, 'title.font.color': color,
+      'xaxis.color': color, 'yaxis.color': color,
+      'xaxis.tickfont.color': color, 'yaxis.tickfont.color': color,
+      'xaxis.title.font.color': color, 'yaxis.title.font.color': color,
+      'xaxis.gridcolor': grid, 'yaxis.gridcolor': grid,
+      'legend.font.color': color, 'legend.title.font.color': color,
+      'legend.bgcolor': background,
+    };
+  }
+  async function renderChart(element: HTMLElement) {
+    const payloadNode = document.querySelector<HTMLScriptElement>(`script[data-for="${element.id}"]`);
+    if (!payloadNode) return;
+    try {
+      const payload: Payload = JSON.parse(payloadNode.textContent || '{}');
+      const api = await loadPlotly();
+      if (!element.isConnected) return;
+      const layout = structuredClone(payload.x.layout);
+      const title = String(layout.title?.text || 'Interactive chart').replace(/<[^>]*>/g, '').trim();
+      const caption = document.createElement('p');
+      caption.className = 'chart-caption'; caption.textContent = title;
+      element.before(caption);
+      element.setAttribute('role', 'region');
+      element.setAttribute('aria-label', title);
+      // Caption wraps above the plot on small screens; observations, ranges,
+      // axis titles, trace colors and scale types remain from the saved payload.
+      delete layout.title;
+      delete layout.width;
+      layout.autosize = true;
+      layout.height = 440;
+      layout.margin = { ...layout.margin, t: 32, l: Math.max(layout.margin?.l || 0, 64), r: 24, b: Math.max(layout.margin?.b || 0, 64) };
+      layout.font = { ...layout.font, family: 'Inter, sans-serif' };
+      layout.xaxis = { ...layout.xaxis, automargin: true };
+      layout.yaxis = { ...layout.yaxis, automargin: true };
+      await api.newPlot(element, payload.x.data, layout, { ...payload.x.config, responsive: true, displaylogo: false, scrollZoom: false });
+      if (!element.isConnected) { api.purge(element); return; }
+      charts.push(element);
+      await api.relayout(element, palette(element));
+    } catch {
+      element.textContent = 'The interactive chart could not load. The explanation and code remain available below.';
+    }
+  }
+  function initCharts() {
+    observer?.disconnect();
+    observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        observer?.unobserve(entry.target);
+        void renderChart(entry.target as HTMLElement);
+      });
+    }, { rootMargin: '300px' });
+    document.querySelectorAll<HTMLElement>('.article-body .plotly.html-widget').forEach(element => observer?.observe(element));
+  }
+  document.addEventListener('theme:applied', () => {
+    charts.forEach(element => { if (element.isConnected) void chartWindow.Plotly?.relayout(element, palette(element)); });
+  });
+  document.addEventListener('astro:before-swap', () => {
+    observer?.disconnect();
+    charts.forEach(element => chartWindow.Plotly?.purge(element));
+    charts = [];
+  });
+  document.addEventListener('astro:page-load', initCharts);
+</script>

@@ -1,208 +1,32 @@
 ---
-// src/components/SchoolBanner.astro
-// Bold full-width education card: school-color band + content.
-// Alternates left/right via `align` so a column of banners reads
-// like the OSU-prospectives banner system.
-//
-// Each banner is themed via two hex props (primary + accent) so the
-// component stays neutral and the colors live with the data.
 interface Props {
   school: string;
   degree: string;
   years: string;
-  href: string;          // department or program URL
+  href: string;
   hrefLabel?: string;
-  /** Hex like "#DC4405". Drives the band background. */
   color: string;
-  /** Hex used for the highlight rule + button. */
   accent: string;
-  /** "left" puts the color band on the left, content right. */
   align?: 'left' | 'right';
-  /** Bullets / paragraph text. Plain string. */
   description: string;
-  /** School logo URL. Rendered as a large soft-light watermark on the
-      color band — anchored right, fading toward the text — so it reads
-      as a tonal backdrop regardless of the file's background (white JPG
-      or transparent PNG both melt in). Removes itself on 404. */
   logoSrc?: string;
   logoAlt?: string;
-  /** Serif monogram (e.g. "OSU") rendered as the watermark whenever the
-      logoSrc image hasn't loaded — instant, local, always renders. */
-  monogram?: string;
+  logoDarkSrc?: string;
 }
-
-const {
-  school, degree, years, href,
-  hrefLabel = 'Visit department',
-  color, accent,
-  align = 'left',
-  description,
-  logoSrc,
-  logoAlt,
-  monogram,
-} = Astro.props;
+const { school, degree, years, href, hrefLabel = 'Visit department', color, description, logoSrc, logoDarkSrc, logoAlt = school } = Astro.props;
 ---
-<article
-  class:list={[
-    'school-banner group relative overflow-hidden rounded-2xl border border-rule bg-surface',
-    'grid grid-cols-1 md:grid-cols-2',
-    'transition-all duration-300',
-  ]}
-  style={`--school-color: ${color}; --school-accent: ${accent};`}
->
-  <!-- Color band -->
-  <div
-    class:list={[
-      'school-band relative overflow-hidden flex flex-col justify-between p-8 md:p-10 min-h-[220px] text-white',
-      align === 'right' ? 'md:order-2' : 'md:order-1',
-    ]}
-  >
-    {monogram && (
-      <span class="school-watermark school-monogram" aria-hidden="true">{monogram}</span>
-    )}
-    {logoSrc && (
-      <img
-        class="school-watermark"
-        src={logoSrc}
-        alt=""
-        aria-hidden="true"
-        loading="lazy"
-        decoding="async"
-        onload="this.closest('.school-band')?.querySelector('.school-monogram')?.remove()"
-        onerror="this.remove()"
-      />
-    )}
-    <div class="relative">
-      <p class="text-xs font-bold uppercase tracking-[0.18em] opacity-80 m-0 mb-3">
-        {degree}
-      </p>
-      <h3 class="font-serif text-3xl md:text-4xl font-semibold leading-[1.1] m-0 text-white">
-        {school}
-      </h3>
+<article class="school-banner grid grid-cols-1 md:grid-cols-[.9fr_1.2fr] rounded-3xl border border-rule overflow-hidden bg-surface" style={`--school-color: ${color}`}>
+  <div class="school-identity p-8 md:p-10 flex flex-col gap-5 border-b md:border-b-0 md:border-r border-rule bg-surface-soft">
+    {logoSrc && <div class="school-logo"><img src={logoSrc} alt={logoAlt} loading="lazy" decoding="async" width="250" height="100" class={logoDarkSrc ? "dark:hidden" : ""} />
+      {logoDarkSrc && <img src={logoDarkSrc} alt={logoAlt} loading="lazy" decoding="async" width="250" height="100" class="hidden dark:block" />}</div>}
+    <div>
+      <p class="text-xs font-semibold uppercase tracking-widest text-muted m-0 mb-2">{degree}</p>
+      <h3 class="font-serif text-3xl text-ink m-0 leading-tight">{school}</h3>
+      <p class="text-sm text-muted m-0 mt-3">{years}</p>
     </div>
-    <p class="relative text-sm font-medium opacity-90 m-0 mt-4">{years}</p>
   </div>
-
-  <!-- Body -->
-  <div
-    class:list={[
-      'p-8 md:p-10 flex flex-col justify-between gap-6',
-      align === 'right' ? 'md:order-1' : 'md:order-2',
-    ]}
-  >
-    <p class="text-body m-0 text-base leading-relaxed">{description}</p>
-
-    <a
-      href={href}
-      target="_blank"
-      rel="noreferrer"
-      class="school-cta inline-flex items-center gap-2 self-start font-semibold text-sm uppercase tracking-[0.08em] no-underline"
-    >
-      <span>{hrefLabel}</span>
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-           stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"
-           class="transition-transform group-hover:translate-x-0.5">
-        <line x1="7" y1="17" x2="17" y2="7" />
-        <polyline points="7 7 17 7 17 17" />
-      </svg>
-    </a>
+  <div class="p-8 md:p-10 flex flex-col justify-between gap-6">
+    <p class="text-body m-0 leading-relaxed">{description}</p>
+    <a href={href} target="_blank" rel="noreferrer" class="inline-flex items-center gap-3 self-start text-accent text-sm font-semibold min-h-11 border-b border-rule-strong">{hrefLabel} <span aria-hidden="true">↗</span></a>
   </div>
 </article>
-
-<style>
-  .school-banner {
-    box-shadow: 0 1px 0 var(--color-rule);
-  }
-  .school-banner:hover {
-    border-color: var(--school-color);
-    box-shadow:
-      0 1px 0 var(--school-color),
-      0 24px 40px -28px color-mix(in srgb, var(--school-color) 50%, transparent);
-    transform: translateY(-2px);
-  }
-
-  /* Watermark: big ghost of the school logo, top-right of the band,
-     fading into the color toward the text. soft-light melts white JPG
-     backgrounds and transparent PNGs alike into the band. */
-  .school-watermark {
-    position: absolute;
-    top: 45%;
-    right: -5%;
-    transform: translateY(-50%);
-    height: 140%;
-    aspect-ratio: 1 / 1;
-    object-fit: contain;
-    mix-blend-mode: soft-light;
-    opacity: 0.9;
-    pointer-events: none;
-    user-select: none;
-    mask-image: linear-gradient(to left, rgb(0 0 0 / 0.95) 28%, transparent 82%);
-    -webkit-mask-image: linear-gradient(to left, rgb(0 0 0 / 0.95) 28%, transparent 82%);
-    transition: opacity 0.4s ease, transform 0.6s cubic-bezier(0.2, 0, 0.2, 1);
-  }
-  .school-banner:hover .school-watermark {
-    opacity: 1;
-    transform: translateY(-50%) scale(1.05);
-  }
-
-  /* Typographic fallback: the school initials in the site serif,
-     ghosted with the same soft-light + fade treatment. */
-  .school-monogram {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    height: 120%;
-    aspect-ratio: auto;
-    font-family: var(--font-serif);
-    font-weight: 600;
-    font-size: clamp(7rem, 16vw, 11rem);
-    letter-spacing: -0.05em;
-    line-height: 1;
-    color: #fff;
-    right: -2%;
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .school-banner:hover .school-watermark { transform: translateY(-50%); }
-  }
-
-  /* Color band — solid school color, plus a soft diagonal sheen on hover */
-  .school-band {
-    background-color: var(--school-color);
-    background-image:
-      linear-gradient(
-        135deg,
-        color-mix(in srgb, var(--school-color) 100%, transparent) 0%,
-        color-mix(in srgb, var(--school-color) 80%, #000 5%) 100%
-      );
-    isolation: isolate;
-  }
-  .school-band::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      120deg,
-      transparent 40%,
-      color-mix(in srgb, var(--school-accent) 18%, transparent) 50%,
-      transparent 60%
-    );
-    transform: translateX(-100%);
-    transition: transform 0.7s cubic-bezier(0.2, 0, 0.2, 1);
-    pointer-events: none;
-  }
-  .school-banner:hover .school-band::after {
-    transform: translateX(100%);
-  }
-
-  /* CTA picks up the school accent */
-  .school-cta {
-    color: var(--school-color);
-    border-bottom: 2px solid color-mix(in srgb, var(--school-color) 30%, transparent);
-    padding-bottom: 2px;
-    transition: color 0.2s, border-color 0.2s;
-  }
-  .school-cta:hover {
-    color: var(--school-accent);
-    border-bottom-color: var(--school-accent);
-  }
-</style>

@@ -1,0 +1,14 @@
+---
+// Extruded vector monogram: shared brand paths, no canvas or animation library.
+import mark from '@/assets/logo/epsilon-mark.svg?raw';
+interface Props { class?: string; }
+const { class: extra = '' } = Astro.props;
+---
+<div class={`brand-sculpture ${extra}`} aria-hidden="true">
+  <div class="sculpture-object">
+    {Array.from({ length: 9 }, (_, i) => (
+      <span class="sculpture-layer" style={`--layer: ${i}`}><Fragment set:html={mark} /></span>
+    ))}
+    <span class="sculpture-face"><Fragment set:html={mark} /></span>
+  </div>
+</div>

@@ -4,12 +4,13 @@
 // Nine chapters, one story: what data science is → why it matters →
 // how Epsilon Labs practices it → proof (AI stack, projects, talks) →
 // open shelves → an honest invitation. Sections alternate light /
-// tint / fixed-dark tones (see .tone-dark in global.css) instead of
+// tint / depth tones (see .tone-depth in global.css) instead of
 // horizontal rules.
 import BaseLayout from '@layouts/BaseLayout.astro';
 import LandingSection from '@components/LandingSection.astro';
 import Card from '@components/Card.astro';
 import Button from '@components/Button.astro';
+import BrandSculpture from '@components/BrandSculpture.astro';
 import StatusBanner from '@components/StatusBanner.astro';
 import { getCollection } from 'astro:content';
 
@@ -203,7 +204,7 @@ const shelves = [
   <section
     id="top"
     aria-labelledby="hero-title"
-    class="tone-dark hero-editorial py-16 lg:py-24"
+    class="tone-depth hero-editorial py-14 lg:py-20"
   >
     <div class="max-w-wrap mx-auto px-6">
       <div class="flex items-baseline gap-4 m-0 mb-6 animate-el-rise [animation-delay:160ms]">
@@ -233,13 +234,16 @@ const shelves = [
 
       </div>
       <aside class="hero-profile animate-el-rise [animation-delay:240ms]" aria-label="About the practice">
-        <figure class="m-0">
+        <div class="portrait-stage" data-tilt>
+        <BrandSculpture />
+        <figure class="portrait-panel m-0">
           <img src="/images/profile2.jpg" alt="Brian Cervantes Alvarez" width="480" height="560" fetchpriority="high" class="hero-portrait w-full object-cover" />
           <figcaption class="flex justify-between gap-4 py-4 border-b border-rule text-xs">
             <span class="font-semibold text-ink">Brian Cervantes Alvarez</span>
             <span class="text-muted">Statistician / Builder</span>
           </figcaption>
         </figure>
+        </div>
         <StatusBanner
           href="https://www.oregon.gov/ode/"
           org="Oregon Department of Education"
@@ -334,7 +338,7 @@ const shelves = [
     eyebrow="AI-native"
     title="Models as collaborators, not oracles."
     intro="Frontier models are part of how I work every day — for code, for drafts, for analysis pairing. The craft is knowing when they're confident and when they're guessing: I write the prompts, run the evals, and validate output against ground truth before anything ships."
-    tone="dark"
+    tone="depth"
   >
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6" data-stagger>
       {aiStack.map((m) => (
@@ -438,7 +442,7 @@ const shelves = [
     eyebrow="On stage"
     title="Talks & workshops."
     intro="Live teaching is where the practice sharpens. Every deck below is embedded on its page — open one and present it fullscreen."
-    tone="dark"
+    tone="depth"
     link={{ href: '/talks', label: 'Full archive' }}
   >
     <!-- Speaker card -->
@@ -641,3 +645,29 @@ const shelves = [
     .talk-row::before { transition: none; }
   }
 </style>
+<script>
+  // Pointer-only depth enhancement; semantic content is unchanged without JS.
+  const tiltMotion = matchMedia('(prefers-reduced-motion: no-preference) and (pointer: fine)');
+  let tiltFrame = 0;
+  let tiltTarget: HTMLElement | null = null;
+  function clearTilt() {
+    cancelAnimationFrame(tiltFrame);
+    tiltTarget?.style.removeProperty('--tilt-x');
+    tiltTarget?.style.removeProperty('--tilt-y');
+    tiltTarget = null;
+  }
+  document.addEventListener('pointermove', (event) => {
+    if (!tiltMotion.matches) return;
+    const target = event.target instanceof Element ? event.target.closest<HTMLElement>('[data-tilt]') : null;
+    if (!target) { clearTilt(); return; }
+    if (tiltTarget !== target) { clearTilt(); tiltTarget = target; }
+    cancelAnimationFrame(tiltFrame);
+    tiltFrame = requestAnimationFrame(() => {
+      const rect = target.getBoundingClientRect();
+      target.style.setProperty('--tilt-x', `${(0.5 - (event.clientY - rect.top) / rect.height) * 8}deg`);
+      target.style.setProperty('--tilt-y', `${((event.clientX - rect.left) / rect.width - 0.5) * 10}deg`);
+    });
+  }, { passive: true });
+  document.addEventListener('astro:before-swap', clearTilt);
+  tiltMotion.addEventListener('change', clearTilt);
+</script>

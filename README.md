@@ -117,26 +117,41 @@ model with extended thinking mode enabled.*
 
 ## September 2026 visual redesign
 
-The home page uses oversized editorial typography, a portrait-led split layout,
-warmer accents, and fewer boxed panels. Shared buttons and project cards use
-consistent geometry and restrained motion. Contrast bands invert as a complete
-palette with the selected theme; institutional logos and photographs retain
-their original colors.
+Light mode uses light surfaces throughout; dark mode uses dark surfaces,
+including the landing hero and portrait. A custom curving epsilon/L vector
+monogram appears in navigation, footer, favicon, and an extruded hero treatment.
+Layered portrait panels, restrained pointer tilt, and consistent card depth add
+dimension without obscuring the content. Resources uses uniform cards; Talks
+uses layered rows; the blog retains its timeline.
 
-A single theme controller preserves explicit selections across navigation,
-works without browser storage, follows system changes until a selection is made,
-and synchronizes other tabs. The keyboard-operable Dark theme button exposes
-its pressed state. Reduced motion disables animations and smooth scrolling.
-Imported project HTML inherits the site palette. Cross-origin Shiny applications
-and published slide decks own their internal appearance; their host frames adapt,
-but changing those applications requires changes in their source projects.
+A single theme controller preserves selections across navigation, works without
+browser storage, follows system changes until a selection is made, and
+synchronizes tabs. The keyboard-operable Dark theme button exposes its pressed
+state. Reduced motion disables animation, pointer tilt, and smooth scrolling.
+
+The article system restores ordered/unordered and nested markers, corrects
+legacy hyphenated paragraphs into semantic lists, wraps wide tables, and keeps
+code output keyboard-scrollable. Saved Plotly payloads now render through a
+locally hosted, lazily loaded Plotly basic 4.0.0 bundle. Chart backgrounds and
+labels adapt to the theme; source observations, scales, ranges, and trace colors
+are preserved. Larger cover images are constrained; onward links lead back to
+writing and projects. Source text and factual claims have not been re-evaluated.
+
+Cross-origin Shiny apps and published slide decks control their own internal
+appearance. Previously omitted interactive widgets whose payloads are absent
+remain omitted, with their existing explanatory notices. Original static chart
+images retain their colors. Asset source records accompany official university
+and LinkedIn marks under `public/images/schools/` and `public/images/brands/`.
+Plotly's license is included under `public/vendor/`.
 
 Validation: `npm run check`, `npm run build`, and
 `node --test tests/theme.test.mjs`. Preview with `npm run preview` after building.
 Production deployment remains a separate, explicitly approved step.
 
-AI contribution: Codex generated the redesign, theme fixes, and regression tests
-using Brian's existing site content and assets. Model/version: unknown (metadata
-unavailable). Reasoning effort: unknown (metadata unavailable). No human signoff
-is recorded for this revision. The earlier Astro rewrite attribution above is
-retained from the existing repository and was not independently verified.
+AI contribution: Codex generated the redesign, custom monogram, theme and article
+fixes, and regression tests, and sourced official marks. Brian supplied the
+existing content/assets and specific design feedback. Model/version: unknown
+(metadata unavailable). Reasoning effort: unknown (metadata unavailable).
+No human signoff is recorded for this revision. The earlier Astro rewrite
+attribution above is retained from the repository and was not independently
+verified.

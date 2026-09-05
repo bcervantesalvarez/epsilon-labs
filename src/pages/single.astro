@@ -26,7 +26,7 @@ const identity = [
 const education = [
   { degree: "Bachelor's", school: 'Linfield University', field: 'Mathematics', when: '2022',
     color: '#4B0082',
-    logo: '/images/schools/linfield.svg', monogram: 'L' },
+    logo: '/images/schools/linfield.png', monogram: 'L' },
   { degree: "Master's", school: 'Willamette University', field: 'Data Science', when: '2023',
     color: '#A6093D',
     logo: '/images/schools/willamette.svg', monogram: 'WU' },
@@ -202,7 +202,7 @@ const construction = [
   <div data-pagefind-ignore="all" class="romance">
 
   <!-- ── Hero ─────────────────────────────────────────────────── -->
-  <section class="tone-dark grain hero-mesh relative overflow-hidden pt-24 pb-20 lg:pt-28 lg:pb-24" aria-labelledby="single-hero-title">
+  <section class="tone-depth grain hero-mesh relative overflow-hidden pt-24 pb-20 lg:pt-28 lg:pb-24" aria-labelledby="single-hero-title">
     <div class="romance-orb-layer absolute inset-0" aria-hidden="true">
       <div class="romance-orb romance-orb-a"></div>
       <div class="romance-orb romance-orb-b"></div>
@@ -500,7 +500,7 @@ const construction = [
     n="05"
     eyebrow="Screen time · Maratones 🍿"
     title="Shows & movies I'll rewatch with you."
-    tone="dark"
+    tone="depth"
   >
     <Floaters glyphs={['🍿', '🎬', '📺', '🎞️', '🍿']} variant="sway" />
 
@@ -557,7 +557,7 @@ const construction = [
     n="06"
     eyebrow="Proof of life · Las pruebas 📸"
     title="From my Instagram."
-    tone="dark"
+    tone="depth"
   >
     {/* Floating Instagram glyphs drift in the band background */}
     <div class="ig-floaters absolute inset-0 pointer-events-none" aria-hidden="true">
@@ -766,7 +766,7 @@ const construction = [
     n="12"
     eyebrow="If you've made it this far... · Si llegaste hasta aquí..."
     title="Maybe that's a sign."
-    tone="dark"
+    tone="depth"
   >
     <Floaters glyphs={['💌', '🌹', '💌', '🌹']} variant="drift" />
     <div class="max-w-prose mb-6">
@@ -910,7 +910,7 @@ const construction = [
     --color-accent: rgb(178 58 98);
     --color-accent-ink: rgb(143 41 80);
   }
-  .romance .tone-dark {
+  [data-theme="dark"] .romance {
     --color-accent: rgb(238 143 174);
     --color-accent-ink: rgb(244 185 204);
   }

@@ -20,7 +20,7 @@ cleanly with zero out-of-band coordination.
 | Design tokens (colors)     | `src/styles/global.css` (`@theme` + `[data-theme="dark"]`) |
 | Tailwind utility names     | `src/styles/global.css` — Tailwind v4 generates utilities from `@theme`; there is **no** `tailwind.config.ts` |
 | Site identity (name, socials, absolute URLs) | `src/lib/site.ts` (origin derives from `site` in `astro.config.ts`) |
-| Brand mark / logo          | `src/assets/logo/epsilon-mark.svg` (currentColor, inherits theme) + `epsilon-tile.svg` (fixed-color app tile); keep `public/favicon.svg` in sync with the tile |
+| Brand mark / logo          | `src/assets/logo/epsilon-mark.svg` (currentColor, inherits theme) + `epsilon-tile.svg` (fixed-color app tile; shared epsilon/L geometry); keep `public/favicon.svg` in sync with the tile |
 | Site-wide HTML / `<head>`  | `src/layouts/BaseLayout.astro`                    |
 | Navbar links               | `src/components/Navbar.astro` (`links` array)     |
 | Footer copy / links        | `src/components/Footer.astro`                     |
@@ -28,7 +28,7 @@ cleanly with zero out-of-band coordination.
 | Buttons / CTAs             | `src/components/Button.astro` (variants: `primary`, `ghost`) |
 | Card UI                    | `src/components/Card.astro`                       |
 | Section heading + container| `src/components/Section.astro`                    |
-| Landing-page chapters      | `src/pages/index.astro` via `LandingSection.astro` — tones `light`/`tint`/`dark` map to `.tone-*` classes in `global.css`; contrast bands invert their complete palette with the selected theme |
+| Landing-page chapters      | `src/pages/index.astro` via `LandingSection.astro` — tones `light`/`tint`/`depth` map to `.tone-*` classes in `global.css`; all tones follow the selected light/dark palette |
 | Page bodies                | `src/pages/<route>.astro`                         |
 | Project/post/talk content  | `src/content/<collection>/<slug>.mdx`             |
 | Content schemas            | `src/content.config.ts` (Zod, validated at build) |
@@ -199,6 +199,12 @@ Cloudflare Workers (static assets):
   execute inside a Worker.
 - Custom domain:  `epsilon-labs.org` (attached to the Worker in the
   Cloudflare dashboard)
+
+## Legacy article visuals
+
+`LegacyCharts.astro` restores saved Plotly JSON on blog pages with a lazy local
+renderer. Preserve source data, trace colors, axis ranges and scale types.
+Prose list markers and responsive code/table rules live in `global.css`.
 
 ## Hidden pages
 

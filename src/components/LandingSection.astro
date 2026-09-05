@@ -2,23 +2,21 @@
 // src/components/LandingSection.astro
 // Section shell for the landing page's nine-chapter story. Each chapter
 // gets a running number, an eyebrow, a fluid serif title, and a tone
-// (light follows the theme; tint adds the dot texture; dark is a contrast
-// band that inverts its palette with the selected theme — see .tone-dark in
-// global.css). Other pages keep using Section.astro.
+// Depth and tint vary surface tone while preserving the selected theme.
 interface Props {
   id: string;
   n: string;                         // running chapter number, e.g. "02"
   eyebrow: string;
   title: string;
   intro?: string;
-  tone?: 'light' | 'tint' | 'dark';
+  tone?: 'light' | 'tint' | 'depth';
   link?: { href: string; label: string };
   reveal?: boolean;                  // default on; hero passes false
 }
 
 const { id, n, eyebrow, title, intro, tone = 'light', link, reveal = true } = Astro.props;
 const toneClass =
-  tone === 'dark' ? 'tone-dark grain' :
+  tone === 'depth' ? 'tone-depth grain' :
   tone === 'tint' ? 'tone-tint' : 'bg-bg';
 ---
 <section

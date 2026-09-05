@@ -2,6 +2,7 @@
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import BackLink from '@components/BackLink.astro';
+import LegacyCharts from '@components/LegacyCharts.astro';
 import KatexAssets from '@components/KatexAssets.astro';
 
 export async function getStaticPaths() {
@@ -24,7 +25,8 @@ const backLabel = entry.data.status === 'archived' ? 'Back to archive' : 'All po
 >
   {/* KaTeX only ships on article routes — ported bodies may carry math */}
   <KatexAssets slot="head" />
-  <article class="max-w-prose mx-auto px-6 pt-20 pb-16">
+  <article class="reading-page max-w-[960px] mx-auto px-6 pt-20 pb-16">
+    <header class="max-w-prose mx-auto mb-12">
     <BackLink href={backHref} label={backLabel} />
     <p class="text-sm text-muted m-0 mb-3">{fmt(entry.data.date)}</p>
     <h1
@@ -34,8 +36,14 @@ const backLabel = entry.data.status === 'archived' ? 'Back to archive' : 'All po
       {entry.data.title}
     </h1>
     <p class="text-lede text-body m-0 mb-10">{entry.data.description}</p>
+    </header>
     <div class="article-body max-w-prose mx-auto">
       <Content />
     </div>
+    <nav aria-label="Continue reading" class="reading-next max-w-prose mx-auto mt-16 border-t border-rule pt-8 flex flex-wrap justify-between gap-6">
+      <a href={backHref} class="text-accent font-semibold">← {backLabel}</a>
+      <a href="/projects" class="text-accent font-semibold">Explore the projects →</a>
+    </nav>
   </article>
+  <LegacyCharts />
 </BaseLayout>

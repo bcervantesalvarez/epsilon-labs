@@ -240,6 +240,20 @@ const resolvedOg = ogImage ?? `/og/${ogPath ?? 'default'}.png`;
     document.addEventListener('astro:before-swap', exit);
 
     function initIframes() {
+      document.querySelectorAll<HTMLElement>('.article-body pre').forEach(pre => {
+        pre.tabIndex = 0;
+        pre.setAttribute('aria-label', 'Code or analysis output');
+      });
+      document.querySelectorAll<HTMLTableElement>('.article-body table').forEach(table => {
+        if (table.parentElement?.classList.contains('table-scroll')) return;
+        const wrapper = document.createElement('div');
+        wrapper.className = 'table-scroll';
+        wrapper.tabIndex = 0;
+        wrapper.setAttribute('role', 'region');
+        wrapper.setAttribute('aria-label', table.caption?.textContent || 'Analysis table, scroll for more columns');
+        table.before(wrapper);
+        wrapper.append(table);
+      });
       document.querySelectorAll('iframe').forEach((f) => {
         const cur = f.getAttribute('allow') || '';
         if (!cur.includes('fullscreen')) {

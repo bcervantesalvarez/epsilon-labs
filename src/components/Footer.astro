@@ -1,5 +1,6 @@
 ---
 // src/components/Footer.astro
+import mark from '@/assets/logo/epsilon-mark.svg?raw';
 const year = new Date().getFullYear();
 const legal = [
   { href: '/archive',  label: 'Archive'        },
@@ -14,7 +15,8 @@ const social = [
 ---
 <footer class="border-t border-rule mt-24">
   <div class="max-w-wrap mx-auto px-6 py-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-    <p class="text-sm text-muted m-0">
+    <p class="text-sm text-muted m-0 flex items-center gap-3">
+      <span class="footer-mark" aria-hidden="true"><Fragment set:html={mark} /></span>
       © {year} Epsilon Labs · Brian Cervantes Alvarez
     </p>
     <div class="flex flex-wrap items-center gap-6 text-sm">
@@ -26,8 +28,9 @@ const social = [
           href={s.href}
           target={s.href.startsWith('http') ? '_blank' : undefined}
           rel={s.href.startsWith('http') ? 'noreferrer' : undefined}
-          class="text-muted hover:text-ink no-underline"
+          class="text-muted hover:text-ink no-underline inline-flex items-center gap-2 min-h-11"
         >
+          {s.label === 'LinkedIn' && <img src="/images/brands/linkedin.png" alt="" width="24" height="20" class="social-mark" />}
           {s.label}
         </a>
       ))}
