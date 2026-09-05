@@ -27,8 +27,9 @@ const backLabel = 'All projects';
   <KatexAssets slot="head" />
   <article class="project-detail max-w-wrap mx-auto px-6 pt-20 pb-16">
     <header class="project-detail-header">
-    {entry.data.draft && <p class="draft-note">Review draft · September 5, 2026 · Not published</p>}
+    {entry.data.draft && <p class="draft-note">Review draft · Not published</p>}
     <BackLink href={backHref} label={backLabel} />
+    {entry.data.dateKind === 'work' && <p class="text-sm text-muted">Work date · <time datetime={entry.data.date.toISOString().slice(0, 10)}>{entry.data.date.toLocaleDateString('en-US', { timeZone: 'UTC', year: 'numeric', month: 'long', day: 'numeric' })}</time></p>}
     {entry.data.tag && (
       <p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted m-0 mb-4">
         {entry.data.tag}

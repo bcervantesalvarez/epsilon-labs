@@ -1,0 +1,68 @@
+---
+title: 'Discord Chatbot'
+description: 'A personal Python bot coordinates queued questions, streamed answers, and conversation context, with explicit status and restart behavior.'
+date: 2026-03-19
+dateKind: work
+draftedDate: 2026-09-05
+tag: 'Software'
+image: '/images/projects/discord-queue.svg'
+draft: true
+---
+
+import Overview from '@components/Overview.astro';
+
+<Overview>
+This personal software project brings language-model questions into Discord while giving the work a clear lifecycle. It accepts mentions and chat commands, controls admission to a bounded queue, processes foreground answers through one asynchronous worker, and streams responses as they arrive. SQLite stores status and conversation records. The public implementation is available for inspection; this case study is not a live bot demo or a claim of production reliability. The initial implementation carries an author date of March 19, 2026.
+</Overview>
+
+<figure><img src="/images/projects/discord-queue.svg" alt="Original architecture illustration of waiting requests, a single worker, streamed output, and stored state" width="1200" height="720" /><figcaption>Conceptual system illustration. No real conversations, credentials, or performance measurements are shown.</figcaption></figure>
+
+## Capability overview
+
+The application connects a familiar conversational interface to a controlled execution path. A question can arrive while another answer is still generating; accepting the question does not require starting another foreground generation immediately. That distinction is the center of the project's design.
+
+| Capability in the inspected implementation | What it supports |
+| --- | --- |
+| Mentions and chat commands | Several entry points into the same request-handling workflow |
+| Admission checks | Daily usage, pending-request limits, optional cooldown, and queue capacity |
+| One foreground worker | Sequential generation for accepted requests |
+| Streaming callbacks | Progressive response display and a separate final outcome |
+| Conversation context | Reply-chain traversal, stored exchanges, bounded depth, and older-history summaries |
+| SQLite state | Request statuses, usage records, and successful conversation history |
+| Restart cleanup | Cancels stale pending/processing work instead of replaying incomplete requests |
+
+These capabilities are supported by source inspection. No live Discord connection, provider call, operational conversation, or benchmark was used to prepare this page.
+
+## Four responsibilities, kept separate
+
+The Discord command layer receives messages and handles replies. The queue manager owns admission and foreground scheduling. The model client handles provider interaction. The database layer persists selected application state. Callbacks join the execution path to the display path without making the queue manager format every Discord message itself.
+
+<div class="reference-flow" aria-label="Discord bot architecture"><p><strong>Discord interaction layer</strong><br />Mention or command · reply context · streamed display</p><span aria-hidden="true">↓</span><p><strong>Queue manager</strong><br />Admission · one foreground worker · outcome</p><span aria-hidden="true">↓</span><p><strong>Provider client + SQLite</strong><br />Generation on one side; status and history on the other</p></div>
+
+The stack is Python with discord.py, asyncio, SQLite, and an aiohttp-based Gemini client. Windows startup helpers are present in the repository. That source inventory does not mean installation or unattended operation has been independently verified. The README's configuration example is not a substitute for checking the actual deployment requirements.
+
+## A request journey
+
+For an illustrative request, the application first evaluates whether the user and queue can accept more work. A rejection returns feedback; admission records the request and hands its runtime object to the queue. The worker then resolves the model path, checks availability and rate limits, builds context, and begins generation.
+
+Partial text reaches the display callback during generation. Final handling receives an outcome that can include content or an error. The normal post-generation path records status, usage, and request metrics, and saves successful conversation content. This lifecycle makes several states visible rather than treating every accepted question as an already-completed answer.
+
+The queue's existence does not guarantee delivery. Provider failure, a deleted Discord message, permissions, or process interruption can affect the path. The implementation includes handling for some of those cases; a reliability claim would need tests and observed outcomes beyond the source review.
+
+## The restart boundary is intentional
+
+The source's startup routine marks old pending and processing records as cancelled. The previous process's runtime context—including information used to construct a request—is not treated as recoverable from the queue row alone. Users should not be promised automatic replay after a restart.
+
+That choice is more precise than a generic “persistent queue” feature label. It preserves an outcome record while declining to continue a request that cannot be reconstructed faithfully. A future durable-job design would need a complete replay contract, including how to avoid duplicate external responses. It is outside the established behavior of this revision.
+
+## Source, status, and next evidence
+
+**Status: public personal implementation; portfolio review draft.** The repository contains an initial-release commit, not an independently verified live service or a separate published GitHub release. It establishes no audience metrics, availability target, or measured throughput.
+
+The next useful evidence would come from targeted lifecycle tests and a reproducible installation check. Queue-capacity races, cancellation while waiting, provider retries, message-send failures, and restart timing are more informative boundaries than an isolated successful response. The article [Building a Discord chatbot around a single-worker queue](/blog/discord-single-worker-queue) explains those tradeoffs in detail.
+
+[Explore the public repository](https://github.com/bcervantesalvarez/discord-chatbot) · [Inspect the pinned implementation](https://github.com/bcervantesalvarez/discord-chatbot/tree/b698defc16d85a02de54bb69b15c2e2194546a65)
+
+## AI transparency
+
+The original commit credits Claude Opus 4.6 as co-author; that is source-reported model attribution, with execution metadata and reasoning effort unavailable. AI drafted this case study and original architecture illustration under Brian's direction. Current text/code revision: `gpt-6-astra` (execution metadata verified); reasoning effort extra high, user-reported (not independently verified). Work date March 19, 2026, from the commit author timestamp; draft prepared September 5, 2026. No human signoff recorded.

@@ -1,24 +1,62 @@
 ---
-title: 'A rare event is a chain of assumptions'
-description: 'A Dregora probability model, a five-million-trial rerun, and how simulation error differs from uncertainty about the rules.'
-date: 2026-09-05
+title: 'What are the odds of that Amalgalich?'
+description: 'Three prepared players, four troublesome modifiers, and a probability model that needs a precisely defined target.'
+date: 2026-08-29
+dateKind: work
+draftedDate: 2026-09-05
 tag: 'Statistics'
-image: '/images/personal/probability-gates.svg'
+image: '/images/personal/amalgalich-1280.webp'
 draft: true
-readingTime: 7
+readingTime: 12
 ---
 
 import Overview from '@components/Overview.astro';
 
 <Overview>
-A very specific game encounter makes a useful probability problem: what would it take for one summoned boss to have a particular variant, a rare tier, and three named modifiers? An analysis dated August 29, 2026 turns that question into a model. This draft checks the arithmetic and reruns the simulation. The result is roughly one in 637,000 under the stated rules. Whether those rules describe the installed game is a separate question that this check does not settle.
+Three well-geared players met an Infernal Amalgalich with Webber, Fiery, Bulwark, and Lifesteal. Under the analysis's assumed selection rules, the chance of at least those four modifiers is about **1.05746% given Infernal**—roughly one in 94.6 modeled Infernal cases. That is a conditional model result, not a measured encounter rate. The original three-modifier calculation remains below as a benchmark, with its extra Russet assumption kept separate.
 </Overview>
+
+<figure><img src="/images/personal/amalgalich-1280.webp" srcset="/images/personal/amalgalich-640.webp 640w, /images/personal/amalgalich-1280.webp 1280w" sizes="(max-width: 760px) 94vw, 736px" alt="Playful conceptual undead boss looming over a tiny adventurer with oversized dice in a fantasy arena" width="1280" height="854" /><figcaption>AI-generated conceptual fan-style illustration of the Amalgalich probability question. It is not a screenshot, an exact creature model, or a depiction of measured results.</figcaption></figure>
+
+## A boss fight, but make it a probability problem
+
+There were three of us: two friends and me, playing RLCraft Dregora. We thought we were prepared. I had parasite armor, and I remember my friends wearing it too. Our setup included near-maxed nunchucks, a Sentient Bow, and a wine build. This was near-endgame gear, not a casual first attempt with whatever happened to be in our inventories.
+
+Then the Amalgalich spawned with what I remember as **Webber, Fiery, Bulwark, and Lifesteal**, on an Infernal boss. Bulwark felt like it cut our effective damage in half. We would chip away at the boss, then a hit on one of us seemed to heal it almost back to full. Together, the modifiers made the fight feel almost unwinnable despite the preparation.
+
+Those are my recollections, not measurements of the installed mod's mechanics. I remember Bulwark as roughly 50% damage negation. Fiery set us on fire; I am not assigning it a direct damage multiplier. The apparent healing amount was not measured. The probability model below does not calculate combat damage or healing.
+
+[Amalgalich's creator page](https://www.lycanitesmobs.com/mobevent/amalgalich) identifies the boss and its summoning event. The question that interested me was more specific than “how rare is this boss?” What were the odds of a stack like the one we had just faced?
+
+My August 29 analysis originally targeted **Bulwark, Lifesteal, and Webber**, with **Russet** and **Infernal** also required. I have since clarified that Fiery was present too, and that the boss was Infernal. Russet remains unconfirmed. August 29 is the analysis date, not an established encounter date. Adding a fourth required modifier changes the calculation; the older estimate cannot simply be attached to the fuller account.
+
+## The four-modifier question
+
+For the revised question, success means **at least Webber, Fiery, Bulwark, and Lifesteal**, conditional on entering the modeled Infernal modifier-selection branch. Extra modifiers are allowed. This is not the probability of exactly four total modifiers, nor of any troublesome combination chosen after seeing the fight.
+
+Fiery is present in the source's 26-entry pool and has no conflict listed in its supplied conflict map. That makes an extension possible without adding a new game-mechanics assumption: distinguish Fiery from the ordinary entries, require all four targets, and retain the original count distribution and acceptance rule. This still depends on the source model being complete; absence from that map is not an independent check of installed game code.
+
+| Four-target check, given Infernal | Result |
+| --- | --- |
+| Accept-all baseline | 1.545708% |
+| Exact conflict-model probability | 1,739/164,450 = **1.057464%** |
+| Reciprocal conditional probability | About **one in 94.6** modeled Infernal cases |
+| Independent simulation, 200,000 trials, seed 7 | 2,124 successes; **1.062%** |
+| Approximate 95% Monte Carlo interval | **1.01708%–1.10692%** |
+
+The exact recurrence keeps six distinguished entries: the four targets plus Gravity and Blastoff, which conflict with Webber in the source model. The other 20 entries remain exchangeable. It was checked against an independently written enumerator on an eight-entry toy pool: **2,088 successes among 20,160 ordered six-draw prefixes**, matching the recurrence exactly. A separate random-permutation simulation then checked the full model; its interval contains the exact result. These checks validate the implemented assumptions, not the game installation.
+
+No Russet factor belongs in this conditional answer. If the source's separate 1-in-1,000 Infernal gate were also correct for eligible summons, combining that gate with the four-target result would give about one in 94,566 eligible summons, without a variant requirement. That extra gate remains an assumption; the firsthand account establishes what appeared in this encounter, not the population frequency of the tier. Neither figure estimates the chance of winning the fight.
+
+The rest of this article walks through the **original three-target calculation**. Its baseline, comparison chart, and one-in-636,751 combined result refer to Bulwark/Lifesteal/Webber plus the stated variant/tier assumptions. They help explain how the method works; they are not the four-target answer above.
+
+This is a useful small investigation because it contains several familiar analytical traps in a setting with monsters instead of spreadsheets. A weight is not automatically a percentage. A tier probability is not the probability of the complete encounter. Selecting without replacement does not necessarily produce a uniform subset when acceptance depends on the current state. And a simulation can reproduce the wrong rules with impressive precision.
 
 <figure><img src="/images/personal/probability-gates.svg" alt="Three conditional gates: variant, tier, and a target modifier set. The result depends on every gate." width="1200" height="660" /><figcaption>A diagram of the assumed event structure, not measured encounter frequencies.</figcaption></figure>
 
-## Define the event before counting it
+## Define the original event before counting it
 
-The unit is **one eligible Amalgalich summon** in the source model for RLCraft Dregora. Success means a Russet variant, the Infernal tier, and the presence of Bulwark, Lifesteal, and Webber among the modifiers. Other modifiers may also be present. The question is not the chance of meeting any unusual creature during a play session, or of surviving the encounter.
+For the original three-target model, the unit is **one eligible Amalgalich summon** in the source model for RLCraft Dregora. Success means a Russet variant, the Infernal tier, and the presence of Bulwark, Lifesteal, and Webber among the modifiers. Other modifiers may also be present. The question is not the chance of meeting any unusual creature during a play session, or of surviving the encounter.
 
 Let R denote the variant, I the tier, and T the target modifier set. The chain rule gives:
 
@@ -36,9 +74,19 @@ The source treats the variant draw as independent of the tier and modifier path.
 
 These are inputs transcribed from the analysis, not newly inspected server settings. The original document reports configuration and bytecode checks. Those checks have not been independently reproduced for this article.
 
+## Weights and gates answer different questions
+
+The modeled Russet weight is 20. Its denominator is not 100, and it is not the sum of every variant category available somewhere in the mod. The source's relevant pool is a base outcome of weight 400 plus two uncommon outcomes of weight 20 each. For that pool, Russet receives 20/(400 + 20 + 20), or 1/22. A category with no eligible outcome contributes no item to that draw.
+
+The tier calculation is different. Three nested gates give 1/20 × 1/10 × 1/5 = 1/1,000. The final 1/5 is conditional on already passing the earlier gates; reading it as a 20% Infernal chance for every eligible summon would discard most of the process.
+
+Likewise, the modifier result later in this article is conditional on being in the Infernal branch. It is about three and a half percent of those modeled cases, not three and a half percent of all summons. Keeping the denominator in view is more useful than memorizing the headline reciprocal.
+
+The source also distinguishes the modeled altar path from an alternative rare-spawn path that would change the base variant weight. This article does not verify either path in game. The distinction matters because choosing the wrong path would change the answer before the modifier calculation even begins.
+
 ## Start with a baseline that can be solved exactly
 
-Suppose every draw is accepted and N distinct modifiers are selected uniformly from 26. Exactly three specific modifiers must appear, so the probability is:
+Suppose every draw is accepted and N distinct modifiers are selected uniformly from 26. All three specified modifiers must appear, so the probability is:
 
 <span class="math display">{'P(T\\mid N)=\\frac{\\binom{23}{N-3}}{\\binom{26}{N}}=\\frac{N(N-1)(N-2)}{26\\cdot25\\cdot24}'}</span>
 
@@ -62,6 +110,12 @@ baseline = sum(
 print(baseline)  # 501/10400
 ```
 
+### Why not just use ten modifiers?
+
+The expected requested count is ten, but inserting ten into the subset formula gives about 4.61538%, not the mixture's 4.81731%. The probability is a nonlinear function of N. Averaging that function across the possible counts is therefore different from evaluating it at the average count. Keeping the small five-row distribution avoids an unnecessary approximation.
+
+There are two other useful checks on the combinatorics. For fewer than three selected entries, the event is impossible. For all 26 entries, the event is certain under the accept-all model. The formula's numerator and denominator encode exactly those constraints. It counts sets that contain the three targets; it does not require that those be the only modifiers or that they arrive in a particular order.
+
 ## A state-dependent rule changes the sample
 
 The supplied Python model removes each drawn entry from the pool. Before accepting the next entry, it checks whether the **most recently accepted modifier** conflicts with anything already in the chain. In the modeled conflict map, Webber conflicts with Gravity and Blastoff; the reverse conflicts are included too.
@@ -69,6 +123,21 @@ The supplied Python model removes each drawn entry from the pool. Before accepti
 Consider an illustrative sequence: Gravity is accepted, then Webber is accepted. The next candidate is rejected because the current head is Webber and Gravity is already present. Rejection leaves that head unchanged. The same check therefore rejects every remaining candidate until the pool empties.
 
 That mechanism can stop the accepted list before its requested length. It also means the final set is not a uniform N-element subset. The baseline formula no longer describes the process. This is a property of the supplied model; calling it a confirmed defect in an installed game would require matching-version evidence.
+
+### Trace one path before simulating millions
+
+A short trace makes the acceptance rule easier to inspect than a percentage does:
+
+| Step | Candidate | Existing head before the draw | Modeled outcome |
+| --- | --- | --- | --- |
+| 1 | Gravity | None | Accepted |
+| 2 | Webber | Gravity, with no Webber yet in the chain | Accepted |
+| 3 | Bulwark | Webber, with Gravity now in the chain | Rejected |
+| 4 onward | Any remaining entry | The same blocked Webber head | Rejected |
+
+This is an illustrative ordering, not a recorded encounter. It shows the surprising part: the candidate is not what triggers the rejection in this model. The existing state does. Conversely, if all three targets have already arrived before the process blocks, that run remains a success for the event being counted. Truncation does not retroactively remove accepted modifiers.
+
+The exact verification code exploits this distinction. It can stop a branch as soon as all targets are present or the chain is irreversibly blocked. It does not need to spend computation drawing the remaining rejected entries. That shortcut preserves the event probability under the supplied rule; it is not a claim about how the game itself is implemented.
 
 ## Rerun the simulation, then check it another way
 
@@ -82,9 +151,25 @@ An independent exact calculation was also added to the site repository. It group
 | Source simulation, rerun | 3.46656% | Finite simulation of the supplied conflict rule |
 | Exact state calculation | 3.45504% | Same assumed conflict model, without Monte Carlo error |
 
+<figure><img src="/images/personal/amalgalich-model-comparison.png" alt="Conditional target chance: accept-all baseline 4.81731 percent, exact conflict model 3.45504 percent, source simulation 3.46656 percent with a Monte Carlo interval from 3.4505 to 3.4826 percent" width="1440" height="840" /><figcaption>Original three-target probabilities (Bulwark/Lifesteal/Webber) under the stated assumptions. The small error bar describes simulation noise only. The table above supplies the same values in text.</figcaption></figure>
+
 The exact result is **6,993/202,400** and lies within the simulation interval. Combining it with the assumed variant and tier factors yields approximately **0.00015705%**, or **one in 636,751 eligible summons**. Rounding to one in 637,000 is more appropriate than treating the reciprocal as a precisely known encounter rate. The source's roughly one-in-635,000 estimate is consistent with its finite simulation.
 
 The verification script is `scripts/verify-dregora-model.py` in the site repository. It uses Python's standard library and does not execute any game code. Python documents the behavior of its sampling tools in the [random module reference](https://docs.python.org/3/library/random.html).
+
+### Why simulate the conditional branch?
+
+Five million trials sounds like a large run. If each trial instead simulated the complete rare joint event, the model would expect only about eight successes. That would leave a noisy estimate despite the large trial count. Simulating the conditional modifier event produces 173,328 successes in the actual rerun; the simpler gates can then be multiplied in analytically.
+
+This is a modeling choice that saves precision where it matters. It works here because the other factors are supplied as fixed probabilities and the assumed independence structure has been stated. If variant and modifier selection interact in the real system, multiplying separate factors would need to be reconsidered.
+
+For the simulation estimate p-hat and trial count M, the estimated standard error is the square root of p-hat × (1 − p-hat) / M. The displayed interval adds and subtracts 1.96 standard errors. It is a normal approximation for a binomial count, with many successes and failures in this run. The exact answer inside the interval is reassuring evidence of consistency between the two model implementations. It is not a 95% confidence statement that the game's rules are correct.
+
+### What the independent check actually checks
+
+The recurrence follows probabilities rather than random draws. Its state records which of the five distinguished entries remain, how many ordinary entries remain, how many accepted slots are still requested, and the current head. Ordinary entries are exchangeable only because the source model assigns them no additional relevant conflict behavior. If a missing rule distinguished one of them, that grouping would no longer be justified.
+
+The recurrence was checked against exhaustive enumeration on a smaller eight-item pool: 768 successful ordered sequences out of 6,720. That catches basic mistakes in the state transitions without claiming the small pool is the real problem. The full-pool result also lies below the accept-all baseline, as expected when the only change can stop further accepted draws. Those checks address implementation consistency. They cannot establish a complete conflict map from an uninspected game installation.
 
 ## What the number can—and cannot—say
 
@@ -92,10 +177,16 @@ This check supports the arithmetic and internal behavior of a specified model. I
 
 Even with independent repeated summons and unchanged rules, “one in 637,000” is a reciprocal probability, not a schedule or a guarantee. A long run can contain no successes; a short run can contain one. Before using the result as a gameplay claim, the installed version and the actual selection path would need to be pinned down.
 
+Under independent identical trials, the probability of at least one success after k summons would be:
+
+<span class="math display">{'P(\\text{at least one in }k)=1-(1-p)^k'}</span>
+
+At roughly 636,751 summons—the reciprocal of the modeled probability—that cumulative chance would be about 63.2%, not 100%. This is a mathematical interpretation, not a recommendation to perform that many summons or a claim that practical gameplay satisfies the assumptions. There is no “due” encounter that must appear because earlier attempts failed.
+
 The useful analytical habit is transferable: name the event, separate the conditional factors, establish a simple benchmark, and check whether the implementation follows that benchmark's assumptions. More simulation reduces sampling noise. It cannot repair a wrong model.
 
 The related [Dregora Codex case study](/projects/dregora-codex) examines a different problem: organizing version-sensitive reference material into connected views.
 
 ## Source and AI transparency
 
-Based on an analysis dated August 29, 2026 whose author metadata names Brian Cervantes Alvarez. Original human/AI contributions are unknown. AI drafted this article and diagram, reran the supplied simulation, and wrote an independent model check. Generating model/version and reasoning effort: unknown (metadata unavailable). Draft prepared September 5, 2026; no human review or signoff recorded.
+Based on an analysis dated August 29, 2026 whose author metadata names Brian Cervantes Alvarez. Brian supplied the firsthand encounter account used in the opening; its uncertain mechanics remain attributed recollections. Original analysis human/AI contributions are unknown. AI drafted and expanded this article, created its diagrams and comparison chart, reran the supplied simulation, and wrote an independent model check. A separate image-generation stage created the conceptual cover; its model/version and reasoning effort are unknown (metadata unavailable). Current text/code revision: `gpt-6-astra` (execution metadata verified); reasoning effort extra high, user-reported (not independently verified). Work date: August 29, 2026, from the source analysis metadata. Draft prepared and expanded September 5, 2026; not historically published on the work date. No human review or signoff recorded.

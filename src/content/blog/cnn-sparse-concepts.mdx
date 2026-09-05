@@ -1,0 +1,116 @@
+---
+title: 'From digit predictions to sparse concepts'
+description: 'A LeNet-style CNN explainability project explores five latent dimensions—and separates predictive agreement from evidence that an explanation is meaningful.'
+date: 2025-06-06
+dateKind: work
+draftedDate: 2026-09-05
+tag: 'ML'
+image: '/images/personal/cnn-concepts-1280.webp'
+draft: true
+readingTime: 10
+---
+
+import Overview from '@components/Overview.astro';
+
+<Overview>
+A digit classifier can be accurate without making its reasoning easy to inspect. This master's presentation explores a smaller explanation network attached to a trained CNN: compress 128 internal features into five dimensions, reconstruct features, and try to reproduce the classifier's output. The project includes code, a parameter sweep, and heatmap experiments. Its useful question is not whether a colorful picture looks convincing, but which evidence supports predictive agreement, compact representation, and meaningful interpretation—and which claims still need testing.
+</Overview>
+
+<figure><img src="/images/personal/cnn-concepts-1280.webp" srcset="/images/personal/cnn-concepts-640.webp 640w, /images/personal/cnn-concepts-1280.webp 1280w" sizes="(max-width: 760px) 94vw, 736px" alt="Conceptual print collage of an original handwritten four and five translucent colored tracing sheets" width="1280" height="854" /><figcaption>AI-generated conceptual cover, not an MNIST sample or a model-generated heatmap.</figcaption></figure>
+
+## The classifier is the starting point
+
+The [source presentation](https://github.com/bcervantesalvarez/Presentations/blob/320a155bb93b92a10564280b92d63f1a5e713b52/ExplainingDNN/index.qmd) is dated June 6, 2025. Its repository lineage begins with a May 28 master's-presentation upload. That supports a May–June academic project and the dated presentation artifact; it does not establish an independently verified presentation event or a degree-completion date.
+
+The implementation appendix uses MNIST digit images, normalized and reshaped for a convolutional model. MNIST is an established handwritten-digit dataset credited to its original creators; the [TensorFlow dataset catalog](https://www.tensorflow.org/datasets/catalog/mnist) provides its dataset context. Brian's contribution here is an academic implementation and exploration, not creation of MNIST or invention of the explanation method.
+
+The deck calls the backbone LeNet-5. More precisely, its shown code is a **LeNet-style CNN** with two convolution-and-pooling stages, a 128-unit dense feature layer, and a ten-class output. This article describes the architecture that is actually in the appendix rather than claiming it exactly matches every detail of the canonical LeNet-5 design.
+
+## Add a small network without retraining the whole explanation target
+
+After training the classifier, the code extracts its 128-dimensional feature vector Z. It also builds a linear-output version of the prediction layer with copied weights so that the target consists of logits, the scores before softmax. An explanation encoder maps Z to five values. Two heads then use those five values: one predicts the ten logits, and the other reconstructs the 128 features.
+
+<div class="reference-flow" aria-label="Explanation network architecture"><p><strong>Digit → trained CNN → Z</strong><br />128 extracted features; backbone held fixed for the explanation stage</p><span aria-hidden="true">↓</span><p><strong>Explanation encoder → E</strong><br />Five learned latent dimensions</p><span aria-hidden="true">↓</span><p><strong>Two heads</strong><br />Predict 10 logits · reconstruct 128 features</p></div>
+
+Five dimensions are small enough to compare and visualize, but a small vector is not automatically an explanation a person can name. The published XNN line of work seeks concepts from the network without requiring predefined linguistic concepts. The project explores that approach through XNN and sparse reconstruction autoencoder ideas, rather than claiming to originate them. [Fuxin and colleagues, *From Heatmaps to Structural Explanations of Image Classifiers*](https://arxiv.org/abs/2109.06365).
+
+Holding the classifier fixed creates a clear target: approximate this trained model's outputs. It does not make those outputs correct for every input. An explanation network can faithfully imitate a mistaken classifier. Agreement with the model and agreement with the labeled digit are therefore different evaluation questions.
+
+## Three losses, three questions
+
+The implementation combines a faithfulness term, a sparse-reconstruction term, and a pull-away term. Written with the weights outside the component losses, its objective is:
+
+<span class="math display">{'\\mathcal L=L_{\\mathrm{faith}}+\\beta L_{\\mathrm{SR}}+\\eta L_{\\mathrm{PT}}'}</span>
+
+| Component | Question it addresses | What a small value does not prove |
+| --- | --- | --- |
+| Faithfulness | How closely do predicted scores match the frozen classifier's scores? | That either model's prediction is correct |
+| Sparse reconstruction | How is reconstruction error distributed across the original features? | That exactly a specified number of features is active |
+| Pull-away | How similar are concept activation directions across a batch? | That each dimension has a stable human-readable meaning |
+
+The distinction between logits and probabilities matters here. Several slides use both terms loosely, but the appendix extracts a pre-softmax target. This article uses that code-level definition. Loss magnitudes depend on the output scale and normalization, so a raw score difference should not be interpreted as a percentage error in class probability.
+
+### Faithfulness is a numerical agreement criterion
+
+The shown R/TensorFlow loss uses the mean squared difference between predicted and target scores. It averages across the tensor, including examples and classes. Some slide equations instead sum over classes before averaging examples. These normalizations differ by a factor related to the number of classes; a careful reproduction must choose the implemented convention before comparing reported magnitudes.
+
+The following short schematic shows the code-level distinction without reproducing the training implementation:
+
+```python
+# Conceptual tensor operations; not a complete training script.
+features = frozen_backbone(images)
+concepts = explanation_encoder(features)
+predicted_logits = prediction_head(concepts)
+reconstructed_features = reconstruction_head(concepts)
+```
+
+The outputs share the same concept representation. Improving one objective can constrain another, which is why the parameter sweep is more informative than a single chosen setting.
+
+### A log reconstruction penalty is not a feature counter
+
+For each original feature coordinate, the code computes mean squared reconstruction error across the batch, applies a log penalty, and averages across coordinates. Its characteristic form is:
+
+<span class="math display">{'L_{\\mathrm{SR}}=\\frac{1}{D_z}\\sum_k\\log(1+q\\,r_k),\\qquad r_k=\\frac{1}{M}\\sum_i(\\widetilde Z_{ik}-Z_{ik})^2'}</span>
+
+Here q changes the penalty's scale and shape, while beta weights the term relative to the other objectives. For fixed nonnegative reconstruction errors, reducing q reduces the displayed loss even if the representation itself does not change. A smaller reported sparse loss is therefore not direct evidence that fewer features are used. To establish that, a follow-up analysis would need a stated sparsity measure or a distribution of reconstruction errors under a consistent comparison.
+
+The purpose of sparse reconstruction is to allow a compact explanation to focus on a subset of useful original features. That goal is different from simply forcing every concept value or reconstructed coordinate to zero.
+
+### Separation is encouraged, not guaranteed semantically
+
+The pull-away term compares normalized activation vectors for the five concepts across a batch, penalizing squared similarities off the diagonal. The appendix masks the diagonal and takes a mean over the full matrix; the displayed slide formula uses a different pair-count denominator. As with faithfulness, that distinction matters for reproduction, even when the qualitative goal is the same.
+
+Low similarity under this criterion does not establish that one dimension always means “loop” and another always means “vertical stroke.” Learned dimensions can change order or sign across runs, and semantic labels need evidence beyond a convenient visual analogy.
+
+## Read the parameter table as reported evidence
+
+The presentation reports **99.01%** accuracy for its backbone. The explanation sweep reports accuracies around 98.4%, alongside score-agreement and regularization losses. Selected rows are reproduced below as historical reported values; the model was not retrained for this article.
+
+| Source run | β | q | η | Reported accuracy | Reported sparse loss | Reported orthogonality loss |
+| --- | --- | --- | --- | --- | --- | --- |
+| 3 | 1.0 | 1.0 | 1.0 | 98.46% | 0.7722 | 0.0029 |
+| 4 | 1.0 | 5.0 | 1.0 | 98.42% | 1.7464 | 0.0028 |
+| 5 | 1.0 | 0.1 | 1.0 | 98.40% | 0.1253 | 0.0029 |
+| 6 | 1.0 | 0.01 | 1.0 | 98.36% | 0.0136 | 0.0027 |
+
+The deck favors run 6. Its sparse-loss value is much smaller, while the listed accuracy is slightly lower than in these comparison rows. Without repeated runs, uncertainty estimates, and a scale-consistent sparsity measure, this table does not establish a uniquely best explanation setting or a statistically meaningful accuracy difference. It does show a concrete tradeoff worth investigating.
+
+There is also an evaluation-design limit in the appendix: it passes the MNIST test arrays as validation data during backbone fitting and evaluates on those arrays afterward. This is not a clean, independently held-out validation/test separation. The reported score should remain tied to that original workflow rather than being promoted to a fresh generalization result.
+
+## A heatmap is a prompt for investigation
+
+The presentation includes concept heatmaps and assigns shape descriptions to several dimensions. Some table labels and heatmap commentary disagree about which dimension represents a vertical stroke or a junction. This article therefore keeps the neutral concept identifiers and does not reproduce a settled mapping that the source does not establish consistently.
+
+The same restraint applies to visual sharpness. A crisp-looking map may be easier to read, but that alone is not evidence that it identifies the features the model used. Adebayo and colleagues' [*Sanity Checks for Saliency Maps*](https://arxiv.org/abs/1810.03292) shows why visual assessment alone can mislead and motivates checking whether explanations respond to model and data changes.
+
+Useful follow-up checks would include repeat training with multiple seeds, matching concepts across runs before comparing their names, inspecting examples that contradict a proposed concept label, and testing explanation changes after controlled model changes. These are proposed checks, not completed results of this project. The original paper figure and third-party CNN illustrations are not copied here; the architecture diagram is newly drawn.
+
+## What this project contributes
+
+The project turns a published explanation idea into an inspectable implementation with extracted features, a small concept space, separate objectives, a parameter comparison, and visual experiments. Its contribution is that concrete academic exploration. It does not establish superiority over the published method, prove that the learned concepts have stable semantics, or demonstrate suitability for medical, legal, or other consequential deployment.
+
+The transferable practice is to keep the questions separate: Is the classifier accurate? Does the small network agree with it? Is the representation compact under a defined measure? Do its dimensions support a consistent interpretation? Each requires evidence of its own. A single appealing heatmap cannot answer all four.
+
+## Source and AI transparency
+
+The presentation names Brian Cervantes Alvarez; its original human/AI contribution split is unknown. AI drafted this article and original diagram and generated its conceptual cover under Brian's direction. Current text/code revision: `gpt-6-astra` (execution metadata verified); reasoning effort extra high, user-reported (not independently verified). Image model/version and reasoning effort: unknown (metadata unavailable). Work date June 6, 2025, from the deck; lineage began May 28. Draft prepared September 5, 2026. Reported training results were not rerun; no human signoff recorded.

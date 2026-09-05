@@ -30,9 +30,9 @@ const backLabel = 'All posts';
   <KatexAssets slot="head" />
   <article class="reading-page max-w-[960px] mx-auto px-6 pt-20 pb-16">
     <header class="max-w-prose mx-auto mb-12">
-    {entry.data.draft && <p class="draft-note">Review draft · September 5, 2026 · Not published</p>}
+    {entry.data.draft && <p class="draft-note">Review draft · Not published</p>}
     <BackLink href={backHref} label={backLabel} />
-    <p class="text-sm text-muted m-0 mb-3">{fmt(entry.data.date)}</p>
+    <p class="text-sm text-muted m-0 mb-3">{entry.data.dateKind === 'work' && 'Work date · '}<time datetime={entry.data.date.toISOString().slice(0, 10)}>{fmt(entry.data.date)}</time></p>
     <h1
       class="font-serif font-semibold text-ink text-5xl md:text-6xl tracking-tight leading-[1.06] m-0 mb-5"
       transition:name={`post-title-${entry.id}`}

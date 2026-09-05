@@ -12,7 +12,10 @@ import { glob } from 'astro/loaders';
 const baseFrontmatter = z.object({
   title: z.string(),
   description: z.string(),
+  // Primary timeline date; work dates describe activity, never backdated publication.
   date: z.coerce.date(),
+  dateKind: z.enum(['publication', 'work']).default('publication'),
+  draftedDate: z.coerce.date().optional(),
   image: z.string().optional(),
   tag: z.string().optional(),
   status: z.enum(['active', 'archived']).default('active'),

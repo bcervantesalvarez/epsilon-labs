@@ -155,4 +155,4 @@ All blog posts and presentation reading views use a shared static, language-awar
 
 ## Personal content drafts
 
-Two 2026 articles and the Dregora Codex case study remain drafts. Use npm run build:review for local review, or npm run dev. Normal production builds exclude the draft pages and listing entries. See [personal content review](PERSONAL-CONTENT-REVIEW.md) for source limits, validation commands, dates, and AI provenance.
+Five personal/academic articles and two project case studies remain drafts. The articles and Discord project label evidenced source activity as Work date; draft preparation dates are separate, not backdated publication claims. Use npm run build:review for local review, or npm run dev. Normal production builds exclude the draft pages and listing entries. See [personal content review](PERSONAL-CONTENT-REVIEW.md) for source limits, validation commands, dates, and AI provenance.

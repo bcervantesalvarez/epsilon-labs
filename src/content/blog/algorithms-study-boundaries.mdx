@@ -1,11 +1,13 @@
 ---
 title: 'Build the study environment. Keep the struggle.'
 description: 'An ongoing algorithms self-study setup makes room for tooling help while reserving implementations and proofs for the learner.'
-date: 2026-09-05
+date: 2026-09-01
+dateKind: work
+draftedDate: 2026-09-05
 tag: 'Teaching'
 image: '/images/personal/study-workflow.svg'
 draft: true
-readingTime: 5
+readingTime: 10
 ---
 
 import Overview from '@components/Overview.astro';
@@ -24,6 +26,37 @@ That separation makes several kinds of progress visible. Code can run while an a
 
 The documented setup therefore supports a claim about preparation and an ongoing study workflow. It does not establish algorithm mastery, course completion, or results from the planned projects.
 
+## Plan a progression, not a collection of disconnected exercises
+
+The syllabus moves through several kinds of reasoning. Its module list supplies a planned sequence, not a set of completed accomplishments:
+
+| Planned stage | Modules | Focus in the documented syllabus |
+| --- | --- | --- |
+| Establish the language | M00 | Asymptotic analysis, recurrences, and foundational reasoning |
+| Build a data-structure base | M01–M03 | Sorting and selection; heaps and priority queues; search trees and hashing |
+| Study design patterns | M04–M07 | Divide and conquer, greedy methods, and several forms of dynamic programming |
+| Work with networks | M08–M10 | Graph traversal, shortest paths and spanning trees, then network flow |
+| Examine limits and consolidate | M11–M12 | Complexity and reductions, followed by a comprehensive mock exam |
+
+The README also places larger project specifications after M06 and M11. They are milestones in the plan, not finished portfolio pieces. This article intentionally stays with the study process rather than reproducing those assignments or their solutions.
+
+The documented suggested pace ranges from a module every two weeks to a faster weekly schedule. Neither is a completion forecast. A module is not merely a folder to visit: the repository's completion rule includes written theory and passing tests. The pace remains a planning aid until actual dated progress exists.
+
+## Keep four different records together
+
+The repeated module layout gives each artifact a distinct job:
+
+| File | Role | What it cannot establish by itself |
+| --- | --- | --- |
+| `README.md` | Objectives, readings, and the assigned problems | That any work has been attempted |
+| `impl.py` | The learner's eventual implementation; initially stubs | The correctness argument or its time bound |
+| `test_impl.py` | Executable checks and feedback | Correctness on every possible input |
+| `notes.md` | Written attempts, reasoning, and assistance records | That the implementation matches the argument |
+
+This organization makes it possible to compare evidence across files. If a claimed running time depends on a particular data structure, the implementation should actually use it. If a test exposes a failure, the notes may need to revisit an assumption. Those are reasons to maintain the records together, not claims that such reviews have already happened.
+
+The repository's stubs raise `NotImplementedError`. That explicit unfinished state is useful: an empty implementation should look unfinished rather than resemble a successful solution. The tutor boundary applies even to requests for “just the structure” of those files, because generated structure can already contain the central algorithmic decision.
+
 ## Give tooling a clear job
 
 The repository provides a Python environment, VS Code settings, a test runner, and a GitHub Actions test workflow. The test runner uses the standard library's `unittest` framework and can select a module or a project. The documented commands include:
@@ -36,6 +69,28 @@ python run_tests.py m06
 These commands organize feedback. They do not replace the work needed to interpret it. The runner reports failures, errors, and skipped tests separately. Its documented treatment of unimplemented stubs is to skip their tests, so a run without failures cannot by itself establish that exercises are implemented. A useful reading of the result includes the skipped count.
 
 The CI workflow is configured to invoke the runner on pushes and pull requests. That is evidence of a configured check, not evidence that a hosted run has passed. The site review inspected the tooling and policy; it did not solve or grade the coursework.
+
+### Recreate the environment without recreating the answers
+
+The README documents a virtual environment and a requirements file. The basic recreation commands are portable within the project folder:
+
+```bash
+py -3 -m venv .venv
+.venv\Scripts\python -m pip install -U pip
+.venv\Scripts\python -m pip install -r requirements-dev.txt
+```
+
+These are environment commands from the documented Windows workflow, not exercise implementations. The editor points at the workspace-relative interpreter. The broader tooling environment includes analysis, linting, typing, and notebook packages, while the course test runner itself needs only the Python standard library. That distinction keeps “what is needed to run the checks” separate from “what is available for later analysis and reports.”
+
+The workspace also defines editor tasks for all tests, a selected module, linting, formatting, and data regeneration. The source instructions specify fixed seeds for data generators and say not to hand-edit their generated CSVs. Those choices make a changed result easier to investigate: was the implementation changed, was the input regenerated, or was a file manually altered? They do not prove that every result in the repository has already been reproduced.
+
+### Read the test report as several signals
+
+A **failure** means a test's assertion did not hold. An **error** means execution encountered an exception reported by the runner. A **skip** means the relevant check was not performed. In this environment, skips are especially important because unimplemented work is deliberately represented that way.
+
+A useful review of a run therefore asks what was discovered, what actually executed, and what remains skipped. A green exit status is a tooling signal, not a substitute for that reading. The README asks for a stated running time and a written argument as well; those are not supplied by making a test suite green.
+
+The selected-module command helps keep feedback near the current work. The all-tests command provides a broader check when needed. Neither authorizes an assistant to repair an assigned implementation. Explaining what a failing test expects is permitted; supplying the missing algorithm is not.
 
 ## Make the boundary concrete enough to follow
 
@@ -53,11 +108,33 @@ The editor configuration disables inline suggestions and Copilot completions in 
 
 No exercise solutions are reproduced here. The boundary is part of what makes this setup worth documenting.
 
+## What a permitted tutoring exchange looks like
+
+The policy is easiest to apply at the moment a request is made. These examples describe allowed request shapes; they are not a log of conversations that occurred:
+
+- **Before the attempt:** read the assigned material and write down a first approach. Do not request hints merely because the problem is unfamiliar.
+- **After the documented effort threshold:** provide the written attempt and ask the tutor to identify the first unsupported step or ask a focused question. The response should leave the repair with the learner.
+- **After a test failure:** ask what the test is checking and what broad category of behavior it distinguishes. Avoid asking for a patch that makes it pass.
+- **After writing an implementation:** request additional inputs that probe its behavior. Extra cases can challenge the learner's code without replacing it.
+- **For a tooling problem:** ask directly about the environment, editor, git, or runner. Fixing a command path is separate from filling in an exercise's implementation.
+
+The 45-minute rule is not a claim that every problem becomes clear after a timer expires. It creates a minimum period in which the learner has to produce an attempt. The written record matters because “I tried” alone gives a tutor little basis for choosing a useful question. Conversely, where effort and an attempt are already documented, the policy does not require repeatedly asking the learner to prove them again.
+
+The assistant instructions also limit conceptual explanations to a different example from the assigned problem. That prevents an apparently general explanation from quietly becoming an answer key with the variable names changed.
+
 ## Keep assistance attributable
 
 For permitted AI help, the policy asks for a note recording the date, the request, and what was learned. That creates a place to distinguish the learner's original attempt from the help received afterward. A useful record should say what actually happened; neither an assistant nor a checklist can invent the learning on the learner's behalf.
 
 The same care applies to the repository itself. Its MIT license names Brian Cervantes Alvarez, and the local history records five setup commits on September 1. Those facts do not establish how much of the scaffold was generated by AI. This article does not assign an unsupported authorship split to it.
+
+### Close the loop with commits and weekly reviews
+
+The README calls for commits per problem in the learner's own words, followed by dated progress ticks when the completion conditions are met. The progress file also points to a weekly-review template. These are complementary records: a commit captures a change, a progress tick records a claimed milestone, and a review provides space to reflect on the work.
+
+None is a substitute for the others. A commit message can describe setup rather than solved coursework. A checklist can remain empty even when useful preparatory work exists. That is exactly the distinction visible here: the five local September 1 commits establish the scaffold, tooling, and policy work, while the module checklist remains uncompleted.
+
+An assistance log should remain similarly literal. It records the request and the learning that actually occurred; it should not be prefilled with a polished account of an experience that has not happened. This article reports the intended logging practice, not the existence of completed module learning logs.
 
 ## Judge the next stage by the work it leaves behind
 
@@ -67,4 +144,4 @@ The environment reduces friction around running checks and keeping records. The 
 
 ## Source and AI transparency
 
-Based on the personal repository's README, progress checklist, learning policies, test runner, editor settings, CI configuration, license, and September 1, 2026 commit metadata. AI drafted this article and diagram from those sources under Brian's direction. Original scaffold contributions are unknown. Generating model/version and reasoning effort: unknown (metadata unavailable). Draft prepared September 5, 2026; no human review or signoff recorded.
+Based on the personal repository's README, progress checklist, learning policies, test runner, editor settings, CI configuration, license, and September 1, 2026 commit metadata. AI drafted and expanded this article and created its diagram from those sources under Brian's direction. Original scaffold contributions are unknown. Current text/code revision: `gpt-6-astra` (execution metadata verified); reasoning effort extra high, user-reported (not independently verified). Work date: September 1, 2026, from the earliest substantive local commit. Draft prepared and expanded September 5, 2026; not historically published on the work date. No human review or signoff recorded.

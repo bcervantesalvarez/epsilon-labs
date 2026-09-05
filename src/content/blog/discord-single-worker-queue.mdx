@@ -1,0 +1,98 @@
+---
+title: 'Building a Discord chatbot around a single-worker queue'
+description: 'What a small bot gains from serial generation—and why saving queue status is different from replaying work after a restart.'
+date: 2026-03-19
+dateKind: work
+draftedDate: 2026-09-05
+tag: 'Data engineering'
+image: '/images/projects/discord-queue.svg'
+draft: true
+readingTime: 8
+---
+
+import Overview from '@components/Overview.astro';
+
+<Overview>
+A chat interface makes requesting an answer easy. The engineering problem starts when several requests arrive together, generation takes time, or the process restarts halfway through. This personal Discord bot routes foreground answers through one asynchronous worker, stores status in SQLite, and streams partial responses back to Discord. Its most instructive decision is the recovery boundary: a restart cancels stale work whose runtime context has been lost. A persistent status record is useful, but it is not a replayable job.
+</Overview>
+
+<figure><img src="/images/projects/discord-queue.svg" alt="Conceptual queue diagram with three waiting requests, one active worker, and separate stored status" width="1200" height="720" /><figcaption>Original architecture illustration. The requests are synthetic; no Discord conversation or runtime measurement is shown.</figcaption></figure>
+
+## Begin with the request, not the model
+
+The [initial implementation](https://github.com/bcervantesalvarez/discord-chatbot/tree/b698defc16d85a02de54bb69b15c2e2194546a65) accepts questions through mentions and chat commands, with reply chains supplying conversation context. A language-model call is only one step. The bot also has to decide whether to accept the request, remember who is waiting, produce useful feedback while generation is underway, and settle the request's final state.
+
+Consider three synthetic requests arriving close together. If each immediately starts a foreground generation, the application has to manage overlapping streams, resource use, and failure handling at once. This implementation instead puts accepted requests into an `asyncio.Queue` and lets one worker consume them. The first foreground answer runs while the others wait. That is a deliberate scheduling choice, not evidence of a particular supported audience size.
+
+The work date is March 19, 2026, from the commit's author timestamp. The commit message calls it an initial v1.0 release; no separate published GitHub release or live service is established by that label.
+
+## Admission is a separate decision from execution
+
+The queue manager's submission path checks daily usage, the user's pending count, an optional cooldown, and queue capacity. A rejected request returns a message without entering the execution queue. An accepted request is first recorded in the database, assigned its database identifier, and then placed in the in-memory queue.
+
+| Check | Purpose in the source | Practical distinction |
+| --- | --- | --- |
+| Daily usage | Limits a user's accumulated requests | A usage policy, not a queue-length limit |
+| Pending count | Limits simultaneous outstanding work per user | A person with several requests cannot occupy unlimited waiting slots |
+| Cooldown | Optionally spaces submissions in time | Separate from how long generation takes |
+| Queue capacity | Bounds waiting items | Does not make the worker faster |
+
+These checks make rejection an explicit outcome. They should not be described as a proven fairness guarantee: the application has no measured fairness study, and source inspection is not a concurrency stress test. The in-memory queue also has a different lifecycle from the database record. Writing a row and putting an object into memory are not one atomic operation spanning both systems.
+
+## One worker simplifies foreground scheduling
+
+The worker waits for an item, marks processing state through the processing routine, and awaits that routine before taking another foreground request. A `finally` block clears its busy flag and calls `task_done()` even when processing raises an exception. Python's [queue documentation](https://docs.python.org/3/library/asyncio-queue.html) distinguishes removing an item with `get()` from acknowledging that its work is done with `task_done()`; that distinction is useful when reasoning about cleanup.
+
+The following is an original schematic of the control flow, not a drop-in copy of the bot or a complete implementation:
+
+```python
+# Schematic: foreground jobs run in order.
+while running:
+    request = await queue.get()
+    try:
+        await process_request(request)
+    finally:
+        queue.task_done()
+```
+
+The actual source adds timeouts, logging, status updates, and error handling. Serial execution reduces overlap among foreground generations, but a slow request can hold up every request behind it. Queue position is therefore not a reliable completion-time estimate. An input near the front can still wait on model latency, a retry, or a network timeout.
+
+There is another important qualification: the source schedules conversation summarization as a background task. “Single worker” describes foreground answer processing, not a guarantee that only one API operation of any kind can exist at a time.
+
+## Persistence records what happened; recovery decides what happens next
+
+The application keeps two different forms of state. SQLite stores request status and history. The in-memory queue carries live request objects with runtime context. The startup routine explicitly cancels database entries left in `pending` or `processing` state from the previous session. Its source comment names missing images, channel context, and display information as reasons not to replay those entries.
+
+<div class="reference-flow" aria-label="Request state paths"><p><strong>Admitted → pending → processing</strong><br />One foreground worker consumes waiting requests.</p><span aria-hidden="true">↓</span><p><strong>Completed or failed</strong><br />The normal execution path records its outcome.</p><span aria-hidden="true">↳</span><p><strong>Restart path: stale → cancelled</strong><br />Old pending/processing records are closed, not replayed.</p></div>
+
+That is narrower than the README's broad phrase “crash recovery.” It avoids presenting incomplete runtime context as if it were a valid reconstructed request. The cost is abandoned work: a user may need to submit again. The benefit is a clear record that the old request will not continue automatically. Neither means delivery is exactly once or that every message reaches Discord successfully.
+
+A durable replay design would need more than a queue table: a sufficiently complete request representation, a safe way to restore referenced context, and rules for duplicate model calls and already-delivered output. Those are future design requirements, not features established for this implementation.
+
+## Stream progress without confusing it with completion
+
+During generation, the queue manager accumulates text chunks and passes the accumulated response to a callback. The Discord layer updates the visible response and handles final formatting. A final callback receives the content, selected model, timing information, and any error.
+
+This separation lets the provider client focus on generation while the Discord layer handles display. It also creates a distinction worth keeping in the interface: partial text is progress, not a committed final answer. The retry loop clears its chunk buffer before another attempt. A failed attempt and a replacement stream should not be mentally combined into one authoritative response.
+
+The source retries selected transient failures such as timeouts and connection errors with increasing delays. It does not indiscriminately retry every API or unknown error. A user-selected model is honored through a different resolution path from the automatic fallback chain. Those are implementation choices at this revision; they are not a promise about current provider quotas or available models.
+
+## Conversation context has a scope and a cost
+
+The bot can walk Discord reply references, include earlier messages, and read its stored history. It limits the returned context depth. Successful exchanges save the original user prompt rather than an augmented prompt containing added search or URL material. Older history can be summarized while recent messages are retained.
+
+These choices affect meaning as well as resource use. A truncated history can lose a constraint; a summary can omit a detail; a reply chain may be unavailable because a message was deleted or access changed. Context retrieval is therefore part of request construction, not just an invisible convenience attached to the model.
+
+The persisted conversation key is based on channel and user. It should not be described as a perfect reconstruction of every Discord thread. The code combines several sources of context, so tests would need to cover their boundaries and interactions rather than assuming that “multi-turn” names one simple mechanism.
+
+## What would deserve testing next?
+
+The source contains request logging and usage counters, but this article reports no latency, throughput, reliability, or adoption measurements. A useful next test set would exercise admission at the capacity boundary, cancellation while requests are waiting, interruption during generation, failure while sending the final Discord message, and restart after a row is written but before its in-memory handoff.
+
+These cases follow from the architecture's actual boundaries. They would be more informative than simply observing one successful answer. In particular, a database status update and an external message send cannot be assumed to form one transaction. A future reliability claim would need a defined success criterion and evidence collected against it.
+
+The [project case study](/projects/discord-chatbot) provides the capability overview and source links. This article's narrower lesson is about ownership of state: decide what is live, what is persisted, and what can honestly continue after interruption.
+
+## Source and AI transparency
+
+Based on the pinned public source and [commit metadata](https://github.com/bcervantesalvarez/discord-chatbot/commit/b698defc16d85a02de54bb69b15c2e2194546a65), inspected without connecting a bot or using real conversations. The commit credits Claude Opus 4.6 as co-author: source-reported model attribution, not independently verified execution metadata; original reasoning effort is unknown. AI drafted this article, schematic code, and diagram under Brian's direction. Current text/code revision: `gpt-6-astra` (execution metadata verified); reasoning effort extra high, user-reported (not independently verified). Work date March 19, 2026; draft prepared September 5, 2026. No human signoff recorded.
